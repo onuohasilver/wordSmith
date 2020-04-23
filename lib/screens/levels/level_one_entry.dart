@@ -7,6 +7,16 @@ class LevelOneEntry extends StatefulWidget {
 
 class _LevelOneEntryState extends State<LevelOneEntry> {
   String entry;
+  List<String> entryList = [''];
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey();
+
+  void insertItem(key) {
+    if (key.length>2){
+    String item = key;
+    int insertIndex = 0;
+    entryList.insert(insertIndex, item);
+    _listKey.currentState.insertItem(insertIndex);}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,36 +34,63 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Card(
-                    color: Colors.lightBlue,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text(
-                        '00:30',
-                        style: TextStyle(color: Colors.black, fontSize: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Card(
+                        color: Colors.red,
+                        child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Icon(Icons.arrow_back, color: Colors.white)),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    Card(
+                      color: Colors.lightBlue,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text(
+                          '00:30',
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
                 SizedBox(
                   height: 12,
                 ),
                 Expanded(
                   child: Card(
-                      color: Colors.white.withOpacity(.2),
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                              padding: EdgeInsets.only(top: 6),
-                              child: Text('FERMENTATION',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.lightBlue,
-                                      fontWeight: FontWeight.bold)))
-                        ],
-                      )),
+                    color: Colors.white.withOpacity(.2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 6),
+                          child: Text(
+                            'FERMENTATION',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          child: AnimatedList(
+                            key: _listKey,
+                            initialItemCount: entryList.length,
+                            itemBuilder: (context, index, animation) {
+                              return buildItem(entryList[index], animation);
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
                 Row(
                   children: <Widget>[
@@ -70,8 +107,8 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                             ),
                           ),
                         ),
-                        onChanged: (value){
-                          entry=value;
+                        onChanged: (value) {
+                          entry = value;
                         },
                       ),
                     ),
@@ -80,10 +117,10 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          print(entry);
+                          insertItem(entry);
                         },
-                        child: Icon(Icons.send,
-                            color: Colors.lightBlue, size: 25.0))
+                        child: Icon(Icons.casino,
+                            color: Colors.lightBlue, size: 30.0))
                   ],
                 )
               ],
@@ -93,4 +130,27 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
       ),
     );
   }
+}
+
+Widget buildItem(String item, Animation animation) {
+  return SizeTransition(
+    sizeFactor: animation,
+    child: Align(
+          alignment: Alignment.center,
+          child: Card(
+            color:Colors.black,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(item,style:TextStyle(color:Colors.white),),
+            ),
+            SizedBox(width:15),
+            Icon(Icons.check_box,color:Colors.green)
+          ],
+        )
+      ),
+    ),
+  );
 }
