@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:wordsmith/utilities/entryHandler.dart';
 class LevelOneEntry extends StatefulWidget {
   @override
   _LevelOneEntryState createState() => _LevelOneEntryState();
@@ -7,16 +7,8 @@ class LevelOneEntry extends StatefulWidget {
 
 class _LevelOneEntryState extends State<LevelOneEntry> {
   String entry;
-  List<String> entryList = [''];
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey();
-
-  void insertItem(key) {
-    if (key.length>2){
-    String item = key;
-    int insertIndex = 0;
-    entryList.insert(insertIndex, item);
-    _listKey.currentState.insertItem(insertIndex);}
-  }
+  EntryHandler entryHandler=EntryHandler();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +73,10 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                         ),
                         Expanded(
                           child: AnimatedList(
-                            key: _listKey,
-                            initialItemCount: entryList.length,
+                            key: entryHandler.listKey,
+                            initialItemCount: entryHandler.entryList.length,
                             itemBuilder: (context, index, animation) {
-                              return buildItem(entryList[index], animation);
+                              return entryHandler.buildItem(entryHandler.entryList[index], animation);
                             },
                           ),
                         )
@@ -117,7 +109,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          insertItem(entry);
+                          entryHandler.insertItem(entry);
                         },
                         child: Icon(Icons.casino,
                             color: Colors.lightBlue, size: 30.0))
@@ -132,25 +124,3 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   }
 }
 
-Widget buildItem(String item, Animation animation) {
-  return SizeTransition(
-    sizeFactor: animation,
-    child: Align(
-          alignment: Alignment.center,
-          child: Card(
-            color:Colors.black,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(item,style:TextStyle(color:Colors.white),),
-            ),
-            SizedBox(width:15),
-            Icon(Icons.check_box,color:Colors.green)
-          ],
-        )
-      ),
-    ),
-  );
-}
