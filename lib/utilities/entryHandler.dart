@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 class EntryHandler{
-  // EntryHandler({this.entryList});
+  
   List<String> entryList = [''];
   final GlobalKey<AnimatedListState> listKey = GlobalKey();
 
@@ -31,7 +31,7 @@ Widget buildItem(String item, Animation animation) {
               child: Text(item,style:TextStyle(color:Colors.white),),
             ),
             SizedBox(width:15),
-            Icon(Icons.check_box,color:Colors.green)
+            
           ],
         )
       ),

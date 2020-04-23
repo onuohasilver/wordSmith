@@ -8,6 +8,7 @@ class LevelOneEntry extends StatefulWidget {
 class _LevelOneEntryState extends State<LevelOneEntry> {
   String entry;
   EntryHandler entryHandler=EntryHandler();
+  final nameHolder = TextEditingController();
   
 
   @override
@@ -71,11 +72,13 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
+                        entry.contains('good')?Icon(Icons.check_box,color:Colors.green):Icon(Icons.check_box,color:Colors.red),
                         Expanded(
                           child: AnimatedList(
                             key: entryHandler.listKey,
                             initialItemCount: entryHandler.entryList.length,
                             itemBuilder: (context, index, animation) {
+                              
                               return entryHandler.buildItem(entryHandler.entryList[index], animation);
                             },
                           ),
@@ -88,6 +91,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
+                        controller:nameHolder,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -101,6 +105,10 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                         ),
                         onChanged: (value) {
                           entry = value;
+                          setState((){
+                            entry = value;
+
+                          });
                         },
                       ),
                     ),
@@ -109,7 +117,9 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     ),
                     GestureDetector(
                         onTap: () {
+                          
                           entryHandler.insertItem(entry);
+                          nameHolder.clear();
                         },
                         child: Icon(Icons.casino,
                             color: Colors.lightBlue, size: 30.0))
