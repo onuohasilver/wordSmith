@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wordsmith/utilities/dictionary.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
-import 'package:wordsmith/utilities/dictionaryACtivity.dart';
-
+import 'package:wordsmith/utilities/dictionaryActivity.dart';
 
 class LevelOneEntry extends StatefulWidget {
   @override
@@ -10,10 +8,9 @@ class LevelOneEntry extends StatefulWidget {
 }
 
 class _LevelOneEntryState extends State<LevelOneEntry> {
-  String entry='';
-  EntryHandler entryHandler=EntryHandler();
+  String entry = ' ';
+  EntryHandler entryHandler = EntryHandler();
   final nameHolder = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +73,16 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
-                        verifyWord('FERMENTATION',entry)?Icon(Icons.check_box,color:Colors.green):Icon(Icons.check_box,color:Colors.red),
+                        verifyWord('FERMENTATION', entry)
+                            ? Icon(Icons.check_box, color: Colors.green)
+                            : Icon(Icons.check_box, color: Colors.red),
                         Expanded(
                           child: AnimatedList(
                             key: entryHandler.listKey,
                             initialItemCount: entryHandler.entryList.length,
                             itemBuilder: (context, index, animation) {
-                              
-                              return entryHandler.buildItem(entryHandler.entryList[index], animation);
+                              return entryHandler.buildItem(
+                                  entryHandler.entryList[index], animation);
                             },
                           ),
                         )
@@ -95,7 +94,9 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
-                        controller:nameHolder,
+                      
+                        controller: nameHolder,
+                        autocorrect:false,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -109,7 +110,6 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                         ),
                         onChanged: (value) {
                           entry = value;
-                          
                         },
                       ),
                     ),
@@ -118,11 +118,10 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          setState((){
+                          setState(() {
                             entry = entry;
-
                           });
-                          
+
                           entryHandler.insertItem(entry);
                           nameHolder.clear();
                         },
@@ -138,4 +137,3 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
     );
   }
 }
-

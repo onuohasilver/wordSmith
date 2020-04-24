@@ -1,7 +1,14 @@
+import 'dictionary.dart';
 
-dynamic generateWordMap(word) {
+bool checkDictionary(String word, List corpus) {
+  bool output = corpus.contains(word.toLowerCase());
+  print(output);
+  return output;
+}
+
+dynamic generateWordMap(String word) {
   var wordMap = {};
-  for (var alphabet in word.split('')) {
+  for (var alphabet in word.toLowerCase().split('')) {
     if (wordMap.containsKey(alphabet)) {
       wordMap[alphabet]++;
     } else {
@@ -13,8 +20,8 @@ dynamic generateWordMap(word) {
 
 bool verifyWord(word, subword) {
   bool output;
-  word = word.toUpperCase();
-  subword = subword.toUpperCase();
+  word = word.toLowerCase();
+  subword = subword.toLowerCase();
 
   output = subword == word ? true : false;
 
@@ -25,9 +32,10 @@ bool verifyWord(word, subword) {
     output = wordMap.containsKey(alphabet) ? true : false;
 
     if (wordMap.containsKey(alphabet)) {
-      output = wordMap[alphabet] == 0? false:true;
+      output = wordMap[alphabet] == 0 ? false : true;
       wordMap[alphabet]--;
     }
   }
+  output=checkDictionary(subword,Dictionary().book);
   return output;
 }
