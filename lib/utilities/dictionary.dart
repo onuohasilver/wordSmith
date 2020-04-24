@@ -1,4 +1,5 @@
-List<String> dictionary=["aahed",
+class Dictionary{
+  List<String> book=["aahed",
 "aahing",
 "aahs",
 "aalii",
@@ -245873,4 +245874,5 @@ List<String> dictionary=["aahed",
 "zwieselite",
 "zwinglian",
 "zwitter",
-"zwitterion"]
+"zwitterion"];
+}

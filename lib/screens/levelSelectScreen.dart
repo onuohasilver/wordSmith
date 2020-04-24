@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/components.dart';
 import 'package:wordsmith/screens/levels/level_one.dart';
+import 'package:wordsmith/utilities/dictionaryACtivity.dart';
 
 class LevelSelectScreen extends StatefulWidget {
   @override
@@ -24,6 +25,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                   level: 'Level 1',
                   active: true,
                   onPressed: () {
+                    // getPermutations('Great');
                     Navigator.push(
                       context,
                       MaterialPageRoute(

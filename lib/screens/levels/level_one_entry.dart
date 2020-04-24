@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:wordsmith/utilities/dictionary.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
+import 'package:wordsmith/utilities/dictionaryACtivity.dart';
+
+
 class LevelOneEntry extends StatefulWidget {
   @override
   _LevelOneEntryState createState() => _LevelOneEntryState();
 }
 
 class _LevelOneEntryState extends State<LevelOneEntry> {
-  String entry;
+  String entry='';
   EntryHandler entryHandler=EntryHandler();
   final nameHolder = TextEditingController();
   
@@ -72,7 +76,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
-                        entry.contains('good')?Icon(Icons.check_box,color:Colors.green):Icon(Icons.check_box,color:Colors.red),
+                        verifyWord('FERMENTATION',entry)?Icon(Icons.check_box,color:Colors.green):Icon(Icons.check_box,color:Colors.red),
                         Expanded(
                           child: AnimatedList(
                             key: entryHandler.listKey,
@@ -105,10 +109,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                         ),
                         onChanged: (value) {
                           entry = value;
-                          setState((){
-                            entry = value;
-
-                          });
+                          
                         },
                       ),
                     ),
@@ -117,6 +118,10 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     ),
                     GestureDetector(
                         onTap: () {
+                          setState((){
+                            entry = entry;
+
+                          });
                           
                           entryHandler.insertItem(entry);
                           nameHolder.clear();
