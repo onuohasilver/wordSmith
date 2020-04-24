@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class LevelOneEntry extends StatefulWidget {
@@ -11,11 +13,37 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
 
   void insertItem(key) {
-    if (key.length>2){
-    String item = key;
-    int insertIndex = 0;
-    entryList.insert(insertIndex, item);
-    _listKey.currentState.insertItem(insertIndex);}
+    if (key.length > 2) {
+      String item = key;
+      int insertIndex = 0;
+      entryList.insert(insertIndex, item);
+      _listKey.currentState.insertItem(insertIndex);
+    }
+  }
+
+  int _counter = 10;
+  Timer _timer;
+
+  void _startTimer() {
+    _counter = 10;
+
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_counter > 0) {
+          _counter--;
+        } else {
+          _timer.cancel();
+        }
+      });
+    });
+  }
+
+  void initState() {
+    super.initState();
+    _startTimer();
   }
 
   @override
@@ -51,12 +79,26 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     Card(
                       color: Colors.lightBlue,
                       child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Text(
-                          '00:30',
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        ),
-                      ),
+                          padding: const EdgeInsets.all(5.0),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                (_counter > 0)
+                                    ? Text(
+                                        '$_counter',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      )
+                                    : Text("Game Over",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                              ],
+                            ),
+                          )),
                     ),
                   ],
                 ),
@@ -119,7 +161,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                         onTap: () {
                           insertItem(entry);
                         },
-                        child: Icon(Icons.casino,
+                        child: Icon(Icons.send,
                             color: Colors.lightBlue, size: 30.0))
                   ],
                 )
@@ -136,21 +178,23 @@ Widget buildItem(String item, Animation animation) {
   return SizeTransition(
     sizeFactor: animation,
     child: Align(
-          alignment: Alignment.center,
-          child: Card(
-            color:Colors.black,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(item,style:TextStyle(color:Colors.white),),
-            ),
-            SizedBox(width:15),
-            Icon(Icons.check_box,color:Colors.green)
-          ],
-        )
-      ),
+      alignment: Alignment.center,
+      child: Card(
+          color: Colors.black,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  item,
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              SizedBox(width: 15),
+              Icon(Icons.check_box, color: Colors.green)
+            ],
+          )),
     ),
   );
 }

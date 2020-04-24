@@ -4,15 +4,16 @@ class LevelCard extends StatelessWidget {
   final String level;
   final bool active;
   final Function onPressed;
-  LevelCard({this.level, this.active,this.onPressed});
- 
+
+  LevelCard({this.level, this.active, this.onPressed});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(2.0, 4.0, 4.0, 0.0),
       child: GestureDetector(
-              onTap: onPressed,
-              child: Card(
+        onTap: onPressed,
+        child: Card(
           color: active ? Colors.black : Colors.grey,
           elevation: 12,
           margin: EdgeInsets.all(10),
