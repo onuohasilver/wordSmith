@@ -4,7 +4,6 @@ class LevelCard extends StatelessWidget {
   final String level;
   final bool active;
   final Function onPressed;
-
   LevelCard({this.level, this.active, this.onPressed});
 
   @override
@@ -18,25 +17,27 @@ class LevelCard extends StatelessWidget {
           elevation: 12,
           margin: EdgeInsets.all(10),
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: EdgeInsets.all(4.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              
               children: <Widget>[
-                SizedBox(width: 22),
-                Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: Text(
-                    level,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: active ? Colors.white : Colors.grey[400]),
-                  ),
+                Text(
+                  level,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: active ? Colors.white : Colors.grey[400]),
+                  textAlign: TextAlign.center,
                 ),
-                Padding(
-                    padding: EdgeInsets.all(4.0),
-                    child: Icon(Icons.vpn_key,
-                        color: active ? Colors.lightBlue : Colors.grey[400]))
+                SizedBox(height:4),
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.star, color: active?Colors.yellow:Colors.grey[400]),
+                    Icon(Icons.star, color: active?Colors.yellow:Colors.grey[400]),
+                    Icon(Icons.star_half, color: active?Colors.yellow:Colors.grey[400])
+                  ],
+                )
               ],
             ),
           ),
