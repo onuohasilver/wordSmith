@@ -21,11 +21,11 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
     }
   }
 
-  int _counter = 10;
+  int _counter = 20;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 10;
+    _counter = 20;
 
     if (_timer != null) {
       _timer.cancel();
@@ -44,6 +44,11 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   void initState() {
     super.initState();
     _startTimer();
+  }
+
+  final entryValue = TextEditingController();
+  clearEntry(){
+    entryValue.clear();
   }
 
   @override
@@ -138,6 +143,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
+                        controller: entryValue,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -160,6 +166,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     GestureDetector(
                         onTap: () {
                           insertItem(entry);
+                          clearEntry();
                         },
                         child: Icon(Icons.send,
                             color: Colors.lightBlue, size: 30.0))
