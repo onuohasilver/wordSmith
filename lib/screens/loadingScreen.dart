@@ -36,16 +36,24 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
-        body: SpinKitWave(
-          itemBuilder: (_, int index) {
-            return DecoratedBox(
-              decoration: BoxDecoration(
-                color: index.isEven ? Colors.white : Colors.lightBlue,
-              ),
-            );
-          },
-          size: 25,
-          duration: Duration(milliseconds: 4000),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text('Word',style:TextStyle(color: Colors.white,fontSize: 55)),
+            Text('Smith',style:TextStyle(color: Colors.lightBlue,fontSize: 55)),
+            SpinKitWave(
+              itemBuilder: (_, int index) {
+                return DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: index.isEven ? Colors.white : Colors.white,
+                  ),
+                );
+              },
+              size: 45,
+              duration: Duration(milliseconds: 4000),
+            ),
+          ],
         ));
   }
 }

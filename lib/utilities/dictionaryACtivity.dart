@@ -20,6 +20,7 @@ dynamic generateWordMap(String word) {
 
 bool verifyWord(word, subword) {
   bool output;
+  bool verified;
   word = word.toLowerCase();
   subword = subword.toLowerCase();
 
@@ -27,15 +28,18 @@ bool verifyWord(word, subword) {
 
   var wordMap = generateWordMap(word);
   print(wordMap);
-
+  List<bool> checker = [];
   for (var alphabet in subword.split('')) {
-    output = wordMap.containsKey(alphabet) ? true : false;
-
     if (wordMap.containsKey(alphabet)) {
       output = wordMap[alphabet] == 0 ? false : true;
       wordMap[alphabet]--;
+      checker.add(output);
+    } else {
+      output = false;
+      checker.add(output);
     }
   }
-  output=checkDictionary(subword,Dictionary().book);
-  return output;
+  verified=(checker.any((i)=>i==false)?false:true)==(checkDictionary(subword,Dictionary().book)?true:false);
+  
+  return verified;
 }
