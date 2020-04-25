@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'dictionaryActivity.dart';
 
 class EntryHandler{
   
-  List<String> entryList = [''];
+  List<String> entryList = [];
   final GlobalKey<AnimatedListState> listKey = GlobalKey();
 
   void insertItem(key) {
@@ -16,13 +16,16 @@ class EntryHandler{
 
 
 
-Widget buildItem(String item, Animation animation) {
+Widget buildItem(String item, Animation animation,) {
+  IconData icon=verifyWord('FERMENTATION',item)?Icons.check_circle:Icons.cancel;
+  
   return SizeTransition(
     sizeFactor: animation,
     child: Align(
           alignment: Alignment.center,
           child: Card(
-            color:Colors.black,
+            elevation: 24,
+            color:Colors.primaries[item.length+1 % Colors.primaries.length],
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -31,6 +34,8 @@ Widget buildItem(String item, Animation animation) {
               padding: const EdgeInsets.all(18.0),
               child: Text(item.toUpperCase(),style:TextStyle(color:Colors.white,fontSize: 14),),
             ),
+            Icon(icon,
+            color:verifyWord('FERMENTATION',item)?Colors.green:Colors.red),
             SizedBox(width:15),
             
           ],

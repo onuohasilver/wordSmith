@@ -20,7 +20,7 @@ dynamic generateWordMap(String word) {
 
 bool verifyWord(word, subword) {
   bool output;
-  bool verified;
+  bool verified ;
   word = word.toLowerCase();
   subword = subword.toLowerCase();
 
@@ -39,7 +39,15 @@ bool verifyWord(word, subword) {
       checker.add(output);
     }
   }
-  verified=(checker.any((i)=>i==false)?false:true)==(checkDictionary(subword,Dictionary().book)?true:false);
+  bool _checkerResult=(checker.any((i)=>i==false)?false:true);
+  bool _dictionaryResult=checkDictionary(subword,Dictionary().book)?true:false;
+
+  verified= (_checkerResult & _dictionaryResult);
+  // if (_checkerResult){
+  //   if (_dictionaryResult){
+  //     verified=true;
+  //   }
+  // }
   
   return verified;
 }

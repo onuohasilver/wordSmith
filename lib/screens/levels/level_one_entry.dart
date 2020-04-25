@@ -20,7 +20,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
           decoration: BoxDecoration(
             color: Colors.transparent,
             image: DecorationImage(
-                image: AssetImage('assets/level_one_entry.jpg'),
+                image: AssetImage('assets/levelSelect.jpg'),
                 fit: BoxFit.cover),
           ),
           child: Padding(
@@ -73,9 +73,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
-                        verifyWord('FERMENTATION', entry)
-                            ? Icon(Icons.check_box, color: Colors.green)
-                            : Icon(Icons.check_box, color: Colors.red),
+                        
                         Expanded(
                           child: AnimatedList(
                             key: entryHandler.listKey,
@@ -114,7 +112,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                       ),
                     ),
                     SizedBox(
-                      width: 20,
+                      width: 10,
                     ),
                     GestureDetector(
                         onTap: () {
@@ -126,7 +124,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                           nameHolder.clear();
                         },
                         child: Icon(Icons.casino,
-                            color: Colors.lightBlue, size: 30.0))
+                            color: Colors.lightBlue, size: 50.0))
                   ],
                 )
               ],
