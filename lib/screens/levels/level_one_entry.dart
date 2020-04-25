@@ -8,7 +8,7 @@ class LevelOneEntry extends StatefulWidget {
 }
 
 class _LevelOneEntryState extends State<LevelOneEntry> {
-  String entry;
+  String entry = "";
   List<String> entryList = [''];
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
 
@@ -166,6 +166,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     GestureDetector(
                         onTap: () {
                           insertItem(entry);
+                          entry = "";
                           clearEntry();
                         },
                         child: Icon(Icons.send,
