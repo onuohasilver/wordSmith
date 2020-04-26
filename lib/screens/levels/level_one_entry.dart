@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:wordsmith/screens/resultPage.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 import 'dart:collection';
 
@@ -12,6 +13,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   EntryHandler entryHandler = EntryHandler();
   final nameHolder = TextEditingController();
   ScrollController scrollController = ScrollController();
+
   void initState() {
     super.initState();
     _startTimer();
@@ -19,11 +21,11 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
     entryHandler.insert();
   }
 
-  int _counter = 60;
+  int _counter = 20;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 60;
+    _counter = 20;
 
     if (_timer != null) {
       _timer.cancel();
@@ -34,6 +36,9 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
           _counter--;
         } else {
           _timer.cancel();
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => ResultPage(),
+          ));
         }
       });
     });
