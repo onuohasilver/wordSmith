@@ -1,12 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 class ResultPage extends StatefulWidget {
+  final score;
+  ResultPage({this.score});
   @override
   _ResultPageState createState() => _ResultPageState();
 }
 
 class _ResultPageState extends State<ResultPage> {
+
+  
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -19,7 +25,7 @@ class _ResultPageState extends State<ResultPage> {
           ),
           child: Center(
             child: Text(
-              "Result Shows Here!",
+              widget.score.toString(),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.red),
             ),
           ),

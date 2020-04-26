@@ -10,7 +10,7 @@ class EntryHandler {
   bool validate({bool score}){
     bool validated=verifyWord('FERMENTATION', entry);
     if (score&validated){scoreKeeper.getScores(validated,entry);}
-    print(scoreKeeper.scoresLengthList);
+    
 
     return validated;
   }
@@ -48,3 +48,5 @@ class EntryHandler {
     );
   }
 }
+
+

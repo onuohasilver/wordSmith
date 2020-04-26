@@ -21,11 +21,11 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
     entryHandler.insert();
   }
 
-  int _counter = 20;
+  int _counter = 60;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 20;
+    _counter = 60;
 
     if (_timer != null) {
       _timer.cancel();
@@ -37,7 +37,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
         } else {
           _timer.cancel();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => ResultPage(),
+            builder: (context) => ResultPage(score:entryHandler.scoreKeeper.scoreValue())
           ));
         }
       });
@@ -159,6 +159,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                         onTap: () {
                           entryHandler.insert();
                           nameHolder.clear();
+                          print(entryHandler.scoreKeeper.scoresLengthList);
                         },
                         child: Icon(Icons.control_point,
                             color: Colors.lightBlue, size: 50.0))
