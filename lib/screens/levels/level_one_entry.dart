@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 import 'dart:collection';
-import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 class LevelOneEntry extends StatefulWidget {
