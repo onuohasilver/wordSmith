@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wordsmith/screens/levels/level_one_entry.dart';
 import 'package:wordsmith/utilities/components.dart';
-import 'package:wordsmith/screens/levels/level_one.dart';
-import 'package:wordsmith/utilities/dictionaryACtivity.dart';
+
 
 class LevelSelectScreen extends StatefulWidget {
   @override
@@ -32,7 +32,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return LevelOne();
+                          return LevelOneEntry();
                         },
                       ),
                     );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 import 'dart:collection';
+import 'dart:async';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class LevelOneEntry extends StatefulWidget {
   @override
@@ -11,6 +13,30 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   EntryHandler entryHandler = EntryHandler();
   final nameHolder = TextEditingController();
   ScrollController scrollController = ScrollController();
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  int _counter = 60;
+  Timer _timer;
+
+  void _startTimer() {
+    _counter = 60;
+
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_counter > 0) {
+          _counter--;
+        } else {
+          _timer.cancel();
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +70,26 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     Card(
                       color: Colors.lightBlue,
                       child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Text(
-                          '00:30',
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        ),
-                      ),
+                          padding: const EdgeInsets.all(5.0),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                (_counter > 0)
+                                    ? Text(
+                                        '$_counter',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      )
+                                    : Text("Game Over",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                              ],
+                            ),
+                          )),
                     ),
                   ],
                 ),
@@ -64,12 +104,18 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(top: 6),
-                          child: Text(
-                            'FERMENTATION',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                          child: TextLiquidFill(
+                            loadDuration: Duration(seconds:60),
+                            waveDuration: Duration(seconds:5),
+                            text: 'FERMENTATION',
+                            waveColor: Colors.blueAccent,
+                            boxBackgroundColor: Colors.black,
+                            textStyle: TextStyle(
+                              fontSize: 23.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            boxHeight: 60.0,
+                            boxWidth: 250.0,
                           ),
                         ),
                         Expanded(

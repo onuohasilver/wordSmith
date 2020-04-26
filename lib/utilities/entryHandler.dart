@@ -3,7 +3,7 @@ import 'dictionaryActivity.dart';
 
 class EntryHandler {
   String entry;
-  List<Widget> entryList = [];
+  List<Widget> entryList = [Text('')];
 
   insert() {
     entryList.insert(
