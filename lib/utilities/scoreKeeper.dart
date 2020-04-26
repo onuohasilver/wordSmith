@@ -1,4 +1,3 @@
-import 'package:wordsmith/utilities/entryHandler.dart';
 
 class ScoreKeeper{
   List<bool> scoresTruthList= [];
