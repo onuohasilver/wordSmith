@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'dictionaryActivity.dart';
+import 'scoreKeeper.dart';
 
 class EntryHandler {
   String entry;
   List<Widget> entryList = [Text('')];
+  ScoreKeeper scoreKeeper= ScoreKeeper();
+  
+  bool validate({bool score}){
+    bool validated=verifyWord('FERMENTATION', entry);
+    if (score){scoreKeeper.getScores(validated,entry);}
+    return validated;
+  }
+
 
   insert() {
     entryList.insert(
@@ -27,7 +36,7 @@ class EntryHandler {
                   ),
                 ),
                 Icon(Icons.check_box,
-                    color: verifyWord('FERMENTATION', entry)
+                    color: validate(score:false)
                         ? Colors.green
                         : Colors.red),
                 SizedBox(width: 15),

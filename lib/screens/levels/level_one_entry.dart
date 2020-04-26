@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 import 'dart:collection';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 class LevelOneEntry extends StatefulWidget {
   @override
@@ -105,19 +103,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(top: 6),
-                          child: TextLiquidFill(
-                            loadDuration: Duration(seconds:60),
-                            waveDuration: Duration(seconds:5),
-                            text: 'FERMENTATION',
-                            waveColor: Colors.blueAccent,
-                            boxBackgroundColor: Colors.black,
-                            textStyle: TextStyle(
-                              fontSize: 23.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            boxHeight: 60.0,
-                            boxWidth: 250.0,
-                          ),
+                          child: Text('FERMENTATION',style:TextStyle(fontSize: 25,fontWeight: FontWeight.bold))
                         ),
                         Expanded(
                             child: ListView(
@@ -149,7 +135,11 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                           ),
                         ),
                         onChanged: (value) {
-                          entryHandler.entry = value;
+
+                          setState(() {
+                            entryHandler.entry = value;
+                          });
+
                         },
                       ),
                     ),
@@ -158,10 +148,6 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          setState(() {
-                            entryHandler.entry = entryHandler.entry;
-                          });
-
                           entryHandler.insert();
                           nameHolder.clear();
                         },
@@ -178,27 +164,3 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   }
 }
 
-Widget buildItem(String item, Animation animation) {
-  return SizeTransition(
-    sizeFactor: animation,
-    child: Align(
-      alignment: Alignment.center,
-      child: Card(
-          color: Colors.black,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  item,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              SizedBox(width: 15),
-              Icon(Icons.check_box, color: Colors.green)
-            ],
-          )),
-    ),
-  );
-}
