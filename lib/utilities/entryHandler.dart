@@ -9,7 +9,9 @@ class EntryHandler {
   
   bool validate({bool score}){
     bool validated=verifyWord('FERMENTATION', entry);
-    if (score){scoreKeeper.getScores(validated,entry);}
+    if (score&validated){scoreKeeper.getScores(validated,entry);}
+    print(scoreKeeper.scoresLengthList);
+
     return validated;
   }
 
@@ -36,7 +38,7 @@ class EntryHandler {
                   ),
                 ),
                 Icon(Icons.check_box,
-                    color: validate(score:false)
+                    color: validate(score:true)
                         ? Colors.green
                         : Colors.red),
                 SizedBox(width: 15),

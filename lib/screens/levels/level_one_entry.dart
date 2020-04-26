@@ -15,6 +15,8 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   void initState() {
     super.initState();
     _startTimer();
+    entryHandler.entry = '.';
+    entryHandler.insert();
   }
 
   int _counter = 60;
@@ -57,7 +59,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                   children: <Widget>[
                     GestureDetector(
                       child: Card(
-                        color: Colors.red,
+                        color: Colors.lightBlue,
                         child: Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Icon(Icons.arrow_back, color: Colors.white)),
@@ -102,9 +104,13 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(top: 6),
-                          child: Text('FERMENTATION',style:TextStyle(fontSize: 25,fontWeight: FontWeight.bold))
-                        ),
+                            padding: EdgeInsets.only(top: 6),
+                            child: Text('FERMENTATION',
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    shadows: [Shadow(color: Colors.black,blurRadius: 10.0)],
+                                    color: Colors.white))),
                         Expanded(
                             child: ListView(
                                 controller: scrollController,
@@ -135,11 +141,9 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                           ),
                         ),
                         onChanged: (value) {
-
                           setState(() {
                             entryHandler.entry = value;
                           });
-
                         },
                       ),
                     ),
@@ -163,4 +167,3 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
     );
   }
 }
-
