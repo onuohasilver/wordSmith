@@ -1,6 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:wordsmith/utilities/entryHandler.dart';
+import 'dart:collection';
+import 'dart:async';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class LevelOneEntry extends StatefulWidget {
   @override
@@ -8,24 +12,19 @@ class LevelOneEntry extends StatefulWidget {
 }
 
 class _LevelOneEntryState extends State<LevelOneEntry> {
-  String entry = "";
-  List<String> entryList = [''];
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey();
-
-  void insertItem(key) {
-    if (key.length > 2) {
-      String item = key;
-      int insertIndex = 0;
-      entryList.insert(insertIndex, item);
-      _listKey.currentState.insertItem(insertIndex);
-    }
+  EntryHandler entryHandler = EntryHandler();
+  final nameHolder = TextEditingController();
+  ScrollController scrollController = ScrollController();
+  void initState() {
+    super.initState();
+    _startTimer();
   }
 
-  int _counter = 20;
+  int _counter = 60;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 20;
+    _counter = 60;
 
     if (_timer != null) {
       _timer.cancel();
@@ -41,16 +40,6 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
     });
   }
 
-  void initState() {
-    super.initState();
-    _startTimer();
-  }
-
-  final entryValue = TextEditingController();
-  clearEntry(){
-    entryValue.clear();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -59,8 +48,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
           decoration: BoxDecoration(
             color: Colors.transparent,
             image: DecorationImage(
-                image: AssetImage('assets/level_one_entry.jpg'),
-                fit: BoxFit.cover),
+                image: AssetImage('assets/levelSelect.jpg'), fit: BoxFit.cover),
           ),
           child: Padding(
             padding: const EdgeInsets.all(18.0),
@@ -118,23 +106,27 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(top: 6),
-                          child: Text(
-                            'FERMENTATION',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                          child: TextLiquidFill(
+                            loadDuration: Duration(seconds:60),
+                            waveDuration: Duration(seconds:5),
+                            text: 'FERMENTATION',
+                            waveColor: Colors.blueAccent,
+                            boxBackgroundColor: Colors.black,
+                            textStyle: TextStyle(
+                              fontSize: 23.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            boxHeight: 60.0,
+                            boxWidth: 250.0,
                           ),
                         ),
                         Expanded(
-                          child: AnimatedList(
-                            key: _listKey,
-                            initialItemCount: entryList.length,
-                            itemBuilder: (context, index, animation) {
-                              return buildItem(entryList[index], animation);
-                            },
-                          ),
-                        )
+                            child: ListView(
+                                controller: scrollController,
+                                reverse: false,
+                                shrinkWrap: true,
+                                children: UnmodifiableListView(
+                                    entryHandler.entryList)))
                       ],
                     ),
                   ),
@@ -143,7 +135,9 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
-                        controller: entryValue,
+                        keyboardType: TextInputType.text,
+                        controller: nameHolder,
+                        autocorrect: false,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -156,7 +150,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                           ),
                         ),
                         onChanged: (value) {
-                          entry = value;
+                          entryHandler.entry = value;
                         },
                       ),
                     ),
@@ -165,12 +159,15 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          insertItem(entry);
-                          entry = "";
-                          clearEntry();
+                          setState(() {
+                            entryHandler.entry = entryHandler.entry;
+                          });
+
+                          entryHandler.insert();
+                          nameHolder.clear();
                         },
-                        child: Icon(Icons.send,
-                            color: Colors.lightBlue, size: 30.0))
+                        child: Icon(Icons.control_point,
+                            color: Colors.lightBlue, size: 50.0))
                   ],
                 )
               ],
