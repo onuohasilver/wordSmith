@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
-import 'package:wordsmith/utilities/dictionaryActivity.dart';
+import 'dart:collection';
 
 class LevelOneEntry extends StatefulWidget {
   @override
@@ -8,9 +8,9 @@ class LevelOneEntry extends StatefulWidget {
 }
 
 class _LevelOneEntryState extends State<LevelOneEntry> {
-  String entry = ' ';
   EntryHandler entryHandler = EntryHandler();
   final nameHolder = TextEditingController();
+  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
           decoration: BoxDecoration(
             color: Colors.transparent,
             image: DecorationImage(
-                image: AssetImage('assets/levelSelect.jpg'),
-                fit: BoxFit.cover),
+                image: AssetImage('assets/levelSelect.jpg'), fit: BoxFit.cover),
           ),
           child: Padding(
             padding: const EdgeInsets.all(18.0),
@@ -73,17 +72,13 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
-                        
                         Expanded(
-                          child: AnimatedList(
-                            key: entryHandler.listKey,
-                            initialItemCount: entryHandler.entryList.length,
-                            itemBuilder: (context, index, animation) {
-                              return entryHandler.buildItem(
-                                  entryHandler.entryList[index], animation);
-                            },
-                          ),
-                        )
+                            child: ListView(
+                                controller: scrollController,
+                                reverse: false,
+                                shrinkWrap: true,
+                                children: UnmodifiableListView(
+                                    entryHandler.entryList)))
                       ],
                     ),
                   ),
@@ -92,9 +87,9 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
-                      
+                        keyboardType: TextInputType.text,
                         controller: nameHolder,
-                        autocorrect:false,
+                        autocorrect: false,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -107,7 +102,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                           ),
                         ),
                         onChanged: (value) {
-                          entry = value;
+                          entryHandler.entry = value;
                         },
                       ),
                     ),
@@ -117,13 +112,13 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     GestureDetector(
                         onTap: () {
                           setState(() {
-                            entry = entry;
+                            entryHandler.entry = entryHandler.entry;
                           });
 
-                          entryHandler.insertItem(entry);
+                          entryHandler.insert();
                           nameHolder.clear();
                         },
-                        child: Icon(Icons.casino,
+                        child: Icon(Icons.control_point,
                             color: Colors.lightBlue, size: 50.0))
                   ],
                 )
