@@ -74,6 +74,14 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                       },
                     ),
                     Card(
+                        color: Colors.lightBlue.withOpacity(.4),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                              entryHandler.scoreKeeper.scoreValue().toString(),
+                              style: TextStyle(fontSize: 20,color:Colors.white)),
+                        )),
+                    Card(
                       color: Colors.lightBlue.withOpacity(.4),
                       child: Padding(
                           padding: const EdgeInsets.all(5.0),
@@ -138,10 +146,6 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                             entryHandler.insert(entryHandler.alphabetHandler
                                 .allAlphabets()
                                 .trimLeft());
-                            print(entryHandler.alphabetHandler
-                                .allAlphabets()
-                                .trimLeft()
-                                .length);
                           });
                         },
                         child: Icon(Icons.control_point,
