@@ -9,10 +9,9 @@ class EntryHandler {
   ScoreKeeper scoreKeeper= ScoreKeeper();
   final alphabetHandler=Alphabet().createState();
   
-  bool validate({bool score,String entry}){
-    bool validated=verifyWord('AAAAAAAAA', entry);
-    if (score&validated){scoreKeeper.getScores(validated,entry);}
-    
+  bool validate({String entry}){
+    bool validated=verifyWord('FERMENTED', entry);
+    if (validated){scoreKeeper.getScores(validated,entry);}
 
     return validated;
   }
@@ -20,6 +19,8 @@ class EntryHandler {
   
 
   insert(String entry) {
+    bool correct=validate(entry:entry);
+    print(entry);
     entryList.insert(0,
       Align(
         child: Card(
@@ -39,8 +40,8 @@ class EntryHandler {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                Icon(Icons.check_box,
-                    color: validate(score:true,entry:'AAAA')
+                Icon(correct?Icons.check_box:Icons.cancel,
+                    color: correct
                         ? Colors.green
                         : Colors.red),
                 SizedBox(width: 15),

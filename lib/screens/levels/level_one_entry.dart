@@ -103,18 +103,9 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                 SizedBox(
                   height: 12,
                 ),
-                Wrap(direction: Axis.horizontal, children: <Widget>[
-                  FlatButton(
-                    onPressed: () {
-                      entryHandler.alphabetHandler.newAlpha.add('A');
-                      
-                    },
-                    child: Text('alphabetHandler.entry'),
-                  ),
-                ]),
                 Expanded(
                   child: Card(
-                    color: Colors.white.withOpacity(.2),
+                    color: Colors.white.withOpacity(.3),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
@@ -128,13 +119,29 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     ),
                   ),
                 ),
+                Wrap(direction: Axis.horizontal, children: <Widget>[
+                  AlphabetButton(alphabet: 'F', entryHandler: entryHandler),
+                  AlphabetButton(alphabet: 'E', entryHandler: entryHandler),
+                  AlphabetButton(alphabet: 'R', entryHandler: entryHandler),
+                  AlphabetButton(alphabet: 'M', entryHandler: entryHandler),
+                  AlphabetButton(alphabet: 'E', entryHandler: entryHandler),
+                  AlphabetButton(alphabet: 'N', entryHandler: entryHandler),
+                  AlphabetButton(alphabet: 'T', entryHandler: entryHandler),
+                  AlphabetButton(alphabet: 'E', entryHandler: entryHandler),
+                  AlphabetButton(alphabet: 'D', entryHandler: entryHandler),
+                ]),
                 Row(
                   children: <Widget>[
                     FlatButton(
                         onPressed: () {
                           setState(() {
-                            entryHandler.insert( entryHandler.alphabetHandler.allAlphabets().trimLeft());
-                            print(entryHandler.alphabetHandler.allAlphabets().trimLeft().length);
+                            entryHandler.insert(entryHandler.alphabetHandler
+                                .allAlphabets()
+                                .trimLeft());
+                            print(entryHandler.alphabetHandler
+                                .allAlphabets()
+                                .trimLeft()
+                                .length);
                           });
                         },
                         child: Icon(Icons.control_point,
@@ -146,6 +153,29 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class AlphabetButton extends StatelessWidget {
+  AlphabetButton({@required this.entryHandler, @required this.alphabet});
+
+  final EntryHandler entryHandler;
+  final String alphabet;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        entryHandler.alphabetHandler.newAlpha.add(alphabet);
+      },
+      child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Text(alphabet,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+          ),
+          color: Colors.white.withOpacity(.4)),
     );
   }
 }
