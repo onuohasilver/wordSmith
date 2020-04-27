@@ -15,10 +15,12 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
       child: Scaffold(
         body: Container(
           decoration: BoxDecoration(
-            color: Colors.transparent,
-            image: DecorationImage(
-                image: AssetImage('assets/levelSelect.jpg'), fit: BoxFit.cover),
-          ),
+            gradient:LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops:[0.2,1],
+            colors: [Colors.lightBlue[900],Colors.lightGreen[700]]
+          ),),
           child: GridView.count(
             crossAxisCount: 3,
             children: <Widget>[
@@ -27,7 +29,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                   level: 'Level 1',
                   active: true,
                   onPressed: () {
-                    // getPermutations('Great');
+                    
                     Navigator.push(
                       context,
                       MaterialPageRoute(

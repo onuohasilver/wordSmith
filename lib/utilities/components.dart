@@ -14,7 +14,7 @@ class LevelCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onPressed,
         child: Card(
-          color: active ? Colors.black : Colors.grey,
+          color: active ? Colors.black.withOpacity(0.25) :Colors.grey.withOpacity(0.25),
           elevation: 12,
           margin: EdgeInsets.all(10),
           child: Padding(
@@ -47,5 +47,6 @@ class LevelCard extends StatelessWidget {
     );
   }
 }
+
 
 

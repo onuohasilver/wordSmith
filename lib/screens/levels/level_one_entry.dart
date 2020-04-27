@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wordsmith/screens/resultPage.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
+import 'package:wordsmith/utilities/alphabets.dart';
 import 'dart:collection';
 
 class LevelOneEntry extends StatefulWidget {
@@ -11,21 +12,18 @@ class LevelOneEntry extends StatefulWidget {
 
 class _LevelOneEntryState extends State<LevelOneEntry> {
   EntryHandler entryHandler = EntryHandler();
-  final nameHolder = TextEditingController();
-  ScrollController scrollController = ScrollController();
+  final alphabetHandler = Alphabet().createState();
 
   void initState() {
     super.initState();
     _startTimer();
-    entryHandler.entry = '.';
-    entryHandler.insert();
   }
 
-  int _counter = 60;
+  int _counter = 200;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 60;
+    _counter = 200;
 
     if (_timer != null) {
       _timer.cancel();
@@ -37,8 +35,8 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
         } else {
           _timer.cancel();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => ResultPage(score:entryHandler.scoreKeeper.scoreValue())
-          ));
+              builder: (context) =>
+                  ResultPage(score: entryHandler.scoreKeeper.scoreValue())));
         }
       });
     });
@@ -50,9 +48,11 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
       child: Scaffold(
         body: Container(
           decoration: BoxDecoration(
-            color: Colors.transparent,
-            image: DecorationImage(
-                image: AssetImage('assets/levelSelect.jpg'), fit: BoxFit.cover),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.2, 1],
+                colors: [Colors.lightBlue[900], Colors.lightGreen[700]]),
           ),
           child: Padding(
             padding: const EdgeInsets.all(18.0),
@@ -64,7 +64,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                   children: <Widget>[
                     GestureDetector(
                       child: Card(
-                        color: Colors.lightBlue,
+                        color: Colors.lightBlue.withOpacity(.4),
                         child: Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Icon(Icons.arrow_back, color: Colors.white)),
@@ -74,7 +74,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                       },
                     ),
                     Card(
-                      color: Colors.lightBlue,
+                      color: Colors.lightBlue.withOpacity(.4),
                       child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Center(
@@ -83,15 +83,16 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                               children: <Widget>[
                                 (_counter > 0)
                                     ? Text(
-                                        '$_counter',
+                                        '00:$_counter',
                                         style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                            color: Colors.white),
                                       )
                                     : Text("Game Over",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
+                                            color: Colors.white,
                                             fontSize: 20)),
                               ],
                             ),
@@ -102,23 +103,23 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                 SizedBox(
                   height: 12,
                 ),
+                Wrap(direction: Axis.horizontal, children: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      entryHandler.alphabetHandler.newAlpha.add('A');
+                      
+                    },
+                    child: Text('alphabetHandler.entry'),
+                  ),
+                ]),
                 Expanded(
                   child: Card(
                     color: Colors.white.withOpacity(.2),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Padding(
-                            padding: EdgeInsets.only(top: 6),
-                            child: Text('FERMENTATION',
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    shadows: [Shadow(color: Colors.black,blurRadius: 10.0)],
-                                    color: Colors.white))),
                         Expanded(
                             child: ListView(
-                                controller: scrollController,
                                 reverse: false,
                                 shrinkWrap: true,
                                 children: UnmodifiableListView(
@@ -129,37 +130,12 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                 ),
                 Row(
                   children: <Widget>[
-                    Expanded(
-                      child: TextField(
-                        keyboardType: TextInputType.text,
-                        controller: nameHolder,
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintStyle: TextStyle(color: Colors.grey),
-                          hintText: 'Enter Word',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(14.0),
-                            ),
-                          ),
-                        ),
-                        onChanged: (value) {
+                    FlatButton(
+                        onPressed: () {
                           setState(() {
-                            entryHandler.entry = value;
+                            entryHandler.insert( entryHandler.alphabetHandler.allAlphabets().trimLeft());
+                            print(entryHandler.alphabetHandler.allAlphabets().trimLeft().length);
                           });
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          entryHandler.insert();
-                          nameHolder.clear();
-                          print(entryHandler.scoreKeeper.scoresLengthList);
                         },
                         child: Icon(Icons.control_point,
                             color: Colors.lightBlue, size: 50.0))

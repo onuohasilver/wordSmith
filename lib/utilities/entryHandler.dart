@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'dictionaryActivity.dart';
 import 'scoreKeeper.dart';
+import 'alphabets.dart';
 
 class EntryHandler {
   String entry;
-  List<Widget> entryList = [Text('')];
+  List<Widget> entryList = [];
   ScoreKeeper scoreKeeper= ScoreKeeper();
+  final alphabetHandler=Alphabet().createState();
   
-  bool validate({bool score}){
-    bool validated=verifyWord('FERMENTATION', entry);
+  bool validate({bool score,String entry}){
+    bool validated=verifyWord('AAAAAAAAA', entry);
     if (score&validated){scoreKeeper.getScores(validated,entry);}
     
 
     return validated;
   }
+  
+  
 
-
-  insert() {
-    entryList.insert(
-      0,
+  insert(String entry) {
+    entryList.insert(0,
       Align(
         child: Card(
             elevation: 24,
@@ -38,7 +40,7 @@ class EntryHandler {
                   ),
                 ),
                 Icon(Icons.check_box,
-                    color: validate(score:true)
+                    color: validate(score:true,entry:'AAAA')
                         ? Colors.green
                         : Colors.red),
                 SizedBox(width: 15),
