@@ -16,7 +16,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void navigationPage() {
-    // print('tried');
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {

@@ -59,26 +59,3 @@ class AlphabetButton extends StatelessWidget {
   }
 }
 
-class AlphabetWidgets {
-  
-  List<Widget> alphabetWidgets;
-  List<bool> activeAlphabets;
-  int index = 0;
-  String currentAlphabet;
-
-  getWidgets(List alphabets,Function onPressed,entryHandler) {
-    
-    alphabets.forEach((alphabet) {
-      currentAlphabet=alphabet;
-      activeAlphabets.add(true);
-      alphabetWidgets.add(
-        AlphabetButton(
-          alphabet: alphabet,
-          active: activeAlphabets[index],
-          onPressed: onPressed,
-        ),
-      );
-      index++;
-    });
-  }
-}
