@@ -13,17 +13,20 @@ class LevelOneEntry extends StatefulWidget {
 class _LevelOneEntryState extends State<LevelOneEntry> {
   EntryHandler entryHandler = EntryHandler();
   final alphabetHandler = Alphabet().createState();
+  AlphabetWidgets alphabetWidgets = AlphabetWidgets();
 
   void initState() {
     super.initState();
     _startTimer();
+    alphabetWidgets.getWidgets(['a','b','f','e','r','r'],(){print('a');},entryHandler);
+    print(alphabetWidgets.alphabetWidgets);
   }
 
-  int _counter = 200;
+  int _counter = 20;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 200;
+    _counter = 20;
 
     if (_timer != null) {
       _timer.cancel();
@@ -79,7 +82,8 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
                               entryHandler.scoreKeeper.scoreValue().toString(),
-                              style: TextStyle(fontSize: 20,color:Colors.white)),
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
                         )),
                     Card(
                       color: Colors.lightBlue.withOpacity(.4),
@@ -111,6 +115,17 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                 SizedBox(
                   height: 12,
                 ),
+                Card(
+                    color: Colors.lightBlue.withOpacity(.4),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Center(
+                        child: Text(
+                            entryHandler.alphabetHandler.newAlpha.toString(),
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
+                      ),
+                    )),
                 Expanded(
                   child: Card(
                     color: Colors.white.withOpacity(.3),
@@ -127,17 +142,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     ),
                   ),
                 ),
-                Wrap(direction: Axis.horizontal, children: <Widget>[
-                  AlphabetButton(alphabet: 'F', entryHandler: entryHandler),
-                  AlphabetButton(alphabet: 'E', entryHandler: entryHandler),
-                  AlphabetButton(alphabet: 'R', entryHandler: entryHandler),
-                  AlphabetButton(alphabet: 'M', entryHandler: entryHandler),
-                  AlphabetButton(alphabet: 'E', entryHandler: entryHandler),
-                  AlphabetButton(alphabet: 'N', entryHandler: entryHandler),
-                  AlphabetButton(alphabet: 'T', entryHandler: entryHandler),
-                  AlphabetButton(alphabet: 'E', entryHandler: entryHandler),
-                  AlphabetButton(alphabet: 'D', entryHandler: entryHandler),
-                ]),
+                Wrap(direction: Axis.horizontal, children: alphabetWidgets.alphabetWidgets),
                 Row(
                   children: <Widget>[
                     FlatButton(
@@ -146,6 +151,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                             entryHandler.insert(entryHandler.alphabetHandler
                                 .allAlphabets()
                                 .trimLeft());
+                            alphabetWidgets.activeAlphabets.fillRange(0, alphabetWidgets.activeAlphabets.length,false) ;
                           });
                         },
                         child: Icon(Icons.control_point,
@@ -161,25 +167,32 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   }
 }
 
-class AlphabetButton extends StatelessWidget {
-  AlphabetButton({@required this.entryHandler, @required this.alphabet});
 
-  final EntryHandler entryHandler;
-  final String alphabet;
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        entryHandler.alphabetHandler.newAlpha.add(alphabet);
-      },
-      child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Text(alphabet,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
-          ),
-          color: Colors.white.withOpacity(.4)),
-    );
+
+
+
+
+class AlphabetWidgets {
+  
+  List<Widget> alphabetWidgets=[];
+  List<bool> activeAlphabets=[];
+  int index = 0;
+  String currentAlphabet;
+
+  getWidgets(List alphabets,Function onPressed,entryHandler) {
+    
+    alphabets.forEach((alphabet) {
+      currentAlphabet=alphabet;
+      activeAlphabets.add(true);
+      alphabetWidgets.add(
+        AlphabetButton(
+          alphabet: alphabet,
+          active: activeAlphabets[index],
+          onPressed: onPressed,
+        ),
+      );
+      index++;
+    });
   }
 }

@@ -6,7 +6,7 @@ class Alphabet extends StatefulWidget {
 }
 
 class _AlphabetState extends State<Alphabet> {
-  List<String> newAlpha =[];
+  List<String> newAlpha = [];
   String entry;
 
   @override
@@ -26,15 +26,59 @@ class _AlphabetState extends State<Alphabet> {
   }
 
   String allAlphabets() {
-    String alpha='';
-    if (newAlpha.length>3) {
+    String alpha = '';
+
+    if (newAlpha.length > 3) {
       newAlpha.forEach((alphabet) {
         alpha = alpha + alphabet;
       });
     }
-    newAlpha=[];
+    newAlpha = [];
     return alpha;
-    
   }
 }
 
+class AlphabetButton extends StatelessWidget {
+  AlphabetButton({this.alphabet, this.active, this.onPressed});
+  final bool active;
+  final String alphabet;
+  final Function onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Text(alphabet,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+          ),
+          color: active ? Colors.white.withOpacity(.4) : Colors.transparent),
+    );
+  }
+}
+
+class AlphabetWidgets {
+  
+  List<Widget> alphabetWidgets;
+  List<bool> activeAlphabets;
+  int index = 0;
+  String currentAlphabet;
+
+  getWidgets(List alphabets,Function onPressed,entryHandler) {
+    
+    alphabets.forEach((alphabet) {
+      currentAlphabet=alphabet;
+      activeAlphabets.add(true);
+      alphabetWidgets.add(
+        AlphabetButton(
+          alphabet: alphabet,
+          active: activeAlphabets[index],
+          onPressed: onPressed,
+        ),
+      );
+      index++;
+    });
+  }
+}
