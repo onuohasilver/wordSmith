@@ -43,11 +43,6 @@ bool verifyWord(word, subword) {
   bool _dictionaryResult=checkDictionary(subword,Dictionary().book)?true:false;
 
   verified= (_checkerResult & _dictionaryResult);
-  // if (_checkerResult){
-  //   if (_dictionaryResult){
-  //     verified=true;
-  //   }
-  // }
   
   return verified;
 }
