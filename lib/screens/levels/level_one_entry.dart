@@ -1,10 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:wordsmith/screens/resultPage.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
+import 'package:wordsmith/utilities/alphabets.dart';
 import 'dart:collection';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 class LevelOneEntry extends StatefulWidget {
   @override
@@ -13,19 +12,24 @@ class LevelOneEntry extends StatefulWidget {
 
 class _LevelOneEntryState extends State<LevelOneEntry> {
   EntryHandler entryHandler = EntryHandler();
-  final nameHolder = TextEditingController();
-  ScrollController scrollController = ScrollController();
+  final alphabetHandler = Alphabet().createState();
+  AlphabetWidgets alphabetWidgets = AlphabetWidgets();
 
   void initState() {
     super.initState();
     _startTimer();
+    alphabetWidgets.getWidgets(
+        ['a', 'b', 'f', 'e', 'r', 'r', 'a', 'b', 'f', 'e', 'r', 'r', 'a', 'b', 'f', 'e'], () {
+      print('a');
+    }, entryHandler);
+    print(alphabetWidgets.alphabetWidgets);
   }
 
-  int _counter = 20;
+  int _counter = 200;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 20;
+    _counter = 200;
 
     if (_timer != null) {
       _timer.cancel();
@@ -37,8 +41,8 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
         } else {
           _timer.cancel();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => ResultPage(),
-          ));
+              builder: (context) =>
+                  ResultPage(score: entryHandler.scoreKeeper.scoreValue())));
         }
       });
     });
@@ -50,9 +54,11 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
       child: Scaffold(
         body: Container(
           decoration: BoxDecoration(
-            color: Colors.transparent,
-            image: DecorationImage(
-                image: AssetImage('assets/levelSelect.jpg'), fit: BoxFit.cover),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.2, 1],
+                colors: [Colors.lightBlue[900], Colors.lightGreen[700]]),
           ),
           child: Padding(
             padding: const EdgeInsets.all(18.0),
@@ -64,7 +70,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                   children: <Widget>[
                     GestureDetector(
                       child: Card(
-                        color: Colors.red,
+                        color: Colors.lightBlue.withOpacity(.4),
                         child: Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Icon(Icons.arrow_back, color: Colors.white)),
@@ -74,7 +80,16 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                       },
                     ),
                     Card(
-                      color: Colors.lightBlue,
+                        color: Colors.lightBlue.withOpacity(.4),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                              entryHandler.scoreKeeper.scoreValue().toString(),
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
+                        )),
+                    Card(
+                      color: Colors.lightBlue.withOpacity(.4),
                       child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Center(
@@ -83,15 +98,16 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                               children: <Widget>[
                                 (_counter > 0)
                                     ? Text(
-                                        '$_counter',
+                                        '0:$_counter',
                                         style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                            color: Colors.white),
                                       )
                                     : Text("Game Over",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
+                                            color: Colors.white,
                                             fontSize: 20)),
                               ],
                             ),
@@ -103,77 +119,87 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                   height: 12,
                 ),
                 Expanded(
+                  flex: 4,
                   child: Card(
-                    color: Colors.white.withOpacity(.2),
+                    color: Colors.white.withOpacity(.3),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(top: 6),
-                          child: TextLiquidFill(
-                            loadDuration: Duration(seconds:60),
-                            waveDuration: Duration(seconds:5),
-                            text: 'FERMENTATION',
-                            waveColor: Colors.blueAccent,
-                            boxBackgroundColor: Colors.black,
-                            textStyle: TextStyle(
-                              fontSize: 23.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            boxHeight: 60.0,
-                            boxWidth: 250.0,
+                        Expanded(
+                          child: ListView(
+                            reverse: false,
+                            shrinkWrap: true,
+                            children:
+                                UnmodifiableListView(entryHandler.entryList),
                           ),
                         ),
-                        Expanded(
-                            child: ListView(
-                                controller: scrollController,
-                                reverse: false,
-                                shrinkWrap: true,
-                                children: UnmodifiableListView(
-                                    entryHandler.entryList)))
                       ],
                     ),
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Expanded(
-                      child: TextField(
-                        keyboardType: TextInputType.text,
-                        controller: nameHolder,
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintStyle: TextStyle(color: Colors.grey),
-                          hintText: 'Enter Word',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(14.0),
-                            ),
-                          ),
-                        ),
-                        onChanged: (value) {
-                          entryHandler.entry = value;
-                        },
-                      ),
+                      flex: 1,
+                      child: Card(
+                          color: Colors.lightBlue.withOpacity(.4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Center(
+                                  child: Text(
+                                      entryHandler.alphabetHandler.newAlpha
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white)),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Icon(Icons.send,
+                                    color: Colors.lightBlue, size: 30.0),
+                              ),
+                            ],
+                          )),
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            entryHandler.entry = entryHandler.entry;
-                          });
-
-                          entryHandler.insert();
-                          nameHolder.clear();
-                        },
-                        child: Icon(Icons.control_point,
-                            color: Colors.lightBlue, size: 50.0))
                   ],
-                )
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Wrap(
+                      alignment: WrapAlignment.spaceEvenly,
+                      children: alphabetWidgets.alphabetWidgets),
+                ),
+
+                //this is an empty widget, i dont understand what it's doing, i didnt want to delete it. check it out
+                // Column(
+                //   children: <Widget>[
+                //     FlatButton(
+                //       onPressed: () {
+                //         setState(
+                //           () {
+                //             entryHandler.insert(
+                //               entryHandler.alphabetHandler
+                //                   .allAlphabets()
+                //                   .trimLeft(),
+                //             );
+                //             alphabetWidgets.activeAlphabets.fillRange(
+                //                 0,
+                //                 alphabetWidgets.activeAlphabets.length,
+                //                 false);
+                //           },
+                //         );
+                //       },
+                //     )
+                //   ],
+                // )
               ],
             ),
           ),
@@ -183,27 +209,24 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   }
 }
 
-Widget buildItem(String item, Animation animation) {
-  return SizeTransition(
-    sizeFactor: animation,
-    child: Align(
-      alignment: Alignment.center,
-      child: Card(
-          color: Colors.black,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  item,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              SizedBox(width: 15),
-              Icon(Icons.check_box, color: Colors.green)
-            ],
-          )),
-    ),
-  );
+class AlphabetWidgets {
+  List<Widget> alphabetWidgets = [];
+  List<bool> activeAlphabets = [];
+  int index = 0;
+  String currentAlphabet;
+
+  getWidgets(List alphabets, Function onPressed, entryHandler) {
+    alphabets.forEach((alphabet) {
+      currentAlphabet = alphabet;
+      activeAlphabets.add(true);
+      alphabetWidgets.add(
+        AlphabetButton(
+          alphabet: alphabet,
+          active: activeAlphabets[index],
+          onPressed: onPressed,
+        ),
+      );
+      index++;
+    });
+  }
 }

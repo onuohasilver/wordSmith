@@ -11,12 +11,11 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   startTime() async {
-    var _duration = new Duration(seconds: 5);
+    var _duration = new Duration(seconds: 8);
     return new Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
-    // print('tried');
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
@@ -36,24 +35,26 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text('Word',style:TextStyle(color: Colors.white,fontSize: 55)),
-            Text('Smith',style:TextStyle(color: Colors.lightBlue,fontSize: 55)),
-            SpinKitWave(
-              itemBuilder: (_, int index) {
-                return DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: index.isEven ? Colors.white : Colors.white,
-                  ),
-                );
-              },
-              size: 45,
-              duration: Duration(milliseconds: 4000),
-            ),
-          ],
+        body: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text('Word',style:TextStyle(color: Colors.white,fontSize: 55),textAlign:TextAlign.center),
+              Text('Smith',style:TextStyle(color: Colors.lightBlue,fontSize: 55),textAlign:TextAlign.center),
+              SpinKitWave(
+                itemBuilder: (_, int index) {
+                  return DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: index.isEven ? Colors.white : Colors.white,
+                    ),
+                  );
+                },
+                size: 45,
+                duration: Duration(milliseconds: 4000),
+              ),
+            ],
+          ),
         ));
   }
 }
