@@ -4,6 +4,8 @@ import 'package:wordsmith/screens/levelSelectScreen.dart';
 
 import 'dart:async';
 
+import 'package:wordsmith/screens/levels/level_one_entry.dart';
+
 class LoadingScreen extends StatefulWidget {
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
@@ -19,7 +21,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return LevelSelectScreen();
+          return LevelOneEntry();
         },
       ),
     );

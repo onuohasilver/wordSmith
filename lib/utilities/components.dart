@@ -13,7 +13,7 @@ class LevelCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onPressed,
         child: Card(
-          color: active ? Colors.black.withOpacity(0.25) :Colors.grey.withOpacity(0.25),
+          color: active ? Colors.black.withOpacity(0.1) :Colors.grey.withOpacity(0.25),
           elevation: 12,
           margin: EdgeInsets.all(10),
           child: Padding(
@@ -22,22 +22,16 @@ class LevelCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               
               children: <Widget>[
-                Text(
-                  level,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: active ? Colors.white : Colors.grey[400]),
-                  textAlign: TextAlign.center,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    level,
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: active ? Colors.white : Colors.grey[400]),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                SizedBox(height:4),
-                Row(
-                  children: <Widget>[
-                    Icon(Icons.star, color: active?Colors.yellow:Colors.grey[400]),
-                    Icon(Icons.star, color: active?Colors.yellow:Colors.grey[400]),
-                    Icon(Icons.star_half, color: active?Colors.yellow:Colors.grey[400])
-                  ],
-                )
               ],
             ),
           ),

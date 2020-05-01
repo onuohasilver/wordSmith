@@ -4,6 +4,7 @@ import 'package:wordsmith/screens/resultPage.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 import 'package:wordsmith/utilities/alphabets.dart';
 import 'dart:collection';
+import 'package:wordsmith/utilities/alphabetTile.dart';
 
 class LevelOneEntry extends StatefulWidget {
   @override
@@ -11,25 +12,22 @@ class LevelOneEntry extends StatefulWidget {
 }
 
 class _LevelOneEntryState extends State<LevelOneEntry> {
-  EntryHandler entryHandler = EntryHandler();
+  static EntryHandler entryHandler = EntryHandler();
   final alphabetHandler = Alphabet().createState();
-  AlphabetWidgets alphabetWidgets = AlphabetWidgets();
+  final MappedLetters letterMap = MappedLetters(
+      alphabets: ['f', 'e', 'r', 'm', 'e', 'n', 't', 'a', 't', 'i', 'o', 'n']);
 
   void initState() {
     super.initState();
     _startTimer();
-    alphabetWidgets.getWidgets(
-        ['a', 'b', 'f', 'e', 'r', 'r', 'a', 'b', 'f', 'e', 'r', 'r', 'a', 'b', 'f', 'e'], () {
-      print('a');
-    }, entryHandler);
-    print(alphabetWidgets.alphabetWidgets);
+    letterMap.getMapping();
   }
 
-  int _counter = 200;
+  int _counter = 300;
   Timer _timer;
 
   void _startTimer() {
-    _counter = 200;
+    _counter = 300;
 
     if (_timer != null) {
       _timer.cancel();
@@ -50,6 +48,38 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> alphabetWidget = [];
+
+    for (var alphabet in letterMap.map1.keys) {
+      alphabetWidget.add(AlphabetButton(
+        alphabet: alphabet,
+        active: letterMap.map1[alphabet],
+        onPressed: () {
+          setState(() {
+            print(letterMap.map1.values);
+            letterMap.map1[alphabet]
+                ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
+                : print('inactive');
+            letterMap.map1[alphabet] = false;
+          });
+        },
+      ));
+    }
+    for (var alphabet in letterMap.map2.keys) {
+      alphabetWidget.add(AlphabetButton(
+        alphabet: alphabet,
+        active: letterMap.map2[alphabet],
+        onPressed: () {
+          setState(() {
+            print(letterMap.map2.values);
+            letterMap.map2[alphabet]
+                ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
+                : print('inactive');
+            letterMap.map2[alphabet] = false;
+          });
+        },
+      ));
+    }
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -98,7 +128,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                               children: <Widget>[
                                 (_counter > 0)
                                     ? Text(
-                                        '0:$_counter',
+                                        '00:$_counter',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,
@@ -119,114 +149,63 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                   height: 12,
                 ),
                 Expanded(
-                  flex: 4,
                   child: Card(
                     color: Colors.white.withOpacity(.3),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Expanded(
-                          child: ListView(
-                            reverse: false,
-                            shrinkWrap: true,
-                            children:
-                                UnmodifiableListView(entryHandler.entryList),
-                          ),
-                        ),
+                            child: ListView(
+                                reverse: false,
+                                shrinkWrap: true,
+                                children: UnmodifiableListView(
+                                    entryHandler.entryList)))
                       ],
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Card(
-                          color: Colors.lightBlue.withOpacity(.4),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Center(
-                                  child: Text(
-                                      entryHandler.alphabetHandler.newAlpha
-                                          .toString(),
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.white)),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Icon(Icons.send,
-                                    color: Colors.lightBlue, size: 30.0),
-                              ),
-                            ],
-                          )),
-                    ),
-                  ],
+                Card(
+                    color: Colors.lightBlue.withOpacity(.4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Text(
+                                entryHandler.alphabetHandler.newAlpha
+                                    .toString(),
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: GestureDetector(
+                            child: Icon(Icons.send,
+                                color: Colors.lightBlue, size: 30.0),
+                            onTap: () {
+                              setState(() {
+                                String allAlphabets=entryHandler.alphabetHandler.allAlphabets();
+                                bool criteria=allAlphabets.length>3;
+                                criteria?entryHandler.insert(allAlphabets
+                                    .trimLeft()):print('');
+                                letterMap.reset();
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    )),
+                Wrap(
+                  direction: Axis.horizontal,
+                  children: alphabetWidget,
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Wrap(
-                      alignment: WrapAlignment.spaceEvenly,
-                      children: alphabetWidgets.alphabetWidgets),
-                ),
-
-                //this is an empty widget, i dont understand what it's doing, i didnt want to delete it. check it out
-                // Column(
-                //   children: <Widget>[
-                //     FlatButton(
-                //       onPressed: () {
-                //         setState(
-                //           () {
-                //             entryHandler.insert(
-                //               entryHandler.alphabetHandler
-                //                   .allAlphabets()
-                //                   .trimLeft(),
-                //             );
-                //             alphabetWidgets.activeAlphabets.fillRange(
-                //                 0,
-                //                 alphabetWidgets.activeAlphabets.length,
-                //                 false);
-                //           },
-                //         );
-                //       },
-                //     )
-                //   ],
-                // )
               ],
             ),
           ),
         ),
       ),
     );
-  }
-}
-
-class AlphabetWidgets {
-  List<Widget> alphabetWidgets = [];
-  List<bool> activeAlphabets = [];
-  int index = 0;
-  String currentAlphabet;
-
-  getWidgets(List alphabets, Function onPressed, entryHandler) {
-    alphabets.forEach((alphabet) {
-      currentAlphabet = alphabet;
-      activeAlphabets.add(true);
-      alphabetWidgets.add(
-        AlphabetButton(
-          alphabet: alphabet,
-          active: activeAlphabets[index],
-          onPressed: onPressed,
-        ),
-      );
-      index++;
-    });
   }
 }
