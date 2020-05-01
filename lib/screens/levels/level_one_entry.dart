@@ -19,7 +19,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
     super.initState();
     _startTimer();
   }
-  
+
   int _counter = 300;
   Timer _timer;
 
@@ -42,26 +42,28 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
       });
     });
   }
-  
-  
-  Map<String,bool> mapWordActive={'f':true,'e':true,'r':true,'n':true};
-  
-     
-    
-    
+
+  Map<String, bool> mapWordActive = {
+    'f': true,
+    'e': true,
+    'r': true,
+    'n': true
+  };
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> alphabetWidget = [];   
+    List<Widget> alphabetWidget = [];
     for (var alphabet in mapWordActive.keys) {
       alphabetWidget.add(AlphabetButton(
         alphabet: alphabet,
-        active:mapWordActive[alphabet],
-        onPressed: (){
-          setState((){
+        active: mapWordActive[alphabet],
+        onPressed: () {
+          setState(() {
             print(mapWordActive.values);
-            mapWordActive[alphabet]?entryHandler.alphabetHandler.newAlpha.add(alphabet):print('inactive');
-            mapWordActive[alphabet]=false;
+            mapWordActive[alphabet]
+                ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
+                : print('inactive');
+            mapWordActive[alphabet] = false;
           });
         },
       ));
@@ -134,17 +136,6 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                 SizedBox(
                   height: 12,
                 ),
-                Card(
-                    color: Colors.lightBlue.withOpacity(.4),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Center(
-                        child: Text(
-                            entryHandler.alphabetHandler.newAlpha.toString(),
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
-                      ),
-                    )),
                 Expanded(
                   child: Card(
                     color: Colors.white.withOpacity(.3),
@@ -161,25 +152,47 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     ),
                   ),
                 ),
+                Card(
+                    color: Colors.lightBlue.withOpacity(.4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Text(
+                                entryHandler.alphabetHandler.newAlpha
+                                    .toString(),
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: GestureDetector(
+                            child: Icon(Icons.send,
+                                color: Colors.lightBlue, size: 30.0),
+                            onTap: () {
+                              setState(() {
+                                mapWordActive = {
+                                  'f': true,
+                                  'e': true,
+                                  'r': true,
+                                  'n': true
+                                };
+                                entryHandler.insert(entryHandler.alphabetHandler
+                                    .allAlphabets()
+                                    .trimLeft());
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    )),
                 Wrap(
                   direction: Axis.horizontal,
                   children: alphabetWidget,
                 ),
-                Row(
-                  children: <Widget>[
-                    FlatButton(
-                        onPressed: () {
-                          setState(() {
-                            mapWordActive={'f':true,'e':true,'r':true,'n':true};
-                            entryHandler.insert(entryHandler.alphabetHandler
-                                .allAlphabets()
-                                .trimLeft());
-                          });
-                        },
-                        child: Icon(Icons.control_point,
-                            color: Colors.lightBlue, size: 50.0))
-                  ],
-                )
               ],
             ),
           ),
@@ -187,4 +200,10 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
       ),
     );
   }
+}
+
+class LetterActivePair {
+  String word;
+  bool active;
+  LetterActivePair(this.word, this.active);
 }
