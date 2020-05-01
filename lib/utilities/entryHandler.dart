@@ -10,12 +10,12 @@ class EntryHandler {
   final alphabetHandler = Alphabet().createState();
 
   bool validate({String entry}) {
-    bool validated = verifyWord('FERMENTED', entry);
+    bool validated = verifyWord('FERMENTATION', entry);
     if (validated) {
       scoreKeeper.getScores(validated, entry);
     }
 
-    return validated;
+    return validated; 
   }
 
   insert(String entry) {

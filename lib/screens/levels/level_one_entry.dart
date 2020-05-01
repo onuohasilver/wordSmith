@@ -14,10 +14,13 @@ class LevelOneEntry extends StatefulWidget {
 class _LevelOneEntryState extends State<LevelOneEntry> {
   static EntryHandler entryHandler = EntryHandler();
   final alphabetHandler = Alphabet().createState();
+  final MappedLetters letterMap = MappedLetters(
+      alphabets: ['f', 'e', 'r', 'm', 'e', 'n', 't', 'a', 't', 'i', 'o', 'n']);
 
   void initState() {
     super.initState();
     _startTimer();
+    letterMap.getMapping();
   }
 
   int _counter = 300;
@@ -43,27 +46,36 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
     });
   }
 
-  Map<String, bool> mapWordActive = {
-    'f': true,
-    'e': true,
-    'r': true,
-    'n': true
-  };
-
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
-    for (var alphabet in mapWordActive.keys) {
+
+    for (var alphabet in letterMap.map1.keys) {
       alphabetWidget.add(AlphabetButton(
         alphabet: alphabet,
-        active: mapWordActive[alphabet],
+        active: letterMap.map1[alphabet],
         onPressed: () {
           setState(() {
-            print(mapWordActive.values);
-            mapWordActive[alphabet]
+            print(letterMap.map1.values);
+            letterMap.map1[alphabet]
                 ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
                 : print('inactive');
-            mapWordActive[alphabet] = false;
+            letterMap.map1[alphabet] = false;
+          });
+        },
+      ));
+    }
+    for (var alphabet in letterMap.map2.keys) {
+      alphabetWidget.add(AlphabetButton(
+        alphabet: alphabet,
+        active: letterMap.map2[alphabet],
+        onPressed: () {
+          setState(() {
+            print(letterMap.map2.values);
+            letterMap.map2[alphabet]
+                ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
+                : print('inactive');
+            letterMap.map2[alphabet] = false;
           });
         },
       ));
@@ -174,15 +186,11 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                                 color: Colors.lightBlue, size: 30.0),
                             onTap: () {
                               setState(() {
-                                mapWordActive = {
-                                  'f': true,
-                                  'e': true,
-                                  'r': true,
-                                  'n': true
-                                };
-                                entryHandler.insert(entryHandler.alphabetHandler
-                                    .allAlphabets()
-                                    .trimLeft());
+                                String allAlphabets=entryHandler.alphabetHandler.allAlphabets();
+                                bool criteria=allAlphabets.length>3;
+                                criteria?entryHandler.insert(allAlphabets
+                                    .trimLeft()):print('');
+                                letterMap.reset();
                               });
                             },
                           ),
@@ -200,10 +208,4 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
       ),
     );
   }
-}
-
-class LetterActivePair {
-  String word;
-  bool active;
-  LetterActivePair(this.word, this.active);
 }
