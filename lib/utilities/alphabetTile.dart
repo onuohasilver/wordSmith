@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 class LetterActivePair {
   String word;
   bool active;
@@ -57,3 +58,10 @@ class MappedLetters {
 }
 
 
+class AlphabetWidget{
+  List<Widget> alphabetWidget = [];
+
+  reset(){
+    alphabetWidget=[];
+  }
+  }

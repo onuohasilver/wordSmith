@@ -6,42 +6,46 @@ import 'package:wordsmith/utilities/alphabets.dart';
 import 'dart:collection';
 import 'package:wordsmith/utilities/alphabetTile.dart';
 
-
 class LevelOneEntry extends StatefulWidget {
+ 
   @override
   _LevelOneEntryState createState() => _LevelOneEntryState();
 }
 
 class _LevelOneEntryState extends State<LevelOneEntry> {
   static EntryHandler entryHandler = EntryHandler();
+
   final alphabetHandler = Alphabet().createState();
-  final MappedLetters letterMap = MappedLetters(
-      alphabets: entryHandler.getWord());
+  final MappedLetters letterMap =
+      MappedLetters(alphabets: entryHandler.getWord());
 
   void initState() {
     super.initState();
-    _startTimer();
+    startTimer();
     letterMap.getMapping();
   }
 
-  int _counter = 300;
-  Timer _timer;
+  int counter = 20;
+  Timer timer;
 
-  void _startTimer() {
-    _counter = 300;
+  void startTimer() {
+    counter = 20;
 
-    if (_timer != null) {
-      _timer.cancel();
+    if (timer != null) {
+      timer.cancel();
     }
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        if (_counter > 0) {
-          _counter--;
+        if (counter > 0) {
+          counter--;
         } else {
-          _timer.cancel();
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
+          timer.cancel();
+          Navigator.of(context).push(
+            MaterialPageRoute(
               builder: (context) =>
-                  ResultPage(score: entryHandler.scoreKeeper.scoreValue())));
+                  ResultPage(score:entryHandler.scoreKeeper.scoreValue()),
+            ),
+          );
         }
       });
     });
@@ -127,9 +131,9 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                (_counter > 0)
+                                (counter > 0)
                                     ? Text(
-                                        '00:$_counter',
+                                        '00:$counter',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,
@@ -187,10 +191,13 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                                 color: Colors.lightBlue, size: 30.0),
                             onTap: () {
                               setState(() {
-                                String allAlphabets=entryHandler.alphabetHandler.allAlphabets();
-                                bool criteria=allAlphabets.length>3;
-                                criteria?entryHandler.insert(allAlphabets
-                                    .trimLeft()):print('');
+                                String allAlphabets =
+                                    entryHandler.alphabetHandler.allAlphabets();
+                                bool criteria = allAlphabets.length > 3;
+                                criteria
+                                    ? entryHandler
+                                        .insert(allAlphabets.trimLeft())
+                                    : print('');
                                 letterMap.reset();
                               });
                             },
