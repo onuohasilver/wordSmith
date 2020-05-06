@@ -7,7 +7,6 @@ import 'dart:collection';
 import 'package:wordsmith/utilities/alphabetTile.dart';
 
 class LevelOneEntry extends StatefulWidget {
- 
   @override
   _LevelOneEntryState createState() => _LevelOneEntryState();
 }
@@ -22,7 +21,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   void initState() {
     super.initState();
     startTimer();
-    
+
     letterMap.getMapping();
   }
 
@@ -44,7 +43,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) =>
-                  ResultPage(score:entryHandler.scoreKeeper.scoreValue()),
+                  ResultPage(score: entryHandler.scoreKeeper.scoreValue()),
             ),
           );
         }
@@ -181,6 +180,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                             child: Text(
                                 entryHandler.alphabetHandler.newAlpha
                                     .toString(),
+                                    textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 20, color: Colors.white)),
                           ),

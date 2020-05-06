@@ -46,7 +46,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             children: <Widget>[
               Text('Word',style:TextStyle(color: Colors.white,fontSize: 55),textAlign:TextAlign.center),
               Text('Smith',style:TextStyle(color: Colors.lightBlue,fontSize: 55),textAlign:TextAlign.center),
-              SpinKitWave(
+              SpinKitChasingDots(
                 itemBuilder: (_, int index) {
                   return DecoratedBox(
                     decoration: BoxDecoration(
