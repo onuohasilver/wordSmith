@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordsmith/utilities/words.dart';
 import 'dictionaryActivity.dart';
 import 'scoreKeeper.dart';
 import 'alphabets.dart';
@@ -8,14 +9,23 @@ class EntryHandler {
   List<Widget> entryList = [];
   ScoreKeeper scoreKeeper = ScoreKeeper();
   final alphabetHandler = Alphabet().createState();
+  Words wordGenerator = Words();
+  
+
+
+
+
+  List<String> getWord(){
+    return wordGenerator.getRandom();
+  }
 
   bool validate({String entry}) {
-    bool validated = verifyWord('FERMENTATION', entry);
+    bool validated = verifyWord(wordGenerator.allAlphabets(), entry);
     if (validated) {
       scoreKeeper.getScores(validated, entry);
     }
 
-    return validated; 
+    return validated;
   }
 
   insert(String entry) {
@@ -25,7 +35,8 @@ class EntryHandler {
       Align(
         child: Card(
           elevation: 24,
-          color: Colors.primaries[entry.length + 3 % Colors.primaries.length].withOpacity(0.4),
+          color: Colors.primaries[entry.length + 3 % Colors.primaries.length]
+              .withOpacity(0.4),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[

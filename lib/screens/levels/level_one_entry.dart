@@ -6,6 +6,7 @@ import 'package:wordsmith/utilities/alphabets.dart';
 import 'dart:collection';
 import 'package:wordsmith/utilities/alphabetTile.dart';
 
+
 class LevelOneEntry extends StatefulWidget {
   @override
   _LevelOneEntryState createState() => _LevelOneEntryState();
@@ -15,7 +16,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   static EntryHandler entryHandler = EntryHandler();
   final alphabetHandler = Alphabet().createState();
   final MappedLetters letterMap = MappedLetters(
-      alphabets: ['f', 'e', 'r', 'm', 'e', 'n', 't', 'a', 't', 'i', 'o', 'n']);
+      alphabets: entryHandler.getWord());
 
   void initState() {
     super.initState();

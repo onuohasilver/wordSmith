@@ -16,7 +16,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     var _duration = new Duration(seconds: 8);
     return new Timer(_duration, navigationPage);
   }
-
+ 
   void navigationPage() {
     Navigator.of(context).push(
       MaterialPageRoute(
