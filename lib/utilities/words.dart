@@ -1,12 +1,18 @@
 import 'dart:math';
 
 class Words {
-  int index=Random().nextInt(3);
+  int index=Random().nextInt(9);
   List<List<String>> wordCollection = [
-    ['f', 'e', 'r', 'm', 'e', 'n', 't', 'a', 't', 'i', 'o', 'n'],
-    ['h', 'o', 'p', 'e', 'l', 'e', 's', 's'],
-    ['c', 'o', 'r', 'p', 'o', 'r', 'a', 't', 'e'],
-    ['c', 'h', 'o', 'c', 'o', 'l', 'a', 't', 'e']
+    ['F', 'E', 'R', 'M', 'E', 'N', 'T', 'A', 'T', 'I', 'O', 'N'],
+    ['H', 'O', 'P', 'E', 'L', 'E', 'S', 'S'],
+    ['C', 'O', 'R', 'P', 'O', 'R', 'A', 'T', 'E'],
+    ['H', 'O', 'P', 'E', 'L', 'E', 'S', 'S'],
+    ['C', 'O', 'R', 'P', 'O', 'R', 'A', 'T', 'E'],
+    ['H', 'O', 'P', 'E', 'L', 'E', 'S', 'S'],
+    ['C', 'O', 'R', 'P', 'O', 'R', 'A', 'T', 'E'],
+    ['H', 'O', 'P', 'E', 'L', 'E', 'S', 'S'],
+    ['C', 'P', 'A', 'P', 'O', 'D', 'A', 'T', 'E'],
+    
   ];
 
   List<String> getRandom() {

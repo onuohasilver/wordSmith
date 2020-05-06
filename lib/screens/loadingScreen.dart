@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wordsmith/screens/levelSelectScreen.dart';
+import 'package:wordsmith/utilities/entryHandler.dart';
 
 import 'dart:async';
 
@@ -13,7 +14,7 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   startTime() async {
-    var _duration = new Duration(seconds: 8);
+    var _duration = new Duration(seconds: 10);
     return new Timer(_duration, navigationPage);
   }
  
@@ -21,7 +22,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return LevelOneEntry();
+          return LevelSelectScreen();
         },
       ),
     );
@@ -30,6 +31,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
+    EntryHandler().insert('    ');
     startTime();
   }
 

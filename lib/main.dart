@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: 'LevelSelect',
+      initialRoute: 'LoadingScreen',
       routes: {
         'LevelSelect':(context)=>LevelSelectScreen(),
         'LoadingScreen':(context)=>LoadingScreen(),

@@ -22,6 +22,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   void initState() {
     super.initState();
     startTimer();
+    
     letterMap.getMapping();
   }
 
