@@ -7,13 +7,10 @@ import 'alphabets.dart';
 class EntryHandler {
   String entry;
   List<Widget> entryList = [];
+  final List<Widget> alphaWidgets=[];
   ScoreKeeper scoreKeeper = ScoreKeeper();
   final alphabetHandler = Alphabet().createState();
   Words wordGenerator = Words();
-  
-
-
-
 
   List<String> getWord(){
     return wordGenerator.getRandom();

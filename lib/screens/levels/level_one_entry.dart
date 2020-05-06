@@ -5,6 +5,8 @@ import 'package:wordsmith/utilities/entryHandler.dart';
 import 'package:wordsmith/utilities/alphabets.dart';
 import 'dart:collection';
 import 'package:wordsmith/utilities/alphabetTile.dart';
+import 'package:wordsmith/utilities/constants.dart';
+import 'package:wordsmith/utilities/components.dart';
 
 class LevelOneEntry extends StatefulWidget {
   @override
@@ -21,8 +23,6 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   void initState() {
     super.initState();
     startTimer();
-
-    letterMap.getMapping();
   }
 
   int counter = 20;
@@ -40,12 +40,14 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
           counter--;
         } else {
           timer.cancel();
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) =>
-                  ResultPage(score: entryHandler.scoreKeeper.scoreValue()),
-            ),
-          );
+          entryHandler = EntryHandler();
+          // generateWidgets();
+          // Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //     builder: (context) =>
+          //         ResultPage(score: entryHandler.scoreKeeper.scoreValue()),
+          //   ),
+          // );
         }
       });
     });
@@ -54,47 +56,47 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
+    generateWidgets() {
+      letterMap.getMapping();
+      alphabetWidget=[];
+      
+      for (var alphabet in letterMap.map1.keys) {
+        alphabetWidget.add(AlphabetButton(
+          alphabet: alphabet,
+          active: letterMap.map1[alphabet],
+          onPressed: () {
+            setState(() {
+              print(letterMap.map1.values);
+              letterMap.map1[alphabet]
+                  ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
+                  : print('inactive');
+              letterMap.map1[alphabet] = false;
+            });
+          },
+        ));
+      }
+      for (var alphabet in letterMap.map2.keys) {
+        alphabetWidget.add(AlphabetButton(
+          alphabet: alphabet,
+          active: letterMap.map2[alphabet],
+          onPressed: () {
+            setState(() {
+              print(letterMap.map2.values);
+              letterMap.map2[alphabet]
+                  ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
+                  : print('inactive');
+              letterMap.map2[alphabet] = false;
+            });
+          },
+        ));
+      }
+    }
 
-    for (var alphabet in letterMap.map1.keys) {
-      alphabetWidget.add(AlphabetButton(
-        alphabet: alphabet,
-        active: letterMap.map1[alphabet],
-        onPressed: () {
-          setState(() {
-            print(letterMap.map1.values);
-            letterMap.map1[alphabet]
-                ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
-                : print('inactive');
-            letterMap.map1[alphabet] = false;
-          });
-        },
-      ));
-    }
-    for (var alphabet in letterMap.map2.keys) {
-      alphabetWidget.add(AlphabetButton(
-        alphabet: alphabet,
-        active: letterMap.map2[alphabet],
-        onPressed: () {
-          setState(() {
-            print(letterMap.map2.values);
-            letterMap.map2[alphabet]
-                ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
-                : print('inactive');
-            letterMap.map2[alphabet] = false;
-          });
-        },
-      ));
-    }
+    generateWidgets();
     return SafeArea(
       child: Scaffold(
         body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: [0.2, 1],
-                colors: [Colors.lightBlue[900], Colors.lightGreen[700]]),
-          ),
+          decoration: kLevelOneContainerDecoration,
           child: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Column(
@@ -104,49 +106,34 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     GestureDetector(
-                      child: Card(
-                        color: Colors.lightBlue.withOpacity(.4),
-                        child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Icon(Icons.arrow_back, color: Colors.white)),
-                      ),
+                      child: LittleCard(
+                          child: Icon(Icons.arrow_back, color: Colors.white)),
                       onTap: () {
                         Navigator.pop(context);
                       },
                     ),
-                    Card(
-                        color: Colors.lightBlue.withOpacity(.4),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                              entryHandler.scoreKeeper.scoreValue().toString(),
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white)),
-                        )),
-                    Card(
-                      color: Colors.lightBlue.withOpacity(.4),
-                      child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                (counter > 0)
-                                    ? Text(
-                                        '00:$counter',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                            color: Colors.white),
-                                      )
-                                    : Text("Game Over",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 20)),
-                              ],
+                    LittleCard(
+                      child: Text(
+                        entryHandler.scoreKeeper.scoreValue().toString(),
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ),
+                    LittleCard(
+                      child: (counter > 7)
+                          ? Text(
+                              '$counter',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.white),
+                            )
+                          : Text(
+                              "$counter",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                  fontSize: 20),
                             ),
-                          )),
                     ),
                   ],
                 ),
@@ -173,14 +160,28 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     color: Colors.lightBlue.withOpacity(.4),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
+                      children: <Widget>[Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: GestureDetector(
+                            child: Icon(Icons.delete_forever,
+                                color: Colors.lightBlue, size: 30.0),
+                            onTap: () {
+                              setState(() {
+
+                                entryHandler.alphabetHandler.reset();
+                                letterMap.reset();
+                                // print(entryHandler.getWord());
+                              });
+                            },
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Center(
                             child: Text(
                                 entryHandler.alphabetHandler.newAlpha
                                     .toString(),
-                                    textAlign: TextAlign.center,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 20, color: Colors.white)),
                           ),
@@ -195,11 +196,13 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                                 String allAlphabets =
                                     entryHandler.alphabetHandler.allAlphabets();
                                 bool criteria = allAlphabets.length > 3;
+                                entryHandler.alphabetHandler.reset();
                                 criteria
                                     ? entryHandler
                                         .insert(allAlphabets.trimLeft())
                                     : print('');
                                 letterMap.reset();
+                                // print(entryHandler.getWord());
                               });
                             },
                           ),
@@ -208,6 +211,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     )),
                 Wrap(
                   direction: Axis.horizontal,
+                  alignment : WrapAlignment.center,
                   children: alphabetWidget,
                 ),
               ],

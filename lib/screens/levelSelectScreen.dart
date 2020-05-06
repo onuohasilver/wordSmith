@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wordsmith/screens/levels/level_one_entry.dart';
 import 'package:wordsmith/utilities/components.dart';
+import 'package:wordsmith/utilities/constants.dart';
 
 class LevelSelectScreen extends StatefulWidget {
   @override
@@ -13,13 +13,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: [0.2, 1],
-                colors: [Colors.lightBlue[900], Colors.lightGreen[700]]),
-          ),
+          decoration: kLevelSelectContainerDecoration,
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -28,8 +22,8 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                 Text(
                   'WORD SMITH',
                   textAlign:TextAlign.center,
-                  style:
-                      TextStyle(color: Colors.white, fontWeight: FontWeight.w700,fontSize:35),
+                  style:kTitleSelectText
+                      
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(78.0,3.0,78,3.0),
@@ -37,9 +31,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                     active: true,
                     level: 'PLAY',
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return LevelOneEntry();
-                      }));
+                      Navigator.pushNamed((context),'LevelOneEntryScreen');
                     },
                   ),
                 )

@@ -33,8 +33,11 @@ class _AlphabetState extends State<Alphabet> {
         alpha = alpha + alphabet;
       });
     }
-    newAlpha = [];
     return alpha;
+  }
+
+  void reset() {
+    newAlpha = [];
   }
 }
 
