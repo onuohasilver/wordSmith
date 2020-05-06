@@ -41,13 +41,6 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
         } else {
           timer.cancel();
           entryHandler = EntryHandler();
-          // generateWidgets();
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (context) =>
-          //         ResultPage(score: entryHandler.scoreKeeper.scoreValue()),
-          //   ),
-          // );
         }
       });
     });
@@ -58,15 +51,14 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
     List<Widget> alphabetWidget = [];
     generateWidgets() {
       letterMap.getMapping();
-      alphabetWidget=[];
-      
+      alphabetWidget = [];
+
       for (var alphabet in letterMap.map1.keys) {
         alphabetWidget.add(AlphabetButton(
           alphabet: alphabet,
           active: letterMap.map1[alphabet],
           onPressed: () {
             setState(() {
-              print(letterMap.map1.values);
               letterMap.map1[alphabet]
                   ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
                   : print('inactive');
@@ -81,7 +73,6 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
           active: letterMap.map2[alphabet],
           onPressed: () {
             setState(() {
-              print(letterMap.map2.values);
               letterMap.map2[alphabet]
                   ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
                   : print('inactive');
@@ -160,18 +151,19 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     color: Colors.lightBlue.withOpacity(.4),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[Padding(
+                      children: <Widget>[
+                        Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: GestureDetector(
                             child: Icon(Icons.delete_forever,
                                 color: Colors.lightBlue, size: 30.0),
                             onTap: () {
-                              setState(() {
-
-                                entryHandler.alphabetHandler.reset();
-                                letterMap.reset();
-                                // print(entryHandler.getWord());
-                              });
+                              setState(
+                                () {
+                                  entryHandler.alphabetHandler.reset();
+                                  letterMap.reset();
+                                },
+                              );
                             },
                           ),
                         ),
@@ -192,18 +184,20 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                             child: Icon(Icons.send,
                                 color: Colors.lightBlue, size: 30.0),
                             onTap: () {
-                              setState(() {
-                                String allAlphabets =
-                                    entryHandler.alphabetHandler.allAlphabets();
-                                bool criteria = allAlphabets.length > 3;
-                                entryHandler.alphabetHandler.reset();
-                                criteria
-                                    ? entryHandler
-                                        .insert(allAlphabets.trimLeft())
-                                    : print('');
-                                letterMap.reset();
-                                // print(entryHandler.getWord());
-                              });
+                              setState(
+                                () {
+                                  String allAlphabets = entryHandler
+                                      .alphabetHandler
+                                      .allAlphabets();
+                                  bool criteria = allAlphabets.length > 3;
+                                  entryHandler.alphabetHandler.reset();
+                                  criteria
+                                      ? entryHandler
+                                          .insert(allAlphabets.trimLeft())
+                                      : print('');
+                                  letterMap.reset();
+                                },
+                              );
                             },
                           ),
                         ),
@@ -211,7 +205,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
                     )),
                 Wrap(
                   direction: Axis.horizontal,
-                  alignment : WrapAlignment.center,
+                  alignment: WrapAlignment.center,
                   children: alphabetWidget,
                 ),
               ],
