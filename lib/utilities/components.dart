@@ -13,14 +13,15 @@ class LevelCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onPressed,
         child: Card(
-          color: active ? Colors.black.withOpacity(0.1) :Colors.grey.withOpacity(0.25),
+          color: active
+              ? Colors.black.withOpacity(0.1)
+              : Colors.grey.withOpacity(0.25),
           elevation: 12,
           margin: EdgeInsets.all(10),
           child: Padding(
             padding: EdgeInsets.all(4.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -41,8 +42,6 @@ class LevelCard extends StatelessWidget {
   }
 }
 
-
-
 class LittleCard extends StatelessWidget {
   LittleCard({@required this.child});
   final Widget child;
@@ -56,3 +55,19 @@ class LittleCard extends StatelessWidget {
   }
 }
 
+dialogBox(context) {
+  showDialog(
+      context: context,
+      child: AlertDialog(
+        title: Text(
+          'Start New',
+          style: TextStyle(color: Colors.white),
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: Colors.blue.withOpacity(.2),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[Icon(Icons.arrow_drop_down_circle)],
+        ),
+      ));
+}

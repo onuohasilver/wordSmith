@@ -19,19 +19,18 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text(
-                  'WORD SMITH',
-                  textAlign:TextAlign.center,
-                  style:kTitleSelectText
-                      
-                ),
+                Text('WORD SMITH',
+                    textAlign: TextAlign.center, style: kTitleSelectText),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(78.0,3.0,78,3.0),
+                  padding: const EdgeInsets.fromLTRB(78.0, 3.0, 78, 3.0),
                   child: LevelCard(
                     active: true,
                     level: 'PLAY',
                     onPressed: () {
                       Navigator.pushNamed((context),'LevelOneEntryScreen');
+                     
+
+                      print('as');
                     },
                   ),
                 )

@@ -23,6 +23,7 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
   void initState() {
     super.initState();
     startTimer();
+    letterMap.getMapping();
   }
 
   int counter = 20;
@@ -40,18 +41,21 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
           counter--;
         } else {
           timer.cancel();
-          entryHandler = EntryHandler();
+          // entryHandler = EntryHandler();
+          dialogBox(context);
         }
       });
     });
   }
+  
 
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
+    
     generateWidgets() {
-      letterMap.getMapping();
-      alphabetWidget = [];
+      
+      
 
       for (var alphabet in letterMap.map1.keys) {
         alphabetWidget.add(AlphabetButton(
