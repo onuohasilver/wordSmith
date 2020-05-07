@@ -28,9 +28,8 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                     level: 'PLAY',
                     onPressed: () {
                       Navigator.pushNamed((context),'LevelOneEntryScreen');
-                     
 
-                      print('as');
+                      
                     },
                   ),
                 )
