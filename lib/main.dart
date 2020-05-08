@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wordsmith/screens/levels/level_one_entry.dart';
+import 'package:wordsmith/screens/levels/level_one.dart';
 import 'package:wordsmith/screens/levels/level_two.dart';
 import 'package:wordsmith/screens/loadingScreen.dart';
 import 'package:wordsmith/screens/LevelSelectScreen.dart';

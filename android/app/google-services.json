@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "994266025909",
+    "firebase_url": "https://wordsmith-9abd1.firebaseio.com",
+    "project_id": "wordsmith-9abd1",
+    "storage_bucket": "wordsmith-9abd1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:994266025909:android:c6951cbf7cf08d118293fc",
+        "android_client_info": {
+          "package_name": "com.example.wordsmith"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "994266025909-lsdvn88e9ivnc66au9bag12tieg9u7o4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEB6zmg-hg3l9qOJbMOfsdbLwb3k_9Psc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "994266025909-lsdvn88e9ivnc66au9bag12tieg9u7o4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

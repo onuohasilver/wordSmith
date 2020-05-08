@@ -5,7 +5,6 @@ import 'package:wordsmith/utilities/entryHandler.dart';
 
 import 'dart:async';
 
-import 'package:wordsmith/screens/levels/level_one_entry.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
