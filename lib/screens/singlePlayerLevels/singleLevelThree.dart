@@ -7,12 +7,12 @@ import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/utilities/components.dart';
 
-class SingleLevelOne extends StatefulWidget {
+class SingleLevelThree extends StatefulWidget {
   @override
-  _SingleLevelOneState createState() => _SingleLevelOneState();
+  _SingleLevelThreeState createState() => _SingleLevelThreeState();
 }
 
-class _SingleLevelOneState extends State<SingleLevelOne> {
+class _SingleLevelThreeState extends State<SingleLevelThree> {
   static EntryHandler entryHandler = EntryHandler();
 
   final alphabetHandler = Alphabet().createState();
@@ -25,11 +25,11 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
     letterMap.getMapping();
   }
 
-  int counter = 10;
+  int counter = 5;
   Timer timer;
 
   void startTimer() {
-    counter = 10;
+    counter = 5;
 
     if (timer != null) {
       timer.cancel();
@@ -40,19 +40,23 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
           counter--;
         } else {
           timer.cancel();
-          // entryHandler = EntryHandler();
-          dialogBox(context, entryHandler.scoreKeeper.scoreValue().toString(),
-              'SingleLevelTwo');
+          
+          dialogBox(context,entryHandler.scoreKeeper.scoreValue().toString(),'SingleLevelTwo');
         }
       });
     });
   }
+  
+  
 
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
-
+    
     generateWidgets() {
+      
+      
+
       for (var alphabet in letterMap.map1.keys) {
         alphabetWidget.add(AlphabetButton(
           alphabet: alphabet,
@@ -101,9 +105,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
                           child: Icon(Icons.arrow_back, color: Colors.white)),
                       onTap: () {
                         Navigator.popAndPushNamed(context,'LevelSelect');
-                        // Navigator.pushReplacementNamed(context, 'SingleLevelOne');
-                        // Navigator.pushNamed(context, 'SingleLevelOne');
-                        // // Navigator.pushNamed(context,'SingleLevelOne');
+                        Navigator.pushNamed(context,'LevelSelect');
                       },
                     ),
                     LittleCard(
@@ -218,9 +220,12 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
       ),
     );
   }
-
+  
+  
+  
  @override
   void dispose() {
+    print("Disposing second route");
     entryHandler=EntryHandler();
     super.dispose();
   }

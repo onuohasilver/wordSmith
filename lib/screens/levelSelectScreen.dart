@@ -27,7 +27,8 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                     active: true,
                     level: 'SINGLE PLAYER',
                     onPressed: () {
-                      Navigator.pushNamed((context),'LevelOneEntryScreen');
+                      Navigator.pushNamed((context),'SingleLevelOne');
+                      
                     },
                   ),
                 ),
@@ -49,3 +50,4 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
     );
   }
 }
+

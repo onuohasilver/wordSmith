@@ -43,8 +43,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text('Word',style:TextStyle(color: Colors.white,fontSize: 55),textAlign:TextAlign.center),
-              Text('Smith',style:TextStyle(color: Colors.lightBlue,fontSize: 55),textAlign:TextAlign.center),
+              Text('WORD',style:TextStyle(color: Colors.white,fontSize: 55),textAlign:TextAlign.center),
+              Text('SMITH',style:TextStyle(color: Colors.lightBlue,fontSize: 55),textAlign:TextAlign.center),
               SpinKitChasingDots(
                 itemBuilder: (_, int index) {
                   return DecoratedBox(

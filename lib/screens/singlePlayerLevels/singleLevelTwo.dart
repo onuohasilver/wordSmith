@@ -25,11 +25,11 @@ class _SingleLevelTwoState extends State<SingleLevelTwo> {
     letterMap.getMapping();
   }
 
-  int counter = 20;
+  int counter = 5;
   Timer timer;
 
   void startTimer() {
-    counter = 20;
+    counter = 5;
 
     if (timer != null) {
       timer.cancel();
@@ -40,23 +40,19 @@ class _SingleLevelTwoState extends State<SingleLevelTwo> {
           counter--;
         } else {
           timer.cancel();
-          entryHandler = EntryHandler();
-          dialogBox(context,entryHandler.scoreKeeper.scoreValue().toString(),'SingleLevelOne');
+
+          dialogBox(context, entryHandler.scoreKeeper.scoreValue().toString(),
+              'SingleLevelThree');
         }
       });
     });
   }
-  
-  
 
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
-    
-    generateWidgets() {
-      
-      
 
+    generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
         alphabetWidget.add(AlphabetButton(
           alphabet: alphabet,
@@ -104,7 +100,7 @@ class _SingleLevelTwoState extends State<SingleLevelTwo> {
                       child: LittleCard(
                           child: Icon(Icons.arrow_back, color: Colors.white)),
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.popAndPushNamed(context,'LevelSelect');
                       },
                     ),
                     LittleCard(
@@ -219,9 +215,11 @@ class _SingleLevelTwoState extends State<SingleLevelTwo> {
       ),
     );
   }
-  
-  
+
+  @override
   void dispose() {
+    print("Disposing second route");
+    entryHandler = EntryHandler();
     super.dispose();
   }
 }

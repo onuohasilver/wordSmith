@@ -58,6 +58,7 @@ class LittleCard extends StatelessWidget {
 dialogBox(context, String score, String level) {
   showDialog(
       context: context,
+      barrierDismissible: false,
       child: AlertDialog(
         backgroundColor: Colors.blue.withOpacity(.4),
         content: Column(
@@ -65,25 +66,30 @@ dialogBox(context, String score, String level) {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             LittleCard(
-              child: Text(
-                'SCORE: $score',
-                style: TextStyle(color: Colors.white, fontSize: 30,fontWeight: FontWeight.w300),
-              )
-            ),
+                child: Text(
+              'SCORE: $score',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w300),
+            )),
             SizedBox(height: 15),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               GestureDetector(
-                onTap: () => Navigator.pushNamed(context, level),
+                onTap: () { 
+                   Navigator.pushReplacementNamed(context,level);
+                   Navigator.pop(context);
+                },
                 child: LittleCard(
                   child: Icon(
                     Icons.forward,
-                    color: Colors.greenAccent,
+                    color: Colors.white,
                     size: 40,
                   ),
                 ),
               ),
               LittleCard(
-                child: Icon(Icons.backspace, color: Colors.redAccent, size: 40),
+                child: Icon(Icons.backspace, color: Colors.white, size: 40),
               ),
             ])
           ],
