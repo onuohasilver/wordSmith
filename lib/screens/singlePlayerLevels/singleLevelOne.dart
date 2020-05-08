@@ -7,12 +7,12 @@ import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/utilities/components.dart';
 
-class LevelTwo extends StatefulWidget {
+class SingleLevelOne extends StatefulWidget {
   @override
-  _LevelTwoState createState() => _LevelTwoState();
+  _SingleLevelOneState createState() => _SingleLevelOneState();
 }
 
-class _LevelTwoState extends State<LevelTwo> {
+class _SingleLevelOneState extends State<SingleLevelOne> {
   static EntryHandler entryHandler = EntryHandler();
 
   final alphabetHandler = Alphabet().createState();
@@ -25,11 +25,11 @@ class _LevelTwoState extends State<LevelTwo> {
     letterMap.getMapping();
   }
 
-  int counter = 20;
+  int counter = 10;
   Timer timer;
 
   void startTimer() {
-    counter = 20;
+    counter = 10;
 
     if (timer != null) {
       timer.cancel();
@@ -41,22 +41,18 @@ class _LevelTwoState extends State<LevelTwo> {
         } else {
           timer.cancel();
           // entryHandler = EntryHandler();
-          dialogBox(context,entryHandler.scoreKeeper.scoreValue().toString(),'LevelOneEntryScreen');
+          dialogBox(context, entryHandler.scoreKeeper.scoreValue().toString(),
+              'SingleLevelTwo');
         }
       });
     });
   }
-  
-  
 
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
-    
-    generateWidgets() {
-      
-      
 
+    generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
         alphabetWidget.add(AlphabetButton(
           alphabet: alphabet,
@@ -219,8 +215,7 @@ class _LevelTwoState extends State<LevelTwo> {
       ),
     );
   }
-  
-  
+
   void dispose() {
     super.dispose();
   }

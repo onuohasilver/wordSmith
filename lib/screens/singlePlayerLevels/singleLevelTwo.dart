@@ -7,12 +7,12 @@ import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/utilities/components.dart';
 
-class LevelOneEntry extends StatefulWidget {
+class SingleLevelTwo extends StatefulWidget {
   @override
-  _LevelOneEntryState createState() => _LevelOneEntryState();
+  _SingleLevelTwoState createState() => _SingleLevelTwoState();
 }
 
-class _LevelOneEntryState extends State<LevelOneEntry> {
+class _SingleLevelTwoState extends State<SingleLevelTwo> {
   static EntryHandler entryHandler = EntryHandler();
 
   final alphabetHandler = Alphabet().createState();
@@ -25,11 +25,11 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
     letterMap.getMapping();
   }
 
-  int counter = 10;
+  int counter = 20;
   Timer timer;
 
   void startTimer() {
-    counter = 10;
+    counter = 20;
 
     if (timer != null) {
       timer.cancel();
@@ -40,12 +40,13 @@ class _LevelOneEntryState extends State<LevelOneEntry> {
           counter--;
         } else {
           timer.cancel();
-          // entryHandler = EntryHandler();
-          dialogBox(context,entryHandler.scoreKeeper.scoreValue().toString(),'LevelTwo');
+          entryHandler = EntryHandler();
+          dialogBox(context,entryHandler.scoreKeeper.scoreValue().toString(),'SingleLevelOne');
         }
       });
     });
   }
+  
   
 
   @override

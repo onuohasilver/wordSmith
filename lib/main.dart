@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wordsmith/screens/levels/level_one.dart';
-import 'package:wordsmith/screens/levels/level_two.dart';
+import 'package:wordsmith/screens/singlePlayerLevels/singleLevelTwo.dart';
+import 'package:wordsmith/screens/singlePlayerLevels/singleLevelOne.dart';
 import 'package:wordsmith/screens/loadingScreen.dart';
 import 'package:wordsmith/screens/LevelSelectScreen.dart';
 
@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
       routes: {
         'LevelSelect':(context)=>LevelSelectScreen(),
         'LoadingScreen':(context)=>LoadingScreen(),
-        'LevelOneEntryScreen':(context)=>LevelOneEntry(),
-        'LevelTwo':(context)=>LevelTwo()
+        'SingleLevelOne':(context)=>SingleLevelOne(),
+        'SingleLevelTwo':(context)=>SingleLevelTwo()
         
 
       },

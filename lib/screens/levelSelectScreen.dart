@@ -25,11 +25,19 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                   padding: const EdgeInsets.fromLTRB(78.0, 3.0, 78, 3.0),
                   child: LevelCard(
                     active: true,
-                    level: 'PLAY',
+                    level: 'SINGLE PLAYER',
                     onPressed: () {
                       Navigator.pushNamed((context),'LevelOneEntryScreen');
-
-                      
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(78.0, 3.0, 78, 3.0),
+                  child: LevelCard(
+                    active: true,
+                    level: 'MULTI-PLAYER',
+                    onPressed: () {
+                      Navigator.pushNamed((context),'MultiPlayerScreen1');
                     },
                   ),
                 )
