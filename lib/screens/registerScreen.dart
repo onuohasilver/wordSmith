@@ -6,7 +6,7 @@ import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/components.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class SignInPage extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class SignInPage extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Colors.blue[700], Colors.purple[400]],
+                colors: [Colors.blue[700], Colors.green[400]],
               ),
             ),
             child: Column(
@@ -31,7 +31,7 @@ class SignInPage extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.white,
                         shadows: [Shadow(blurRadius: 3, color: Colors.grey)])),
-                Text('Log In to Play!',
+                Text('Register',
                     style: TextStyle(
                         color: Colors.white,
                         shadows: [Shadow(blurRadius: 3, color: Colors.grey)])),
@@ -71,7 +71,7 @@ class SignInPage extends StatelessWidget {
                   ),
                 ),
                 SlimButton(
-                  label: 'Login',
+                  label: 'Register Now',
                   onTap: () async {
                     userData.updateProgress();
                     print(userData.email);
@@ -94,17 +94,17 @@ class SignInPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('Need a new account?',style: TextStyle(fontWeight:FontWeight.w600,color: Colors.white),),
+                    Text('Already have an account?',style: TextStyle(fontWeight:FontWeight.w600,color: Colors.white),),
                     SizedBox(width:10),
                     GestureDetector(
-                      onTap:()=>Navigator.pushNamed(context, 'RegisterPage'),
-                                          child: Text('REGISTER',
+                      onTap:()=>Navigator.pushNamed(context, 'SignInPage'),
+                                          child: Text('LOGIN',
                           style: TextStyle(
                             fontWeight:FontWeight.bold,
                             fontSize: 20,
                               color: Colors.lightBlueAccent,
                               shadows: [Shadow(color:Colors.black38,blurRadius:3)],
-                              decoration: TextDecoration.underline
+                                decoration: TextDecoration.underline
                             )),
                     ),
                   ],

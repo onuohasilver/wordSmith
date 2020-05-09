@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordsmith/screens/registerScreen.dart';
 import 'package:wordsmith/screens/singlePlayerLevels/singleLevelThree.dart';
 import 'package:wordsmith/screens/singlePlayerLevels/singleLevelTwo.dart';
 import 'package:wordsmith/screens/singlePlayerLevels/singleLevelOne.dart';
@@ -27,6 +28,7 @@ void main() {
           'MultiLevelTwo': (context)=>MultiLevelTwo(),
           'MultiLevelThree': (context)=>MultiLevelThree(),
           'SignInPage': (context) => SignInPage(),
+          'RegisterPage':(context)=>RegisterScreen(),
         },
       ),
     )
