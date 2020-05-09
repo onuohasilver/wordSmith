@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordsmith/utilities/entryHandler.dart';
 
 class LevelCard extends StatelessWidget {
   final String level;
@@ -128,5 +129,41 @@ class SlimButton extends StatelessWidget {
           ),
           color:color),
     );
+  }
+}
+
+class EntryCard extends StatelessWidget {
+  EntryCard({this.entry,this.handler});
+  final String entry;
+  final EntryHandler handler;
+  @override
+  Widget build(BuildContext context) {
+    bool correct = handler.validate(entry: entry);
+    return Align(
+        child: Card(  
+          elevation: 24,
+          color: Colors.primaries[entry.length + 3 % Colors.primaries.length]
+              .withOpacity(0.4),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              // SizedBox(width: 15),
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Text(
+                  entry.toUpperCase(),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Icon(correct ? Icons.check_box : Icons.cancel,
+                  color: correct ? Colors.green : Colors.red),
+              // SizedBox(width: 15),
+            ],
+          ),
+        ),
+      );
   }
 }

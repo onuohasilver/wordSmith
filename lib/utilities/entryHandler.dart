@@ -18,6 +18,7 @@ class EntryHandler {
 
   bool validate({String entry}) {
     bool validated = verifyWord(wordGenerator.allAlphabets(), entry);
+    print(validated);
     if (validated) {
       scoreKeeper.getScores(validated, entry);
     }

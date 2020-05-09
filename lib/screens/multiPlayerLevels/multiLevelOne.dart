@@ -34,16 +34,15 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
     }
   }
 
-  void entryStream()async{
-     await for(var snapshot in _firestore.collection('entry').snapshots()){
-       for (var entry in snapshot.documents){
-         print(entry.data);
-       }
-     }
-
+  void entryStream() async {
+    await for (var snapshot in _firestore.collection('entry').snapshots()) {
+      for (var entry in snapshot.documents) {
+        print(entry.data);
+      }
+    }
   }
 
-  int counter = 100;
+  int counter = 1000;
   Timer timer;
 
   void initState() {
@@ -54,7 +53,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   }
 
   void startTimer() {
-    counter = 100;
+    counter = 1000;
 
     if (timer != null) {
       timer.cancel();
@@ -154,6 +153,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                 ),
                 SizedBox(
                   height: 12,
+                  child: Text(loggedInUser.email),
                 ),
                 Expanded(
                   child: Row(
@@ -164,14 +164,28 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Expanded(
-                                child: ListView(
-                                  reverse: false,
-                                  shrinkWrap: true,
-                                  children: UnmodifiableListView(
-                                      entryHandler.entryList),
-                                ),
-                              )
+                              StreamBuilder<QuerySnapshot>(
+                                  stream: _firestore
+                                      .collection('entry')
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final entries = snapshot.data.documents;
+                                      List<Widget> entryWidgets = [];
+                                      for (var entry in entries) {
+                                        final entryValue = entry.data['text'];
+                                        final senderEmail = entry.data['sender'];
+                                        final userEmail = loggedInUser.email;
+                                        final entryWidget = EntryCard(entry:entryValue,handler:entryHandler);
+                                        if(userEmail==senderEmail){
+                                            entryWidgets.add(entryWidget);
+                                        }
+                                      }
+                                      return Expanded(
+                                            child: ListView(
+                                                children: entryWidgets));
+                                    }
+                                  })
                             ],
                           ),
                         ),
@@ -182,14 +196,28 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Expanded(
-                                child: ListView(
-                                  reverse: false,
-                                  shrinkWrap: true,
-                                  children: UnmodifiableListView(
-                                      entryHandler.entryList),
-                                ),
-                              )
+                              StreamBuilder<QuerySnapshot>(
+                                  stream: _firestore
+                                      .collection('entry')
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final entries = snapshot.data.documents;
+                                      List<Widget> entryWidgets_= [];
+                                      for (var entry in entries) {
+                                        final entryValue = entry.data['text'];
+                                        final senderEmail = entry.data['sender'];
+                                        final userEmail = loggedInUser.email;
+                                        final entryWidget = EntryCard(entry:entryValue,handler:entryHandler);
+                                        if(userEmail!=senderEmail){
+                                            entryWidgets_.add(entryWidget);
+                                        }
+                                      }
+                                      return Expanded(
+                                            child: ListView(
+                                                children: entryWidgets_));
+                                    }
+                                  })
                             ],
                           ),
                         ),
@@ -241,10 +269,11 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       .allAlphabets();
                                   bool criteria = allAlphabets.length > 3;
                                   entryHandler.alphabetHandler.reset();
-                                  _firestore
-                                      .collection('entry')
-                                      .add({'sender': loggedInUser.email, 'text': allAlphabets});
-                                      entryStream();
+                                  _firestore.collection('entry').add({
+                                    'sender': loggedInUser.email,
+                                    'text': allAlphabets
+                                  });
+                                  entryStream();
                                   criteria
                                       ? entryHandler
                                           .insert(allAlphabets.trimLeft())
