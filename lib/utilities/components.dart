@@ -58,7 +58,7 @@ class LittleCard extends StatelessWidget {
 dialogBox(context, String score, String level) {
   showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: true,
       child: AlertDialog(
         backgroundColor: Colors.blue.withOpacity(.4),
         content: Column(

@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:wordsmith/screens/singlePlayerLevels/singleLevelThree.dart';
 import 'package:wordsmith/screens/singlePlayerLevels/singleLevelTwo.dart';
 import 'package:wordsmith/screens/singlePlayerLevels/singleLevelOne.dart';
+import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
 import 'package:wordsmith/screens/loadingScreen.dart';
 import 'package:wordsmith/screens/LevelSelectScreen.dart';
 
-void main(){
-  runApp(MyApp(),);
+void main() {
+  runApp(
+    MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,13 +18,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: 'LoadingScreen',
       routes: {
-        'LevelSelect':(context)=>LevelSelectScreen(),
-        'LoadingScreen':(context)=>LoadingScreen(),
-        'SingleLevelOne':(context)=>SingleLevelOne(),
-        'SingleLevelTwo':(context)=>SingleLevelTwo(),
-        'SingleLevelThree':(context)=>SingleLevelThree(),
-        
-
+        'LevelSelect': (context) => LevelSelectScreen(),
+        'LoadingScreen': (context) => LoadingScreen(),
+        'SingleLevelOne': (context) => SingleLevelOne(),
+        'SingleLevelTwo': (context) => SingleLevelTwo(),
+        'SingleLevelThree': (context) => SingleLevelThree(),
+        'MultiLevelOne': (context) => MultiLevelOne()
       },
     );
   }

@@ -38,7 +38,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                     active: true,
                     level: 'MULTI-PLAYER',
                     onPressed: () {
-                      Navigator.pushNamed((context),'MultiPlayerScreen1');
+                      Navigator.pushNamed((context),'MultiLevelOne');
                     },
                   ),
                 )

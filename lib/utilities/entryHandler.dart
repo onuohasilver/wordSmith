@@ -7,12 +7,12 @@ import 'alphabets.dart';
 class EntryHandler {
   String entry;
   List<Widget> entryList = [];
-  final List<Widget> alphaWidgets=[];
+  final List<Widget> alphaWidgets = [];
   ScoreKeeper scoreKeeper = ScoreKeeper();
   final alphabetHandler = Alphabet().createState();
   Words wordGenerator = Words();
 
-  List<String> getWord(){
+  List<String> getWord() {
     return wordGenerator.getRandom();
   }
 
@@ -31,15 +31,16 @@ class EntryHandler {
       0,
       Align(
         child: Card(
+          
           elevation: 24,
           color: Colors.primaries[entry.length + 3 % Colors.primaries.length]
               .withOpacity(0.4),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SizedBox(width: 15),
+              // SizedBox(width: 15),
               Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding: const EdgeInsets.all(6.0),
                 child: Text(
                   entry.toUpperCase(),
                   style: TextStyle(
@@ -50,7 +51,7 @@ class EntryHandler {
               ),
               Icon(correct ? Icons.check_box : Icons.cancel,
                   color: correct ? Colors.green : Colors.red),
-              SizedBox(width: 15),
+              // SizedBox(width: 15),
             ],
           ),
         ),
