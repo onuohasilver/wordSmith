@@ -7,12 +7,12 @@ import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/utilities/components.dart';
 
-class MultiLevelOne extends StatefulWidget {
+class MultiLevelTwo extends StatefulWidget {
   @override
-  _MultiLevelOneState createState() => _MultiLevelOneState();
+  _MultiLevelTwoState createState() => _MultiLevelTwoState();
 }
 
-class _MultiLevelOneState extends State<MultiLevelOne> {
+class _MultiLevelTwoState extends State<MultiLevelTwo> {
   static EntryHandler entryHandler = EntryHandler();
 
   final alphabetHandler = Alphabet().createState();
@@ -40,8 +40,9 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
           counter--;
         } else {
           timer.cancel();
+          // entryHandler = EntryHandler();
           dialogBox(context, entryHandler.scoreKeeper.scoreValue().toString(),
-              'MultiLevelTwo');
+              'MultiLevelThree');
         }
       });
     });

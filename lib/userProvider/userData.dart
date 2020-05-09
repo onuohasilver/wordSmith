@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 class UserData extends ChangeNotifier {
-  String email = 'asas';
+  String email;
   String password;
+  bool progressComplete=false;
+
   updateEmail(newEmail) {
     email = newEmail;
     notifyListeners();
@@ -9,6 +11,11 @@ class UserData extends ChangeNotifier {
 
   updatePassword(newPassword) {
     password = newPassword;
+    notifyListeners();
+  }
+
+  updateProgress(){
+    progressComplete=!progressComplete;
     notifyListeners();
   }
 }

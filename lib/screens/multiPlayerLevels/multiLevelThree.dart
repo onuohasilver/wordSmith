@@ -7,12 +7,12 @@ import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/utilities/components.dart';
 
-class MultiLevelOne extends StatefulWidget {
+class MultiLevelThree extends StatefulWidget {
   @override
-  _MultiLevelOneState createState() => _MultiLevelOneState();
+  _MultiLevelThreeState createState() => _MultiLevelThreeState();
 }
 
-class _MultiLevelOneState extends State<MultiLevelOne> {
+class _MultiLevelThreeState extends State<MultiLevelThree> {
   static EntryHandler entryHandler = EntryHandler();
 
   final alphabetHandler = Alphabet().createState();

@@ -27,8 +27,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                     active: true,
                     level: 'SINGLE PLAYER',
                     onPressed: () {
-                      Navigator.pushNamed((context),'SingleLevelOne');
-                      
+                      Navigator.pushNamed((context), 'SingleLevelOne');
                     },
                   ),
                 ),
@@ -38,10 +37,11 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                     active: true,
                     level: 'MULTI-PLAYER',
                     onPressed: () {
-                      Navigator.pushNamed((context),'MultiLevelOne');
+                      Navigator.pushNamed((context), 'SignInPage');
                     },
                   ),
-                )
+                ),
+               
               ],
             ),
           ),
@@ -50,4 +50,3 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
     );
   }
 }
-
