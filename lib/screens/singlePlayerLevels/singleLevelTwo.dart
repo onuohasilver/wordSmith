@@ -219,6 +219,7 @@ class _SingleLevelTwoState extends State<SingleLevelTwo> {
   @override
   void dispose() {
     print("Disposing second route");
+    EntryHandler().insert('    ');
     entryHandler = EntryHandler();
     super.dispose();
   }

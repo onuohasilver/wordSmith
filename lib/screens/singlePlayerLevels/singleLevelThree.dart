@@ -227,6 +227,7 @@ class _SingleLevelThreeState extends State<SingleLevelThree> {
   void dispose() {
     print("Disposing second route");
     entryHandler=EntryHandler();
+    EntryHandler().insert('    ');
     super.dispose();
   }
 }
