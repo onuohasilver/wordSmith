@@ -10,7 +10,7 @@ class SignInPage extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<UserData>(context);
+    final userData = Provider.of<Data>(context);
     return Scaffold(
       body: ModalProgressHUD(
         inAsyncCall: userData.progressComplete,

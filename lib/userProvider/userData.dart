@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-class UserData extends ChangeNotifier {
+class Data extends ChangeNotifier {
   String email;
   String password;
   bool progressComplete=false;

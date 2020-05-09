@@ -14,7 +14,7 @@ import 'package:wordsmith/userProvider/userData.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create:(context)=>UserData(),
+      create:(context)=>Data(),
           child: MaterialApp(
         initialRoute: 'LoadingScreen',
         routes: {

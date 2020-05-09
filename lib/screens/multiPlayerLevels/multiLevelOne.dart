@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 import 'package:wordsmith/utilities/alphabets.dart';
@@ -6,6 +7,7 @@ import 'dart:collection';
 import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/utilities/components.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MultiLevelOne extends StatefulWidget {
   @override
@@ -13,20 +15,43 @@ class MultiLevelOne extends StatefulWidget {
 }
 
 class _MultiLevelOneState extends State<MultiLevelOne> {
+  final _firestore = Firestore.instance;
+  final _auth = FirebaseAuth.instance;
   static EntryHandler entryHandler = EntryHandler();
-
   final alphabetHandler = Alphabet().createState();
   final MappedLetters letterMap =
       MappedLetters(alphabets: entryHandler.getWord());
+  FirebaseUser loggedInUser;
 
-  void initState() {
-    super.initState();
-    startTimer();
-    letterMap.getMapping();
+  void getCurrentUser() async {
+    try {
+      final user = await _auth.currentUser();
+      if (user != null) {
+        loggedInUser = user;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void entryStream()async{
+     await for(var snapshot in _firestore.collection('entry').snapshots()){
+       for (var entry in snapshot.documents){
+         print(entry.data);
+       }
+     }
+
   }
 
   int counter = 100;
   Timer timer;
+
+  void initState() {
+    super.initState();
+    startTimer();
+    getCurrentUser();
+    letterMap.getMapping();
+  }
 
   void startTimer() {
     counter = 100;
@@ -151,7 +176,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                           ),
                         ),
                       ),
-                       Expanded(
+                      Expanded(
                         child: Card(
                           color: Colors.white.withOpacity(.3),
                           child: Column(
@@ -216,6 +241,10 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       .allAlphabets();
                                   bool criteria = allAlphabets.length > 3;
                                   entryHandler.alphabetHandler.reset();
+                                  _firestore
+                                      .collection('entry')
+                                      .add({'sender': loggedInUser.email, 'text': allAlphabets});
+                                      entryStream();
                                   criteria
                                       ? entryHandler
                                           .insert(allAlphabets.trimLeft())
