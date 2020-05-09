@@ -25,11 +25,11 @@ class _SingleLevelTwoState extends State<SingleLevelTwo> {
     letterMap.getMapping();
   }
 
-  int counter = 5;
+  int counter = 15;
   Timer timer;
 
   void startTimer() {
-    counter = 5;
+    counter = 15;
 
     if (timer != null) {
       timer.cancel();

@@ -14,7 +14,7 @@ class LevelCard extends StatelessWidget {
         onTap: onPressed,
         child: Card(
           color: active
-              ? Colors.black.withOpacity(0.1)
+              ? Colors.white.withOpacity(0.1)
               : Colors.grey.withOpacity(0.25),
           elevation: 12,
           margin: EdgeInsets.all(10),
@@ -77,8 +77,10 @@ dialogBox(context, String score, String level) {
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               GestureDetector(
                 onTap: () { 
-                   Navigator.pushReplacementNamed(context,level);
+                   
                    Navigator.pop(context);
+                   Navigator.pop(context);
+                   Navigator.pushReplacementNamed(context,level);
                 },
                 child: LittleCard(
                   child: Icon(

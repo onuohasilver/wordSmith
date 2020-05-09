@@ -25,11 +25,11 @@ class _SingleLevelThreeState extends State<SingleLevelThree> {
     letterMap.getMapping();
   }
 
-  int counter = 5;
+  int counter = 15;
   Timer timer;
 
   void startTimer() {
-    counter = 5;
+    counter = 15;
 
     if (timer != null) {
       timer.cancel();
@@ -105,7 +105,7 @@ class _SingleLevelThreeState extends State<SingleLevelThree> {
                           child: Icon(Icons.arrow_back, color: Colors.white)),
                       onTap: () {
                         Navigator.popAndPushNamed(context,'LevelSelect');
-                        Navigator.pushNamed(context,'LevelSelect');
+                        
                       },
                     ),
                     LittleCard(
