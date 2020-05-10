@@ -19,7 +19,7 @@ class SignInPage extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Colors.blue[700], Colors.purple[400]],
+                colors: [Colors.blue[700], Colors.green[400]],
               ),
             ),
             child: Column(
@@ -78,12 +78,12 @@ class SignInPage extends StatelessWidget {
                     print(userData.password);
                     try {
                       final loggedinUser =
-                          await _auth.createUserWithEmailAndPassword(
+                          await _auth.signInWithEmailAndPassword(
                               email: userData.email,
                               password: userData.password);
                       if (loggedinUser != null) {
                         userData.updateProgress();
-                        Navigator.pushNamed(context, 'MultiLevelOne');
+                        Navigator.pushNamed(context, 'ChooseOpponent');
                       }
                     } catch (e) {}
                   },
@@ -114,4 +114,6 @@ class SignInPage extends StatelessWidget {
       ),
     );
   }
+
+
 }

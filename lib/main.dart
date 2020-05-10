@@ -7,6 +7,7 @@ import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelThree.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelTwo.dart';
 import 'package:wordsmith/screens/loadingScreen.dart';
+import 'package:wordsmith/screens/chooseOpponent.dart';
 import 'package:wordsmith/screens/signInScreen.dart';
 import 'package:wordsmith/screens/LevelSelectScreen.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ void main() {
       create:(context)=>Data(),
           child: MaterialApp(
         initialRoute: 'LoadingScreen',
+        debugShowCheckedModeBanner: false,
         routes: {
           'LevelSelect': (context) => LevelSelectScreen(),
           'LoadingScreen': (context) => LoadingScreen(),
@@ -29,6 +31,7 @@ void main() {
           'MultiLevelThree': (context)=>MultiLevelThree(),
           'SignInPage': (context) => SignInPage(),
           'RegisterPage':(context)=>RegisterScreen(),
+          'ChooseOpponent':(context)=>ChooseOpponent()
         },
       ),
     )

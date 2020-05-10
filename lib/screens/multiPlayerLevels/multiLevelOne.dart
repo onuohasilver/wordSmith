@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 import 'package:wordsmith/utilities/alphabets.dart';
-import 'dart:collection';
 import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/utilities/components.dart';
@@ -123,7 +122,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                       child: LittleCard(
                           child: Icon(Icons.arrow_back, color: Colors.white)),
                       onTap: () {
-                        Navigator.popAndPushNamed(context, 'LevelSelect');
+                        Navigator.popAndPushNamed(context, 'ChooseOpponent');
                       },
                     ),
                     LittleCard(
@@ -203,19 +202,19 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       final entries = snapshot.data.documents;
-                                      List<Widget> entryWidgets_= [];
+                                      List<Widget> entryWidgets= [];
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
                                         final senderEmail = entry.data['sender'];
                                         final userEmail = loggedInUser.email;
                                         final entryWidget = EntryCard(entry:entryValue,handler:entryHandler);
                                         if(userEmail!=senderEmail){
-                                            entryWidgets_.add(entryWidget);
+                                            entryWidgets.add(entryWidget);
                                         }
                                       }
                                       return Expanded(
                                             child: ListView(
-                                                children: entryWidgets_));
+                                                children: entryWidgets));
                                     }
                                   })
                             ],

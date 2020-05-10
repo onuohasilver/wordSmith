@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 class Data extends ChangeNotifier {
   String email;
   String password;
+  String userName;
   bool progressComplete=false;
 
   updateEmail(newEmail) {
@@ -16,6 +17,11 @@ class Data extends ChangeNotifier {
 
   updateProgress(){
     progressComplete=!progressComplete;
+    notifyListeners();
+  }
+
+  updateUserName(newUserName){
+    userName=newUserName;
     notifyListeners();
   }
 }

@@ -57,11 +57,3 @@ class MappedLetters {
   }
 }
 
-
-class AlphabetWidget{
-  List<Widget> alphabetWidget = [];
-
-  reset(){
-    alphabetWidget=[];
-  }
-  }
