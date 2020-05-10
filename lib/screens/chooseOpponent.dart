@@ -24,6 +24,7 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> friendList = [];
     return SafeArea(
       child: Scaffold(
           body: Container(
@@ -56,16 +57,15 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                           if (snapshot.hasData) {
                             final users = snapshot.data.documents;
                             List<Widget> entryWidgets = [];
-                            List<dynamic> friends;
+                            List<dynamic> friends=[];
 
                             for (var user in users) {
                               final String userID = user.data['userid'];
                               final String userName = user.data['username'];
+                              print(userID);
                               if (loggedInUserId == userID) {
                                 friends = user.data['friends'];
-                              } else {
-                                friends = [];
-                              }
+                              } 
                               if (friends.contains(userID)) {
                                 entryWidgets.add(
                                   GestureDetector(
@@ -100,7 +100,7 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                       margin: EdgeInsets.only(
                                           left: 9, right: 9, top: 5),
                                       elevation: 6,
-                                      color: Colors.blueAccent.withOpacity(.4),
+                                      color: Colors.greenAccent.withOpacity(.4),
                                       child: Padding(
                                         padding: const EdgeInsets.all(18.0),
                                         child: Row(
@@ -160,7 +160,7 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                 friends = [];
                               }
 
-                              if ((!friends.contains(userID)) &
+                              if (!(friends.contains(userID)) &
                                   (loggedInUserId != userID)) {
                                 entryWidgets.add(
                                   GestureDetector(
@@ -187,13 +187,20 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                                 RaisedButton(
                                                   child: Text('Add Friend'),
                                                   onPressed: () {
+                                                    for (var friend
+                                                        in friends) {
+                                                      friendList.add(friend);
+                                                    }
+
+                                                    friendList.add(userID);
+
                                                     print(userID);
                                                     _firestore
                                                         .collection('users')
                                                         .document(
                                                             loggedInUserId)
                                                         .setData({
-                                                      'friends': [userID]
+                                                      'friends': friendList
                                                     }, merge: true);
                                                   },
                                                   elevation: 12,
