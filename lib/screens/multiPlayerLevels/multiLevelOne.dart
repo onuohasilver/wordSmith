@@ -175,28 +175,27 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       .collection('entry')
                                       .snapshots(),
                                   builder: (context, snapshot) {
+                                    List<Widget> entryWidgets = [];
                                     if (snapshot.hasData) {
                                       final entries = snapshot.data.documents;
-                                      List<Widget> entryWidgets = [];
+
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
                                         final senderID = entry.data['senderID'];
                                         EntryCard entryWidget;
-
                                         if ((widget.currentUserID ==
                                             senderID)) {
                                           streamEntries.add(entryValue);
-
                                           entryWidget = EntryCard(
                                               entry: entryValue,
                                               handler: entryHandler);
                                           entryWidgets.add(entryWidget);
                                         }
                                       }
-                                      return Expanded(
-                                          child:
-                                              ListView(children: entryWidgets));
                                     }
+                                    return Expanded(
+                                        child:
+                                            ListView(children: entryWidgets));
                                   })
                             ],
                           ),
@@ -213,9 +212,10 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       .collection('entry')
                                       .snapshots(),
                                   builder: (context, snapshot) {
+                                    List<Widget> entryWidgets = [];
                                     if (snapshot.hasData) {
-                                      final entries = snapshot.data.documents;
-                                      List<Widget> entryWidgets = [];
+                                      final entries = snapshot.data.documents.reversed;
+
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
                                         final senderID = entry.data['senderID'];
@@ -224,17 +224,17 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                           streamEntries.add(entryValue);
                                           if (streamEntries
                                               .contains(entryValue)) {
-                                            final entryWidget = EntryCard(
-                                                entry: entryValue,
-                                                handler: entryHandler);
-                                            entryWidgets.add(entryWidget);
+                                            // final entryWidget = EntryCard(
+                                            //     entry: entryValue,
+                                            //     handler: entryHandler);
+                                            entryWidgets.add(Text(entryValue));
                                           }
                                         }
                                       }
-                                      return Expanded(
-                                          child:
-                                              ListView(children: entryWidgets));
                                     }
+                                    return Expanded(
+                                        child:
+                                            ListView(children: entryWidgets));
                                   })
                             ],
                           ),
@@ -287,10 +287,10 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       .allAlphabets();
                                   bool criteria = allAlphabets.length > 3;
                                   entryHandler.alphabetHandler.reset();
-                                  _firestore.collection('entry').add({
+                                  criteria?_firestore.collection('entry').add({
                                     'senderID': widget.currentUserID,
                                     'text': allAlphabets,
-                                  });
+                                  }):print('');
 
                                   criteria
                                       ? entryHandler

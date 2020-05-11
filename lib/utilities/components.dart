@@ -138,7 +138,7 @@ class EntryCard extends StatelessWidget {
   final EntryHandler handler;
   @override
   Widget build(BuildContext context) {
-    bool correct = handler.validate(entry: entry,returnScore: false);
+    // bool correct = handler.validate(entry: entry,returnScore: false);
     return Align(
         child: Card(  
           elevation: 24,
@@ -158,8 +158,8 @@ class EntryCard extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              Icon(correct ? Icons.check_box : Icons.cancel,
-                  color: correct ? Colors.green : Colors.red),
+              // Icon(correct ? Icons.check_box : Icons.cancel,
+              //     color: correct ? Colors.green : Colors.red),
               // SizedBox(width: 15),
             ],
           ),
