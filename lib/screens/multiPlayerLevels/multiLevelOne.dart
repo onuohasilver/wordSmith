@@ -9,6 +9,10 @@ import 'package:wordsmith/utilities/components.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MultiLevelOne extends StatefulWidget {
+  final String opponentName;
+  final String opponentID;
+  final String currentUserName;
+  MultiLevelOne({this.opponentName, this.opponentID, this.currentUserName});
   @override
   _MultiLevelOneState createState() => _MultiLevelOneState();
 }
@@ -150,9 +154,13 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 12,
-                  child: Text(loggedInUser.email),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text(widget.currentUserName.toUpperCase(),style:TextStyle(color:Colors.white)),
+                    
+                    Text(widget.opponentName.toUpperCase(),style:TextStyle(color:Colors.white))
+                  ],
                 ),
                 Expanded(
                   child: Row(
@@ -173,16 +181,19 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       List<Widget> entryWidgets = [];
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
-                                        final senderEmail = entry.data['sender'];
+                                        final senderEmail =
+                                            entry.data['sender'];
                                         final userEmail = loggedInUser.email;
-                                        final entryWidget = EntryCard(entry:entryValue,handler:entryHandler);
-                                        if(userEmail==senderEmail){
-                                            entryWidgets.add(entryWidget);
+                                        final entryWidget = EntryCard(
+                                            entry: entryValue,
+                                            handler: entryHandler);
+                                        if (userEmail == senderEmail) {
+                                          entryWidgets.add(entryWidget);
                                         }
                                       }
                                       return Expanded(
-                                            child: ListView(
-                                                children: entryWidgets));
+                                          child:
+                                              ListView(children: entryWidgets));
                                     }
                                   })
                             ],
@@ -202,19 +213,22 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       final entries = snapshot.data.documents;
-                                      List<Widget> entryWidgets= [];
+                                      List<Widget> entryWidgets = [];
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
-                                        final senderEmail = entry.data['sender'];
+                                        final senderEmail =
+                                            entry.data['sender'];
                                         final userEmail = loggedInUser.email;
-                                        final entryWidget = EntryCard(entry:entryValue,handler:entryHandler);
-                                        if(userEmail!=senderEmail){
-                                            entryWidgets.add(entryWidget);
+                                        final entryWidget = EntryCard(
+                                            entry: entryValue,
+                                            handler: entryHandler);
+                                        if (userEmail != senderEmail) {
+                                          entryWidgets.add(entryWidget);
                                         }
                                       }
                                       return Expanded(
-                                            child: ListView(
-                                                children: entryWidgets));
+                                          child:
+                                              ListView(children: entryWidgets));
                                     }
                                   })
                             ],

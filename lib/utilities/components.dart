@@ -167,3 +167,40 @@ class EntryCard extends StatelessWidget {
       );
   }
 }
+
+class UserCard extends StatelessWidget {
+  const UserCard({
+    Key key,
+    @required this.userName,
+    this.color
+  }) : super(key: key);
+
+  final String userName;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.only(
+          left: 9, right: 9, top: 5),
+      elevation: 6,
+      color: color.withOpacity(.4),
+      child: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Row(
+          mainAxisAlignment:
+              MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              '$userName '.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

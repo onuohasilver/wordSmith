@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wordsmith/utilities/components.dart';
+import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
 
 class ChooseOpponent extends StatefulWidget {
   @override
@@ -57,7 +59,7 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                           if (snapshot.hasData) {
                             final users = snapshot.data.documents;
                             List<Widget> entryWidgets = [];
-                            List<dynamic> friends=[];
+                            List<dynamic> friends = [];
 
                             for (var user in users) {
                               final String userID = user.data['userid'];
@@ -65,60 +67,42 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                               print(userID);
                               if (loggedInUserId == userID) {
                                 friends = user.data['friends'];
-                              } 
+                              }
                               if (friends.contains(userID)) {
                                 entryWidgets.add(
                                   GestureDetector(
-                                    onTap: () {
-                                      showDialog(
-                                          context: context,
-                                          child: AlertDialog(
-                                            backgroundColor: Colors.transparent,
-                                            elevation: 3,
-                                            content: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: <Widget>[
-                                                RaisedButton(
-                                                  child: Text('Play'),
-                                                  onPressed: () => Navigator
-                                                      .pushReplacementNamed(
-                                                          context,
-                                                          'MultiLevelOne'),
-                                                  elevation: 12,
-                                                ),
-                                                RaisedButton(
-                                                  child: Text('Remove'),
-                                                  onPressed: () {},
-                                                  elevation: 12,
-                                                )
-                                              ],
-                                            ),
-                                          ));
-                                    },
-                                    child: Card(
-                                      margin: EdgeInsets.only(
-                                          left: 9, right: 9, top: 5),
-                                      elevation: 6,
-                                      color: Colors.greenAccent.withOpacity(.4),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(18.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                              '$userName !'.toUpperCase(),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 13),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            child: AlertDialog(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              elevation: 3,
+                                              content: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: <Widget>[
+                                                  RaisedButton(
+                                                    child: Text('Play'),
+                                                    onPressed: () => Navigator
+                                                        .pushReplacementNamed(
+                                                            context,
+                                                            'MultiLevelOne'),
+                                                    elevation: 12,
+                                                  ),
+                                                  RaisedButton(
+                                                    child: Text('Remove'),
+                                                    onPressed: () {},
+                                                    elevation: 12,
+                                                  )
+                                                ],
+                                              ),
+                                            ));
+                                      },
+                                      child: UserCard(
+                                          userName: userName,
+                                          color: Colors.greenAccent)),
                                 );
                               }
                             }
@@ -149,15 +133,15 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                           if (snapshot.hasData) {
                             final users = snapshot.data.documents;
                             List<Widget> entryWidgets = [];
-                            List<dynamic> friends;
+                            List<dynamic> friends = [];
+                            String loggedInUserName;
 
                             for (var user in users) {
                               final String userID = user.data['userid'];
                               final String userName = user.data['username'];
                               if (loggedInUserId == userID) {
                                 friends = user.data['friends'];
-                              } else {
-                                friends = [];
+                                loggedInUserName=user.data['username'];
                               }
 
                               if (!(friends.contains(userID)) &
@@ -165,8 +149,6 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                 entryWidgets.add(
                                   GestureDetector(
                                     onTap: () {
-                                      print(loggedInUserId);
-                                      print(friends);
                                       showDialog(
                                           context: context,
                                           child: AlertDialog(
@@ -178,10 +160,18 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                               children: <Widget>[
                                                 RaisedButton(
                                                   child: Text('Play'),
-                                                  onPressed: () => Navigator
-                                                      .pushReplacementNamed(
-                                                          context,
-                                                          'MultiLevelOne'),
+                                                  onPressed: () =>
+                                                      Navigator.pushReplacement(
+                                                          (context),
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) {
+                                                    return MultiLevelOne(
+                                                      opponentName: userName,
+                                                      opponentID:userID,
+                                                      currentUserName:loggedInUserName,
+                                                    );
+                                                  })),
                                                   elevation: 12,
                                                 ),
                                                 RaisedButton(
@@ -194,7 +184,6 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
 
                                                     friendList.add(userID);
 
-                                                    print(userID);
                                                     _firestore
                                                         .collection('users')
                                                         .document(
@@ -202,6 +191,7 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                                         .setData({
                                                       'friends': friendList
                                                     }, merge: true);
+                                                    friendList.clear();
                                                   },
                                                   elevation: 12,
                                                 )
@@ -209,28 +199,9 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                             ),
                                           ));
                                     },
-                                    child: Card(
-                                      margin: EdgeInsets.only(
-                                          left: 9, right: 9, top: 5),
-                                      elevation: 6,
-                                      color: Colors.blueAccent.withOpacity(.4),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(18.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                              '$userName '.toUpperCase(),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 13),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                    child: UserCard(
+                                        userName: userName,
+                                        color: Colors.blueAccent),
                                   ),
                                 );
                               }
