@@ -12,7 +12,8 @@ class MultiLevelOne extends StatefulWidget {
   final String opponentName;
   final String opponentID;
   final String currentUserName;
-  MultiLevelOne({this.opponentName, this.opponentID, this.currentUserName});
+  final String currentUserID;
+  MultiLevelOne({this.opponentName, this.opponentID, this.currentUserName,this.currentUserID});
   @override
   _MultiLevelOneState createState() => _MultiLevelOneState();
 }
@@ -181,13 +182,12 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       List<Widget> entryWidgets = [];
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
-                                        final senderEmail =
-                                            entry.data['sender'];
-                                        final userEmail = loggedInUser.email;
+                                        final senderID =
+                                            entry.data['senderID'];
                                         final entryWidget = EntryCard(
                                             entry: entryValue,
                                             handler: entryHandler);
-                                        if (userEmail == senderEmail) {
+                                        if (widget.currentUserID == senderID) {
                                           entryWidgets.add(entryWidget);
                                         }
                                       }
@@ -216,13 +216,12 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       List<Widget> entryWidgets = [];
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
-                                        final senderEmail =
-                                            entry.data['sender'];
-                                        final userEmail = loggedInUser.email;
+                                        final senderID =
+                                            entry.data['senderID'];
                                         final entryWidget = EntryCard(
                                             entry: entryValue,
                                             handler: entryHandler);
-                                        if (userEmail != senderEmail) {
+                                        if (widget.opponentID == senderID) {
                                           entryWidgets.add(entryWidget);
                                         }
                                       }
@@ -283,8 +282,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                   bool criteria = allAlphabets.length > 3;
                                   entryHandler.alphabetHandler.reset();
                                   _firestore.collection('entry').add({
-                                    'sender': loggedInUser.email,
-                                    'text': allAlphabets
+                                    'senderID': widget.currentUserID,
+                                    'text': allAlphabets,
                                   });
                                   entryStream();
                                   criteria

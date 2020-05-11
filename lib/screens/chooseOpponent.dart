@@ -135,6 +135,7 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                             List<Widget> entryWidgets = [];
                             List<dynamic> friends = [];
                             String loggedInUserName;
+                            String loggedInUserID;
 
                             for (var user in users) {
                               final String userID = user.data['userid'];
@@ -142,6 +143,7 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                               if (loggedInUserId == userID) {
                                 friends = user.data['friends'];
                                 loggedInUserName=user.data['username'];
+                                loggedInUserID=user.data['userid'];
                               }
 
                               if (!(friends.contains(userID)) &
@@ -170,6 +172,7 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                                       opponentName: userName,
                                                       opponentID:userID,
                                                       currentUserName:loggedInUserName,
+                                                      currentUserID: loggedInUserID,
                                                     );
                                                   })),
                                                   elevation: 12,
