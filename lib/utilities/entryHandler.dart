@@ -6,6 +6,7 @@ import 'alphabets.dart';
 
 class EntryHandler {
   String entry;
+  String gameWord;
   List<Widget> entryList = [];
   final List<Widget> alphaWidgets = [];
   ScoreKeeper scoreKeeper = ScoreKeeper();
@@ -16,22 +17,28 @@ class EntryHandler {
     return wordGenerator.getRandom();
   }
 
-  bool validate({String entry,@required bool returnScore}) {
-    bool validated = verifyWord(wordGenerator.allAlphabets(), entry);
-    if (returnScore){if (validated) {
-      scoreKeeper.getScores(validated, entry);
-    }}
-
+  bool validate({String entry, @required bool returnScore}) {
+    gameWord = wordGenerator.allAlphabets();
+    bool validated = verifyWord(gameWord, entry);
+    if (returnScore) {
+      if (validated) {
+        scoreKeeper.getScores(validated, entry);
+      }
+    }
     return validated;
   }
 
+  String getGameWord() {
+    return wordGenerator.allAlphabets();
+  }
+
   insert(String entry) {
-    bool correct = validate(entry: entry,returnScore: true);
+    bool correct = validate(entry: entry, returnScore: true);
+
     entryList.insert(
       0,
       Align(
         child: Card(
-          
           elevation: 24,
           color: Colors.primaries[entry.length + 3 % Colors.primaries.length]
               .withOpacity(0.4),

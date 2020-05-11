@@ -6,6 +6,7 @@ import 'package:wordsmith/utilities/alphabets.dart';
 import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/utilities/components.dart';
+import 'package:wordsmith/utilities/dictionaryActivity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MultiLevelOne extends StatefulWidget {
@@ -13,11 +14,14 @@ class MultiLevelOne extends StatefulWidget {
   final String opponentID;
   final String currentUserName;
   final String currentUserID;
+  final String gameID;
+  
   MultiLevelOne(
       {this.opponentName,
       this.opponentID,
       this.currentUserName,
-      this.currentUserID});
+      this.currentUserID,
+      this.gameID});
   @override
   _MultiLevelOneState createState() => _MultiLevelOneState();
 }
@@ -28,6 +32,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   static EntryHandler entryHandler = EntryHandler();
   final Set<String> streamEntries = Set();
   final alphabetHandler = Alphabet().createState();
+  String entries;
   final MappedLetters letterMap =
       MappedLetters(alphabets: entryHandler.getWord());
   FirebaseUser loggedInUser;
@@ -158,7 +163,9 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                     Text(widget.currentUserName.toUpperCase(),
                         style: TextStyle(color: Colors.white)),
                     Text(widget.opponentName.toUpperCase(),
-                        style: TextStyle(color: Colors.white))
+                        style: TextStyle(color: Colors.white)),
+                    Text(widget.gameID)
+                    
                   ],
                 ),
                 Expanded(
@@ -182,14 +189,19 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
                                         final senderID = entry.data['senderID'];
+                                        final gameID = entry.data['gameID'];
+                                        final validator=entry.data['validate'];
                                         EntryCard entryWidget;
                                         if ((widget.currentUserID ==
-                                            senderID)) {
+                                            senderID)&(widget.gameID==gameID)) {
                                           streamEntries.add(entryValue);
                                           entryWidget = EntryCard(
                                               entry: entryValue,
                                               handler: entryHandler);
-                                          entryWidgets.add(entryWidget);
+                                          final rowEntryWidget=RowEntryCard(entryCard: entryWidget,validator:validator);
+                                          entryWidgets.add(rowEntryWidget);
+
+                                          
                                         }
                                       }
                                     }
@@ -214,7 +226,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                   builder: (context, snapshot) {
                                     List<Widget> entryWidgets = [];
                                     if (snapshot.hasData) {
-                                      final entries = snapshot.data.documents.reversed;
+                                      final entries =
+                                          snapshot.data.documents.reversed;
 
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
@@ -287,10 +300,15 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       .allAlphabets();
                                   bool criteria = allAlphabets.length > 3;
                                   entryHandler.alphabetHandler.reset();
-                                  criteria?_firestore.collection('entry').add({
-                                    'senderID': widget.currentUserID,
-                                    'text': allAlphabets,
-                                  }):print('');
+                                  criteria
+                                      ? _firestore.collection('entry').document(widget.gameID).setData({
+                                          'senderID': widget.currentUserID,
+                                          'text': allAlphabets,
+                                          'gameID':widget.gameID,
+                                          'validate':verifyWord(entryHandler.getGameWord(), allAlphabets),
+                                          
+                                        },merge:true)
+                                      : print('');
 
                                   criteria
                                       ? entryHandler

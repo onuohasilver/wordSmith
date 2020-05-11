@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
+import 'dictionaryActivity.dart';
 
 class LevelCard extends StatelessWidget {
   final String level;
@@ -77,11 +78,10 @@ dialogBox(context, String score, String level) {
             SizedBox(height: 15),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               GestureDetector(
-                onTap: () { 
-                   
-                   Navigator.pop(context);
-                   Navigator.pop(context);
-                   Navigator.pushReplacementNamed(context,level);
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, level);
                 },
                 child: LittleCard(
                   child: Icon(
@@ -100,11 +100,8 @@ dialogBox(context, String score, String level) {
       ));
 }
 
-
-
-
 class SlimButton extends StatelessWidget {
-  SlimButton({this.onTap, this.label,this.color,this.textColor});
+  SlimButton({this.onTap, this.label, this.color, this.textColor});
   final String label;
   final Function onTap;
   final Color color;
@@ -127,53 +124,63 @@ class SlimButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          color:color),
+          color: color),
     );
   }
 }
 
 class EntryCard extends StatelessWidget {
-  EntryCard({this.entry,this.handler});
+  EntryCard({this.entry, this.handler});
   final String entry;
   final EntryHandler handler;
   @override
   Widget build(BuildContext context) {
-    // bool correct = handler.validate(entry: entry,returnScore: false);
     return Align(
-        child: Card(  
-          elevation: 24,
-          color: Colors.primaries[entry.length + 3 % Colors.primaries.length]
-              .withOpacity(0.4),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              // SizedBox(width: 15),
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Text(
-                  entry.toUpperCase(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
-                ),
+      child: Card(
+        elevation: 24,
+        color: Colors.primaries[entry.length + 4 % Colors.primaries.length]
+            .withOpacity(0.4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            // SizedBox(width: 15),
+            Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Text(
+                entry.toUpperCase(),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold),
               ),
-              // Icon(correct ? Icons.check_box : Icons.cancel,
-              //     color: correct ? Colors.green : Colors.red),
-              // SizedBox(width: 15),
-            ],
-          ),
+            ),
+
+            SizedBox(width: 15),
+          ],
         ),
-      );
+      ),
+    );
+  }
+}
+
+class RowEntryCard extends StatelessWidget {
+  RowEntryCard({this.entryCard, this.validator});
+  final EntryCard entryCard;
+  final bool validator;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        entryCard,
+        validator ? Icon(Icons.check) : Icon(Icons.cancel)
+      ],
+    );
   }
 }
 
 class UserCard extends StatelessWidget {
-  const UserCard({
-    Key key,
-    @required this.userName,
-    this.color
-  }) : super(key: key);
+  const UserCard({Key key, @required this.userName, this.color})
+      : super(key: key);
 
   final String userName;
   final Color color;
@@ -181,22 +188,18 @@ class UserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.only(
-          left: 9, right: 9, top: 5),
+      margin: EdgeInsets.only(left: 9, right: 9, top: 5),
       elevation: 6,
       color: color.withOpacity(.4),
       child: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Row(
-          mainAxisAlignment:
-              MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
               '$userName '.toUpperCase(),
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13),
+              style: TextStyle(color: Colors.white, fontSize: 13),
             ),
           ],
         ),
