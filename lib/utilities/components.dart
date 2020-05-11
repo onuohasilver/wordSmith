@@ -138,7 +138,7 @@ class EntryCard extends StatelessWidget {
   final EntryHandler handler;
   @override
   Widget build(BuildContext context) {
-    bool correct = handler.validate(entry: entry);
+    bool correct = handler.validate(entry: entry,returnScore: false);
     return Align(
         child: Card(  
           elevation: 24,

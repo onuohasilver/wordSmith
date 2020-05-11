@@ -13,7 +13,11 @@ class MultiLevelOne extends StatefulWidget {
   final String opponentID;
   final String currentUserName;
   final String currentUserID;
-  MultiLevelOne({this.opponentName, this.opponentID, this.currentUserName,this.currentUserID});
+  MultiLevelOne(
+      {this.opponentName,
+      this.opponentID,
+      this.currentUserName,
+      this.currentUserID});
   @override
   _MultiLevelOneState createState() => _MultiLevelOneState();
 }
@@ -22,6 +26,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   final _firestore = Firestore.instance;
   final _auth = FirebaseAuth.instance;
   static EntryHandler entryHandler = EntryHandler();
+  final Set<String> streamEntries = Set();
   final alphabetHandler = Alphabet().createState();
   final MappedLetters letterMap =
       MappedLetters(alphabets: entryHandler.getWord());
@@ -35,14 +40,6 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
       }
     } catch (e) {
       print(e);
-    }
-  }
-
-  void entryStream() async {
-    await for (var snapshot in _firestore.collection('entry').snapshots()) {
-      for (var entry in snapshot.documents) {
-        print(entry.data);
-      }
     }
   }
 
@@ -158,9 +155,10 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Text(widget.currentUserName.toUpperCase(),style:TextStyle(color:Colors.white)),
-                    
-                    Text(widget.opponentName.toUpperCase(),style:TextStyle(color:Colors.white))
+                    Text(widget.currentUserName.toUpperCase(),
+                        style: TextStyle(color: Colors.white)),
+                    Text(widget.opponentName.toUpperCase(),
+                        style: TextStyle(color: Colors.white))
                   ],
                 ),
                 Expanded(
@@ -182,12 +180,16 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       List<Widget> entryWidgets = [];
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
-                                        final senderID =
-                                            entry.data['senderID'];
-                                        final entryWidget = EntryCard(
-                                            entry: entryValue,
-                                            handler: entryHandler);
-                                        if (widget.currentUserID == senderID) {
+                                        final senderID = entry.data['senderID'];
+                                        EntryCard entryWidget;
+
+                                        if ((widget.currentUserID ==
+                                            senderID)) {
+                                          streamEntries.add(entryValue);
+
+                                          entryWidget = EntryCard(
+                                              entry: entryValue,
+                                              handler: entryHandler);
                                           entryWidgets.add(entryWidget);
                                         }
                                       }
@@ -216,13 +218,17 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       List<Widget> entryWidgets = [];
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
-                                        final senderID =
-                                            entry.data['senderID'];
-                                        final entryWidget = EntryCard(
-                                            entry: entryValue,
-                                            handler: entryHandler);
-                                        if (widget.opponentID == senderID) {
-                                          entryWidgets.add(entryWidget);
+                                        final senderID = entry.data['senderID'];
+
+                                        if ((widget.opponentID == senderID)) {
+                                          streamEntries.add(entryValue);
+                                          if (streamEntries
+                                              .contains(entryValue)) {
+                                            final entryWidget = EntryCard(
+                                                entry: entryValue,
+                                                handler: entryHandler);
+                                            entryWidgets.add(entryWidget);
+                                          }
                                         }
                                       }
                                       return Expanded(
@@ -285,7 +291,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                     'senderID': widget.currentUserID,
                                     'text': allAlphabets,
                                   });
-                                  entryStream();
+
                                   criteria
                                       ? entryHandler
                                           .insert(allAlphabets.trimLeft())

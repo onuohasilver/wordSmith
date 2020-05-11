@@ -16,18 +16,17 @@ class EntryHandler {
     return wordGenerator.getRandom();
   }
 
-  bool validate({String entry}) {
+  bool validate({String entry,@required bool returnScore}) {
     bool validated = verifyWord(wordGenerator.allAlphabets(), entry);
-    print(validated);
-    if (validated) {
+    if (returnScore){if (validated) {
       scoreKeeper.getScores(validated, entry);
-    }
+    }}
 
     return validated;
   }
 
   insert(String entry) {
-    bool correct = validate(entry: entry);
+    bool correct = validate(entry: entry,returnScore: true);
     entryList.insert(
       0,
       Align(
