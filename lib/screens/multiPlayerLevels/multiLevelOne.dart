@@ -14,14 +14,18 @@ class MultiLevelOne extends StatefulWidget {
   final String opponentID;
   final String currentUserName;
   final String currentUserID;
-  final String gameID;
+  
+  final String opponentGameID;
+  final String currentUserGameID;
 
   MultiLevelOne(
       {this.opponentName,
+      this.currentUserGameID,
+      this.opponentGameID,
       this.opponentID,
       this.currentUserName,
       this.currentUserID,
-      this.gameID});
+  });
   @override
   _MultiLevelOneState createState() => _MultiLevelOneState();
 }
@@ -194,7 +198,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                             entry.data['validate'];
                                         EntryCard entryWidget;
                                         if ((widget.currentUserID == senderID) &
-                                            (widget.gameID == gameID)) {
+                                            (widget.currentUserGameID == gameID)) {
                                           for (int index = 0;
                                               index < entryValue.length;
                                               index++) {
@@ -243,7 +247,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                             entry.data['validate'];
                                         EntryCard entryWidget;
                                         if ((widget.opponentID == senderID) &
-                                            (widget.gameID == gameID)) {
+                                            (widget.opponentGameID== gameID)) {
                                           for (int index = 0;
                                               index < entryValue.length;
                                               index++) {
@@ -324,11 +328,11 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                   criteria
                                       ? _firestore
                                           .collection('entry')
-                                          .document(widget.gameID)
+                                          .document(widget.currentUserGameID)
                                           .setData({
                                           'senderID': widget.currentUserID,
                                           'text': entryList,
-                                          'gameID': widget.gameID,
+                                          'gameID': widget.currentUserGameID,
                                           'validate': validateList
                                         }, merge: true)
                                       : print('');
@@ -338,6 +342,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                           .insert(allAlphabets.trimLeft())
                                       : print('');
                                   letterMap.reset();
+                                  entryList=streamEntries.toList();
+                                  
                                 },
                               );
                             },

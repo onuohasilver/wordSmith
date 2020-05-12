@@ -42,9 +42,6 @@ class RegisterScreen extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(35.0, 8.0, 35.0, 8.0),
                   child: TextField(
                     textAlign: TextAlign.center,
-                    
-                    
-                    
                     decoration: InputDecoration(
                         hintText: 'Password',
                         hintStyle: TextStyle(),

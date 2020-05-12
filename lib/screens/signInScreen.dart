@@ -75,8 +75,7 @@ class SignInPage extends StatelessWidget {
                   useWidget: false,
                   onTap: () async {
                     userData.updateProgress();
-                    print(userData.email);
-                    print(userData.password);
+                    
                     try {
                       final loggedinUser =
                           await _auth.signInWithEmailAndPassword(

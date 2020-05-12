@@ -5,25 +5,25 @@ import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/components.dart';
 import 'package:provider/provider.dart';
 
-class SetupGameScreen extends StatefulWidget {
+class JoinGameScreen extends StatefulWidget {
   final String opponentName;
   final String opponentID;
   final String currentUserName;
   final String currentUserID;
 
-  SetupGameScreen({
+  JoinGameScreen({
     this.opponentName,
     this.opponentID,
     this.currentUserName,
     this.currentUserID,
   });
   @override
-  _SetupGameScreenState createState() => _SetupGameScreenState();
+  _JoinGameScreenState createState() => _JoinGameScreenState();
 }
 
 bool startSpin = false;
 
-class _SetupGameScreenState extends State<SetupGameScreen> {
+class _JoinGameScreenState extends State<JoinGameScreen> {
   @override
   Widget build(BuildContext context) {
     final userData = Provider.of<Data>(context);
@@ -51,12 +51,13 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                 enforceLength: 8,
                 keyboardType: TextInputType.text,
                 onChanged: (String gameID) {
-                  userData.updateGameID(gameID);
+                  String gameIDreversed=gameID.split('').reversed.join();
+                  userData.updateGameID(gameIDreversed);
                 },
               ),
             ),
             SlimButton(
-              label: 'Create Game',
+              label: 'Join Game',
               useWidget: false,
               color: Colors.lightBlueAccent.shade700,
               textColor: Colors.white,
@@ -87,7 +88,7 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
               height: 40,
             ),
             Text(
-              'Game ID should consist of eight characters',
+              'Enter GameID to proceed to game Screen',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white.withOpacity(.5),

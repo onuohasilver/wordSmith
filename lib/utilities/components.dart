@@ -247,7 +247,7 @@ class InputText extends StatelessWidget {
           filled: true,
           fillColor: Colors.lightBlueAccent.withOpacity(.3),
           border: OutlineInputBorder(borderSide: BorderSide.none)),
-      onChanged: (userName) => userData.updateUserName(userName),
+      onChanged: onChanged,
     );
   }
 }

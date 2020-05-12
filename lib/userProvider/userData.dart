@@ -4,6 +4,10 @@ class Data extends ChangeNotifier {
   String password;
   String userName;
   bool progressComplete=false;
+  String gameID;
+  String opponentGameID;
+  String challengerGameID;
+  
 
   updateEmail(newEmail) {
     email = newEmail;
@@ -22,6 +26,13 @@ class Data extends ChangeNotifier {
 
   updateUserName(newUserName){
     userName=newUserName;
+    notifyListeners();
+  }
+
+  updateGameID(newGameID){
+    gameID=newGameID;
+    challengerGameID=gameID.split('').reversed.join();
+    opponentGameID=gameID;
     notifyListeners();
   }
 }

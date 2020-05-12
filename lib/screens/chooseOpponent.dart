@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wordsmith/screens/joinGameScreen.dart';
 import 'package:wordsmith/screens/setupGameScreen.dart';
 import 'package:wordsmith/utilities/components.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
@@ -159,42 +160,44 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                           child: AlertDialog(
                                             backgroundColor: Colors.transparent,
                                             elevation: 3,
-                                            content: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                            content: Wrap(
+                                              alignment:WrapAlignment.center,
+                                              // mainAxisAlignment:
+                                                  // MainAxisAlignment.spaceEvenly,
                                               children: <Widget>[
                                                 SlimButton(
                                                   color: Colors.lightBlueAccent,
                                                   useWidget: false,
-                                                  label: 'Play',
+                                                  label: 'SetUp Game',
                                                   onTap: () =>
                                                       Navigator.pushReplacement(
-                                                          (context),
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (context) {
-                                                    return SetupGameScreen(
-                                                      opponentName: userName,
-                                                      opponentID: userID,
-                                                      currentUserName:
-                                                          loggedInUserName,
-                                                      currentUserID:
-                                                          loggedInUserID,
-                                                          
-                                                    );
-                                                  })),
-                                                  
+                                                    (context),
+                                                    MaterialPageRoute(
+                                                      builder: (context) {
+                                                        return SetupGameScreen(
+                                                          opponentName:
+                                                              userName,
+                                                          opponentID: userID,
+                                                          currentUserName:
+                                                              loggedInUserName,
+                                                          currentUserID:
+                                                              loggedInUserID,
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
                                                 ),
-                                                RaisedButton(
-                                                  child: Text('Add Friend'),
-                                                  onPressed: () {
+                                                SlimButton(
+                                                  label: 'Add Friend',
+                                                  color:Colors.lightBlueAccent,
+                                                  useWidget: false,
+                                                  onTap: () {
                                                     for (var friend
                                                         in friends) {
                                                       friendList.add(friend);
                                                     }
 
                                                     friendList.add(userID);
-
                                                     _firestore
                                                         .collection('users')
                                                         .document(
@@ -204,8 +207,30 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                                     }, merge: true);
                                                     friendList.clear();
                                                   },
-                                                  elevation: 12,
-                                                )
+                                                  
+                                                ),
+                                                SlimButton(
+                                                  color: Colors.lightBlueAccent,
+                                                  useWidget: false,
+                                                  label: 'Join Game',
+                                                  onTap: () =>
+                                                      Navigator.pushReplacement(
+                                                    (context),
+                                                    MaterialPageRoute(
+                                                      builder: (context) {
+                                                        return JoinGameScreen(
+                                                          opponentName:
+                                                              userName,
+                                                          opponentID: userID,
+                                                          currentUserName:
+                                                              loggedInUserName,
+                                                          currentUserID:
+                                                              loggedInUserID,
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ));
