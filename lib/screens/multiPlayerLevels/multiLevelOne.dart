@@ -32,8 +32,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   static EntryHandler entryHandler = EntryHandler();
   final Set<String> streamEntries = Set();
   final alphabetHandler = Alphabet().createState();
-  List<String> entryList=[];
-  List<bool> validateList=[];
+  List<String> entryList = [];
+  List<bool> validateList = [];
   final MappedLetters letterMap =
       MappedLetters(alphabets: entryHandler.getWord());
   FirebaseUser loggedInUser;
@@ -161,13 +161,13 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Text(widget.currentUserName.toUpperCase(),
+                    Text('${widget.currentUserName.toUpperCase()} 😎',
                         style: TextStyle(color: Colors.white)),
-                    Text(widget.opponentName.toUpperCase(),
+                    Text('${widget.opponentName.toUpperCase()} 😎' ,
                         style: TextStyle(color: Colors.white)),
-                    Text(widget.gameID)
                   ],
                 ),
+                
                 Expanded(
                   child: Row(
                     children: <Widget>[
@@ -195,9 +195,12 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                         EntryCard entryWidget;
                                         if ((widget.currentUserID == senderID) &
                                             (widget.gameID == gameID)) {
-                                          for (int index=0;index<entryValue.length;index++) {
-                                            streamEntries.add(entryValue[index]);
-                                            entryList=streamEntries.toList();
+                                          for (int index = 0;
+                                              index < entryValue.length;
+                                              index++) {
+                                            streamEntries
+                                                .add(entryValue[index]);
+                                            entryList = streamEntries.toList();
                                             entryWidget = EntryCard(
                                                 entry: entryValue[index],
                                                 handler: entryHandler);
@@ -230,21 +233,30 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                   builder: (context, snapshot) {
                                     List<Widget> entryWidgets = [];
                                     if (snapshot.hasData) {
-                                      final entries =
-                                          snapshot.data.documents.reversed;
+                                      final entries = snapshot.data.documents;
 
                                       for (var entry in entries) {
                                         final entryValue = entry.data['text'];
                                         final senderID = entry.data['senderID'];
-
-                                        if ((widget.opponentID == senderID)) {
-                                          streamEntries.add(entryValue);
-                                          if (streamEntries
-                                              .contains(entryValue)) {
-                                            // final entryWidget = EntryCard(
-                                            //     entry: entryValue,
-                                            //     handler: entryHandler);
-                                            entryWidgets.add(Text(entryValue));
+                                        final gameID = entry.data['gameID'];
+                                        final validator =
+                                            entry.data['validate'];
+                                        EntryCard entryWidget;
+                                        if ((widget.opponentID == senderID) &
+                                            (widget.gameID == gameID)) {
+                                          for (int index = 0;
+                                              index < entryValue.length;
+                                              index++) {
+                                            streamEntries
+                                                .add(entryValue[index]);
+                                            entryList = streamEntries.toList();
+                                            entryWidget = EntryCard(
+                                                entry: entryValue[index],
+                                                handler: entryHandler);
+                                            final rowEntryWidget = RowEntryCard(
+                                                entryCard: entryWidget,
+                                                validator: validator[index]);
+                                            entryWidgets.add(rowEntryWidget);
                                           }
                                         }
                                       }
@@ -306,9 +318,9 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                   entryHandler.alphabetHandler.reset();
                                   entryList.add(allAlphabets);
                                   validateList.add(verifyWord(
-                                              entryHandler.getGameWord(),
-                                              allAlphabets));
-                                  
+                                      entryHandler.getGameWord(),
+                                      allAlphabets));
+
                                   criteria
                                       ? _firestore
                                           .collection('entry')
@@ -317,7 +329,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                           'senderID': widget.currentUserID,
                                           'text': entryList,
                                           'gameID': widget.gameID,
-                                          'validate':validateList
+                                          'validate': validateList
                                         }, merge: true)
                                       : print('');
 

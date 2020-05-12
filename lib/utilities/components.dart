@@ -138,8 +138,8 @@ class EntryCard extends StatelessWidget {
     return Align(
       child: Card(
         elevation: 24,
-        color: Colors.primaries[entry.length + 4 % Colors.primaries.length]
-            .withOpacity(0.4),
+        color: Colors.primaries[entry.length + 3 % Colors.primaries.length]
+            .withOpacity(.5),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -170,6 +170,7 @@ class RowEntryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         entryCard,
         validator ? Icon(Icons.check) : Icon(Icons.cancel)
