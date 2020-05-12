@@ -195,15 +195,15 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                         EntryCard entryWidget;
                                         if ((widget.currentUserID == senderID) &
                                             (widget.gameID == gameID)) {
-                                          for (String value in entryValue) {
-                                            streamEntries.add(value);
+                                          for (int index=0;index<entryValue.length;index++) {
+                                            streamEntries.add(entryValue[index]);
                                             entryList=streamEntries.toList();
                                             entryWidget = EntryCard(
-                                                entry: value,
+                                                entry: entryValue[index],
                                                 handler: entryHandler);
                                             final rowEntryWidget = RowEntryCard(
                                                 entryCard: entryWidget,
-                                                validator: validator);
+                                                validator: validator[index]);
                                             entryWidgets.add(rowEntryWidget);
                                           }
                                         }
@@ -308,6 +308,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                   validateList.add(verifyWord(
                                               entryHandler.getGameWord(),
                                               allAlphabets));
+                                  
                                   criteria
                                       ? _firestore
                                           .collection('entry')
@@ -316,9 +317,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                           'senderID': widget.currentUserID,
                                           'text': entryList,
                                           'gameID': widget.gameID,
-                                          'validate':verifyWord(
-                                              entryHandler.getGameWord(),
-                                              allAlphabets)
+                                          'validate':validateList
                                         }, merge: true)
                                       : print('');
 
