@@ -72,6 +72,7 @@ class SignInPage extends StatelessWidget {
                 ),
                 SlimButton(
                   label: 'Login',
+                  useWidget: false,
                   onTap: () async {
                     userData.updateProgress();
                     print(userData.email);

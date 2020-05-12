@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wordsmith/screens/setupGameScreen.dart';
 import 'package:wordsmith/utilities/components.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
 
@@ -162,25 +163,27 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceEvenly,
                                               children: <Widget>[
-                                                RaisedButton(
-                                                  child: Text('Play'),
-                                                  onPressed: () =>
+                                                SlimButton(
+                                                  color: Colors.lightBlueAccent,
+                                                  useWidget: false,
+                                                  label: 'Play',
+                                                  onTap: () =>
                                                       Navigator.pushReplacement(
                                                           (context),
                                                           MaterialPageRoute(
                                                               builder:
                                                                   (context) {
-                                                    return MultiLevelOne(
+                                                    return SetupGameScreen(
                                                       opponentName: userName,
                                                       opponentID: userID,
                                                       currentUserName:
                                                           loggedInUserName,
                                                       currentUserID:
                                                           loggedInUserID,
-                                                          gameID: userID.substring(0,7)+loggedInUserId.substring(0,7),
+                                                          
                                                     );
                                                   })),
-                                                  elevation: 12,
+                                                  
                                                 ),
                                                 RaisedButton(
                                                   child: Text('Add Friend'),

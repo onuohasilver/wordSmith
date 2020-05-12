@@ -42,29 +42,26 @@ class RegisterScreen extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(35.0, 8.0, 35.0, 8.0),
                   child: TextField(
                     textAlign: TextAlign.center,
-                    keyboardType: TextInputType.emailAddress,
+                    
+                    
+                    
                     decoration: InputDecoration(
-                        hintText: 'Email',
+                        hintText: 'Password',
                         hintStyle: TextStyle(),
                         filled: true,
                         fillColor: Colors.lightBlueAccent.withOpacity(.3),
                         border:
                             OutlineInputBorder(borderSide: BorderSide.none)),
-                    onChanged: (email) => userData.updateEmail(email),
+                    onChanged: (password) => userData.updateEmail(password),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(35.0, 8.0, 35.0, 8.0),
-                  child: TextField(
-                    textAlign: TextAlign.center,
+                  child: InputText(
+                    userData: userData,
+                    hintText: 'Username',
+                    enforceLength: 8,
                     keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                        hintText: 'Username',
-                        hintStyle: TextStyle(),
-                        filled: true,
-                        fillColor: Colors.lightBlueAccent.withOpacity(.3),
-                        border:
-                            OutlineInputBorder(borderSide: BorderSide.none)),
                     onChanged: (userName) => userData.updateUserName(userName),
                   ),
                 ),
@@ -87,10 +84,12 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 SlimButton(
                   label: 'Register Now',
+                  useWidget: false,
                   onTap: () async {
                     userData.updateProgress();
                     print(userData.email);
                     print(userData.password);
+                    print(userData.userName);
                     try {
                       final loggedinUser =
                           await _auth.createUserWithEmailAndPassword(
