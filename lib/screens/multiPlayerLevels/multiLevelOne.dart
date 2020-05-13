@@ -2,10 +2,13 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
-import 'package:wordsmith/utilities/alphabets.dart';
+import 'package:wordsmith/components/displayComponents/buttons/alphabets.dart';
 import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/utilities/constants.dart';
-import 'package:wordsmith/utilities/components.dart';
+import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart';
+import 'package:wordsmith/components/displayComponents/card/cards.dart';
+import 'package:wordsmith/components/displayComponents/inputFields/inputField.dart';
+import 'package:wordsmith/components/displayComponents/popUps/dialogBox.dart';
 import 'package:wordsmith/utilities/dictionaryActivity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

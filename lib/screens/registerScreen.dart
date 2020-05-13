@@ -3,9 +3,11 @@ import 'package:wordsmith/utilities/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/utilities/components.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart';
+import 'package:wordsmith/components/displayComponents/inputFields/inputField.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+
 
 class RegisterScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/words.dart';
 import 'dictionaryActivity.dart';
 import 'scoreKeeper.dart';
-import 'alphabets.dart';
+import 'package:wordsmith/components/displayComponents/buttons/alphabets.dart';
 
 class EntryHandler {
   String entry;

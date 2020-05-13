@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
 import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/utilities/components.dart';
-import 'package:provider/provider.dart';
+import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart';
+import 'package:wordsmith/components/displayComponents/inputFields/inputField.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+
 
 class SetupGameScreen extends StatefulWidget {
   final String opponentName;

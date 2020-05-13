@@ -1,12 +1,11 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wordsmith/screens/joinGameScreen.dart';
 import 'package:wordsmith/screens/setupGameScreen.dart';
-import 'package:wordsmith/utilities/components.dart';
-import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
+import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart';
+import 'package:wordsmith/components/displayComponents/card/cards.dart';
 
 class ChooseOpponent extends StatefulWidget {
   @override

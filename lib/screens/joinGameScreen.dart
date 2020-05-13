@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
 import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/utilities/components.dart';
+import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart';
+import 'package:wordsmith/components/displayComponents/inputFields/inputField.dart';
 import 'package:provider/provider.dart';
 
 class JoinGameScreen extends StatefulWidget {
@@ -51,7 +52,7 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
                 enforceLength: 8,
                 keyboardType: TextInputType.text,
                 onChanged: (String gameID) {
-                  String gameIDreversed=gameID.split('').reversed.join();
+                  String gameIDreversed = gameID.split('').reversed.join();
                   userData.updateGameID(gameIDreversed);
                 },
               ),
@@ -99,9 +100,10 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
-    startSpin=false;
+    startSpin = false;
     super.dispose();
   }
 }

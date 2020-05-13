@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
-import 'package:wordsmith/utilities/alphabets.dart';
+import 'package:wordsmith/components/displayComponents/buttons/alphabets.dart';
 import 'dart:collection';
 import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/utilities/constants.dart';
-import 'package:wordsmith/utilities/components.dart';
+import 'package:wordsmith/components/displayComponents/card/cards.dart';
+import 'package:wordsmith/components/displayComponents/popUps/dialogBox.dart';
+
 
 class SingleLevelThree extends StatefulWidget {
   @override
