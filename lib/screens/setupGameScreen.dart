@@ -4,6 +4,7 @@ import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
 import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/components.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SetupGameScreen extends StatefulWidget {
   final String opponentName;
@@ -24,6 +25,7 @@ class SetupGameScreen extends StatefulWidget {
 bool startSpin = false;
 
 class _SetupGameScreenState extends State<SetupGameScreen> {
+  final _firestore = Firestore.instance;
   @override
   Widget build(BuildContext context) {
     final userData = Provider.of<Data>(context);
@@ -61,7 +63,6 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
               color: Colors.lightBlueAccent.shade700,
               textColor: Colors.white,
               onTap: () {
-                print('Spinnign');
                 setState(() {
                   startSpin = !startSpin;
                 });
@@ -75,7 +76,24 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                       opponentGameID: userData.opponentGameID,
                       currentUserGameID: userData.challengerGameID);
                 }));
-                print('Navigating');
+                _firestore
+                    .collection('entry')
+                    .document(userData.opponentGameID)
+                    .setData({
+                  'senderID': widget.opponentID,
+                  'text': [],
+                  'gameID': userData.opponentGameID,
+                  'validate': []
+                }, merge: true);
+                _firestore
+                    .collection('entry')
+                    .document(userData.challengerGameID)
+                    .setData({
+                  'senderID': widget.currentUserID,
+                  'text': [],
+                  'gameID': userData.challengerGameID,
+                  'validate': []
+                }, merge: true);
               },
             ),
             SizedBox(
@@ -98,9 +116,10 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
-    startSpin=false;
+    startSpin = false;
     super.dispose();
   }
 }

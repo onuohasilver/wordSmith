@@ -14,17 +14,17 @@ class MultiLevelOne extends StatefulWidget {
   final String opponentID;
   final String currentUserName;
   final String currentUserID;
-  
+
   final String opponentGameID;
   final String currentUserGameID;
 
-  MultiLevelOne(
-      {this.opponentName,
-      this.currentUserGameID,
-      this.opponentGameID,
-      this.opponentID,
-      this.currentUserName,
-      this.currentUserID,
+  MultiLevelOne({
+    this.opponentName,
+    this.currentUserGameID,
+    this.opponentGameID,
+    this.opponentID,
+    this.currentUserName,
+    this.currentUserID,
   });
   @override
   _MultiLevelOneState createState() => _MultiLevelOneState();
@@ -34,7 +34,9 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   final _firestore = Firestore.instance;
   final _auth = FirebaseAuth.instance;
   static EntryHandler entryHandler = EntryHandler();
-  final Set<String> streamEntries = Set();
+  final Set<String> streamEntriesCurrentUser = Set();
+  final Set<String> streamEntriesOpponent=Set();
+
   final alphabetHandler = Alphabet().createState();
   List<String> entryList = [];
   List<bool> validateList = [];
@@ -167,11 +169,10 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                   children: <Widget>[
                     Text('${widget.currentUserName.toUpperCase()} 😎',
                         style: TextStyle(color: Colors.white)),
-                    Text('${widget.opponentName.toUpperCase()} 😎' ,
+                    Text('${widget.opponentName.toUpperCase()} 😎',
                         style: TextStyle(color: Colors.white)),
                   ],
                 ),
-                
                 Expanded(
                   child: Row(
                     children: <Widget>[
@@ -181,38 +182,35 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              StreamBuilder<QuerySnapshot>(
+                              StreamBuilder<DocumentSnapshot>(
                                   stream: _firestore
                                       .collection('entry')
+                                      .document(widget.currentUserGameID)
                                       .snapshots(),
                                   builder: (context, snapshot) {
                                     List<Widget> entryWidgets = [];
                                     if (snapshot.hasData) {
-                                      final entries = snapshot.data.documents;
-
-                                      for (var entry in entries) {
-                                        final entryValue = entry.data['text'];
-                                        final senderID = entry.data['senderID'];
-                                        final gameID = entry.data['gameID'];
-                                        final validator =
-                                            entry.data['validate'];
-                                        EntryCard entryWidget;
-                                        if ((widget.currentUserID == senderID) &
-                                            (widget.currentUserGameID == gameID)) {
-                                          for (int index = 0;
-                                              index < entryValue.length;
-                                              index++) {
-                                            streamEntries
-                                                .add(entryValue[index]);
-                                            entryList = streamEntries.toList();
-                                            entryWidget = EntryCard(
-                                                entry: entryValue[index],
-                                                handler: entryHandler);
-                                            final rowEntryWidget = RowEntryCard(
-                                                entryCard: entryWidget,
-                                                validator: validator[index]);
-                                            entryWidgets.add(rowEntryWidget);
-                                          }
+                                      final entry = snapshot.data;
+                                      final entryValue = entry.data['text'];
+                                      final senderID = entry.data['senderID'];
+                                      final gameID = entry.data['gameID'];
+                                      final validator = entry.data['validate'];
+                                      EntryCard entryWidget;
+                                      if ((widget.currentUserID == senderID) &
+                                          (widget.currentUserGameID ==
+                                              gameID)) {
+                                        for (int index = 0;
+                                            index < entryValue.length;
+                                            index++) {
+                                          streamEntriesCurrentUser.add(entryValue[index]);
+                                          entryList = streamEntriesCurrentUser.toList();
+                                          entryWidget = EntryCard(
+                                              entry: entryValue[index],
+                                              handler: entryHandler);
+                                          final rowEntryWidget = RowEntryCard(
+                                              entryCard: entryWidget,
+                                              validator: validator[index]);
+                                          entryWidgets.add(rowEntryWidget);
                                         }
                                       }
                                     }
@@ -230,38 +228,33 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              StreamBuilder<QuerySnapshot>(
+                              StreamBuilder<DocumentSnapshot>(
                                   stream: _firestore
                                       .collection('entry')
+                                      .document(widget.opponentGameID)
                                       .snapshots(),
                                   builder: (context, snapshot) {
                                     List<Widget> entryWidgets = [];
                                     if (snapshot.hasData) {
-                                      final entries = snapshot.data.documents;
-
-                                      for (var entry in entries) {
-                                        final entryValue = entry.data['text'];
-                                        final senderID = entry.data['senderID'];
-                                        final gameID = entry.data['gameID'];
-                                        final validator =
-                                            entry.data['validate'];
-                                        EntryCard entryWidget;
-                                        if ((widget.opponentID == senderID) &
-                                            (widget.opponentGameID== gameID)) {
-                                          for (int index = 0;
-                                              index < entryValue.length;
-                                              index++) {
-                                            streamEntries
-                                                .add(entryValue[index]);
-                                            entryList = streamEntries.toList();
-                                            entryWidget = EntryCard(
-                                                entry: entryValue[index],
-                                                handler: entryHandler);
-                                            final rowEntryWidget = RowEntryCard(
-                                                entryCard: entryWidget,
-                                                validator: validator[index]);
-                                            entryWidgets.add(rowEntryWidget);
-                                          }
+                                      final entry = snapshot.data;
+                                      final entryValue = entry.data['text'];
+                                      final senderID = entry.data['senderID'];
+                                      final gameID = entry.data['gameID'];
+                                      final validator = entry.data['validate'];
+                                      EntryCard entryWidget;
+                                      if ((widget.opponentID == senderID) &
+                                          (widget.opponentGameID == gameID)) {
+                                        for (int index = 0;
+                                            index < entryValue.length;
+                                            index++) {
+                                          streamEntriesOpponent.add(entryValue[index]);
+                                          entryWidget = EntryCard(
+                                              entry: entryValue[index],
+                                              handler: entryHandler);
+                                          final rowEntryWidget = RowEntryCard(
+                                              entryCard: entryWidget,
+                                              validator: validator[index]);
+                                          entryWidgets.add(rowEntryWidget);
                                         }
                                       }
                                     }
@@ -313,6 +306,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                             child: Icon(Icons.send,
                                 color: Colors.lightBlue, size: 30.0),
                             onTap: () {
+                              print(widget.currentUserGameID);
+                              print(widget.opponentGameID);
                               setState(
                                 () {
                                   String allAlphabets = entryHandler
@@ -342,8 +337,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                           .insert(allAlphabets.trimLeft())
                                       : print('');
                                   letterMap.reset();
-                                  entryList=streamEntries.toList();
-                                  
+                                  entryList = streamEntriesCurrentUser.toList();
                                 },
                               );
                             },

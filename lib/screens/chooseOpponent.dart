@@ -161,9 +161,9 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                             backgroundColor: Colors.transparent,
                                             elevation: 3,
                                             content: Wrap(
-                                              alignment:WrapAlignment.center,
+                                              alignment: WrapAlignment.center,
                                               // mainAxisAlignment:
-                                                  // MainAxisAlignment.spaceEvenly,
+                                              // MainAxisAlignment.spaceEvenly,
                                               children: <Widget>[
                                                 SlimButton(
                                                   color: Colors.lightBlueAccent,
@@ -189,7 +189,7 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                                 ),
                                                 SlimButton(
                                                   label: 'Add Friend',
-                                                  color:Colors.lightBlueAccent,
+                                                  color: Colors.lightBlueAccent,
                                                   useWidget: false,
                                                   onTap: () {
                                                     for (var friend
@@ -207,7 +207,6 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                                     }, merge: true);
                                                     friendList.clear();
                                                   },
-                                                  
                                                 ),
                                                 SlimButton(
                                                   color: Colors.lightBlueAccent,
