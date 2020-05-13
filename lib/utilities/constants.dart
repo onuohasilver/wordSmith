@@ -19,3 +19,21 @@ final kLevelOneContainerDecoration= BoxDecoration(
     colors: [Colors.lightBlue[900], Colors.lightGreen[700]],
   ),
 );
+
+final kGreenPageDecoration=BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.blue[700], Colors.green[400]],
+              ),
+            );
+final kPurpleScreenDecoration=BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.blue[700], Colors.purple[400]],
+          ),
+        );
+
+
+final kTextShadow=[Shadow(blurRadius: 3, color: Colors.grey)];

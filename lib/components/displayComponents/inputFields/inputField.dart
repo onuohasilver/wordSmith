@@ -9,7 +9,8 @@ class InputText extends StatelessWidget {
       {Key key,
       @required this.userData,
       @required this.hintText,
-      this.onChanged,
+      @required this.onChanged,
+      @required this.obscure,
       @required this.keyboardType,
       @required this.enforceLength})
       : super(key: key);
@@ -19,20 +20,25 @@ class InputText extends StatelessWidget {
   final Function onChanged;
   final TextInputType keyboardType;
   final dynamic enforceLength;
+  final bool obscure;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      textAlign: TextAlign.center,
-      keyboardType: keyboardType,
-      maxLength: enforceLength,
-      decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(),
-          filled: true,
-          fillColor: Colors.lightBlueAccent.withOpacity(.3),
-          border: OutlineInputBorder(borderSide: BorderSide.none)),
-      onChanged: onChanged,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(35.0,8.0,35.0,8.0),
+      child: TextField(
+        textAlign: TextAlign.center,
+        keyboardType: keyboardType,
+        maxLength: enforceLength,
+        obscureText: obscure,
+        decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: TextStyle(),
+            filled: true,
+            fillColor: Colors.lightBlueAccent.withOpacity(.3),
+            border: OutlineInputBorder(borderSide: BorderSide.none)),
+        onChanged: onChanged,
+      ),
     );
   }
 }

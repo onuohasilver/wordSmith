@@ -6,6 +6,7 @@ import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart'
 import 'package:wordsmith/components/displayComponents/inputFields/inputField.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:wordsmith/utilities/constants.dart';
 
 
 class SetupGameScreen extends StatefulWidget {
@@ -33,13 +34,7 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
     final userData = Provider.of<Data>(context);
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue[700], Colors.purple[400]],
-          ),
-        ),
+        decoration: kPurpleScreenDecoration,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -52,6 +47,7 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
               child: InputText(
                 userData: userData,
                 hintText: 'Enter a Game ID',
+                obscure: false,
                 enforceLength: 8,
                 keyboardType: TextInputType.text,
                 onChanged: (String gameID) {

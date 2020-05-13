@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordsmith/components/displayComponents/inputFields/inputField.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -15,67 +16,39 @@ class SignInPage extends StatelessWidget {
       body: ModalProgressHUD(
         inAsyncCall: userData.progressComplete,
         child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.blue[700], Colors.green[400]],
-              ),
-            ),
+            decoration: kGreenPageDecoration,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text('WORD SMITH',
                     textAlign: TextAlign.center, style: kTitleSelectText),
                 Text('MULTIPLAYER',
-                    style: TextStyle(
-                        color: Colors.white,
-                        shadows: [Shadow(blurRadius: 3, color: Colors.grey)])),
+                    style:
+                        TextStyle(color: Colors.white, shadows: kTextShadow)),
                 Text('Log In to Play!',
-                    style: TextStyle(
-                        color: Colors.white,
-                        shadows: [Shadow(blurRadius: 3, color: Colors.grey)])),
+                    style:
+                        TextStyle(color: Colors.white, shadows: kTextShadow)),
                 SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(35.0,8.0,35.0,8.0),
-                  child: TextField(
-                    textAlign: TextAlign.center,
+                InputText(
+                    userData: userData,
+                    hintText: 'Email',
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                        
-                        hintText: 'Email',
-                        hintStyle: TextStyle(),
-                        filled: true,
-                        fillColor: Colors.lightBlueAccent.withOpacity(.3),
-                        border:
-                            OutlineInputBorder(borderSide: BorderSide.none)),
+                    enforceLength: null,
                     onChanged: (email) => userData.updateEmail(email),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(35.0,8.0,35.0,8.0),
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    obscureText: true,
-                    maxLengthEnforced: true,
-                    maxLength: 8,
-                    decoration: InputDecoration(
-                        
-                        hintText: 'Password',
-                        hintStyle: TextStyle(),
-                        filled: true,
-                        fillColor: Colors.lightBlueAccent.withOpacity(.3),
-                        border:
-                            OutlineInputBorder(borderSide: BorderSide.none)),
+                    obscure: false),
+                InputText(
+                    userData: userData,
+                    hintText: 'Password',
+                    keyboardType: TextInputType.text,
+                    obscure: true,
                     onChanged: (password) => userData.updatePassword(password),
-                  ),
-                ),
+                    enforceLength: null),
                 SlimButton(
                   label: 'Login',
                   useWidget: false,
                   onTap: () async {
                     userData.updateProgress();
-                    
+
                     try {
                       final loggedinUser =
                           await _auth.signInWithEmailAndPassword(
@@ -90,22 +63,25 @@ class SignInPage extends StatelessWidget {
                   color: Colors.lightBlueAccent,
                   textColor: Colors.white,
                 ),
-                SizedBox(height:30),
+                SizedBox(height: 30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('Need a new account?',style: TextStyle(fontWeight:FontWeight.w600,color: Colors.white),),
-                    SizedBox(width:10),
+                    Text(
+                      'Need a new account?',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, color: Colors.white),
+                    ),
+                    SizedBox(width: 10),
                     GestureDetector(
-                      onTap:()=>Navigator.pushNamed(context, 'RegisterPage'),
-                                          child: Text('REGISTER',
+                      onTap: () => Navigator.pushNamed(context, 'RegisterPage'),
+                      child: Text('REGISTER',
                           style: TextStyle(
-                            fontWeight:FontWeight.bold,
-                            fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
                               color: Colors.lightBlueAccent,
-                              shadows: [Shadow(color:Colors.black38,blurRadius:3)],
-                              decoration: TextDecoration.underline
-                            )),
+                              shadows: kTextShadow,
+                              decoration: TextDecoration.underline)),
                     ),
                   ],
                 )
@@ -114,6 +90,4 @@ class SignInPage extends StatelessWidget {
       ),
     );
   }
-
-
 }

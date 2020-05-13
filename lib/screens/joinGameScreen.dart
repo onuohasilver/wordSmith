@@ -5,6 +5,7 @@ import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart';
 import 'package:wordsmith/components/displayComponents/inputFields/inputField.dart';
 import 'package:provider/provider.dart';
+import 'package:wordsmith/utilities/constants.dart';
 
 class JoinGameScreen extends StatefulWidget {
   final String opponentName;
@@ -30,13 +31,7 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
     final userData = Provider.of<Data>(context);
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue[700], Colors.purple[400]],
-          ),
-        ),
+        decoration: kPurpleScreenDecoration,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -50,6 +45,7 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
                 userData: userData,
                 hintText: 'Enter a Game ID',
                 enforceLength: 8,
+                obscure: false,
                 keyboardType: TextInputType.text,
                 onChanged: (String gameID) {
                   String gameIDreversed = gameID.split('').reversed.join();
@@ -63,7 +59,6 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
               color: Colors.lightBlueAccent.shade700,
               textColor: Colors.white,
               onTap: () {
-                print('Spinnign');
                 setState(() {
                   startSpin = !startSpin;
                 });
@@ -77,7 +72,6 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
                       opponentGameID: userData.opponentGameID,
                       currentUserGameID: userData.challengerGameID);
                 }));
-                print('Navigating');
               },
             ),
             SizedBox(

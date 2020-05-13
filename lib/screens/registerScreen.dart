@@ -8,7 +8,6 @@ import 'package:wordsmith/components/displayComponents/inputFields/inputField.da
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-
 class RegisterScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _firestore = Firestore.instance;
@@ -19,13 +18,7 @@ class RegisterScreen extends StatelessWidget {
       body: ModalProgressHUD(
         inAsyncCall: userData.progressComplete,
         child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.blue[700], Colors.purple[400]],
-              ),
-            ),
+            decoration: kPurpleScreenDecoration,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -40,55 +33,32 @@ class RegisterScreen extends StatelessWidget {
                         color: Colors.white,
                         shadows: [Shadow(blurRadius: 3, color: Colors.grey)])),
                 SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(35.0, 8.0, 35.0, 8.0),
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                        hintText: 'Password',
-                        hintStyle: TextStyle(),
-                        filled: true,
-                        fillColor: Colors.lightBlueAccent.withOpacity(.3),
-                        border:
-                            OutlineInputBorder(borderSide: BorderSide.none)),
-                    onChanged: (password) => userData.updateEmail(password),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(35.0, 8.0, 35.0, 8.0),
-                  child: InputText(
+                InputText(
+                    userData: userData,
+                    hintText: 'Email',
+                    keyboardType: TextInputType.emailAddress,
+                    enforceLength: null,
+                    onChanged: (email) => userData.updateEmail(email),
+                    obscure: false),
+                InputText(
                     userData: userData,
                     hintText: 'Username',
-                    enforceLength: 8,
                     keyboardType: TextInputType.text,
+                    enforceLength: null,
                     onChanged: (userName) => userData.updateUserName(userName),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(35.0, 8.0, 35.0, 8.0),
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    obscureText: true,
-                    maxLengthEnforced: true,
-                    maxLength: 8,
-                    decoration: InputDecoration(
-                        hintText: 'Password',
-                        hintStyle: TextStyle(),
-                        filled: true,
-                        fillColor: Colors.lightBlueAccent.withOpacity(.3),
-                        border:
-                            OutlineInputBorder(borderSide: BorderSide.none)),
+                    obscure: false),
+                InputText(
+                    userData: userData,
+                    hintText: 'Password',
+                    keyboardType: TextInputType.text,
+                    obscure: true,
                     onChanged: (password) => userData.updatePassword(password),
-                  ),
-                ),
+                    enforceLength: null),
                 SlimButton(
                   label: 'Register Now',
                   useWidget: false,
                   onTap: () async {
                     userData.updateProgress();
-                    print(userData.email);
-                    print(userData.password);
-                    print(userData.userName);
                     try {
                       final loggedinUser =
                           await _auth.createUserWithEmailAndPassword(
@@ -130,9 +100,7 @@ class RegisterScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                               color: Colors.lightBlueAccent,
-                              shadows: [
-                                Shadow(color: Colors.black38, blurRadius: 3)
-                              ],
+                              shadows:kTextShadow,
                               decoration: TextDecoration.underline)),
                     ),
                   ],
