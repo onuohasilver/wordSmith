@@ -35,8 +35,9 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   final _auth = FirebaseAuth.instance;
   static EntryHandler entryHandler = EntryHandler();
   final Set<String> streamEntriesCurrentUser = Set();
-  final Set<String> streamEntriesOpponent=Set();
-
+  final Set<String> streamEntriesOpponent = Set();
+  String opponentScore = '0';
+  String currentUserScore = '0';
   final alphabetHandler = Alphabet().createState();
   List<String> entryList = [];
   List<bool> validateList = [];
@@ -140,12 +141,6 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                       },
                     ),
                     LittleCard(
-                      child: Text(
-                        entryHandler.scoreKeeper.scoreValue().toString(),
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                    ),
-                    LittleCard(
                       child: (counter > 7)
                           ? Text(
                               '$counter',
@@ -169,8 +164,10 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                   children: <Widget>[
                     Text('${widget.currentUserName.toUpperCase()} 😎',
                         style: TextStyle(color: Colors.white)),
+                    LittleCard(child: Text(currentUserScore)),
                     Text('${widget.opponentName.toUpperCase()} 😎',
                         style: TextStyle(color: Colors.white)),
+                    LittleCard(child: Text(opponentScore)),
                   ],
                 ),
                 Expanded(
@@ -195,6 +192,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       final senderID = entry.data['senderID'];
                                       final gameID = entry.data['gameID'];
                                       final validator = entry.data['validate'];
+                                      final score = entry.data['score'];
                                       EntryCard entryWidget;
                                       if ((widget.currentUserID == senderID) &
                                           (widget.currentUserGameID ==
@@ -202,8 +200,11 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                         for (int index = 0;
                                             index < entryValue.length;
                                             index++) {
-                                          streamEntriesCurrentUser.add(entryValue[index]);
-                                          entryList = streamEntriesCurrentUser.toList();
+                                          currentUserScore = score;
+                                          streamEntriesCurrentUser
+                                              .add(entryValue[index]);
+                                          entryList =
+                                              streamEntriesCurrentUser.toList();
                                           entryWidget = EntryCard(
                                               entry: entryValue[index],
                                               handler: entryHandler);
@@ -241,13 +242,16 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       final senderID = entry.data['senderID'];
                                       final gameID = entry.data['gameID'];
                                       final validator = entry.data['validate'];
+                                      final score = entry.data['score'];
                                       EntryCard entryWidget;
                                       if ((widget.opponentID == senderID) &
                                           (widget.opponentGameID == gameID)) {
                                         for (int index = 0;
                                             index < entryValue.length;
                                             index++) {
-                                          streamEntriesOpponent.add(entryValue[index]);
+                                          streamEntriesOpponent
+                                              .add(entryValue[index]);
+                                          opponentScore = score;
                                           entryWidget = EntryCard(
                                               entry: entryValue[index],
                                               handler: entryHandler);
@@ -313,31 +317,37 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                   String allAlphabets = entryHandler
                                       .alphabetHandler
                                       .allAlphabets();
-                                  bool criteria = allAlphabets.length > 3;
+                                  if (!streamEntriesCurrentUser
+                                      .contains(allAlphabets)) {
+                                    bool criteria = allAlphabets.length > 3;
+
+                                    entryList.add(allAlphabets);
+                                    validateList.add(verifyWord(
+                                        entryHandler.getGameWord(),
+                                        allAlphabets));
+
+                                    criteria
+                                        ? _firestore
+                                            .collection('entry')
+                                            .document(widget.currentUserGameID)
+                                            .setData({
+                                            'senderID': widget.currentUserID,
+                                            'text': entryList,
+                                            'gameID': widget.currentUserGameID,
+                                            'validate': validateList,
+                                            'score': entryHandler.scoreKeeper
+                                                .scoreValue()
+                                                .toString()
+                                          }, merge: true)
+                                        : print('');
+
+                                    criteria
+                                        ? entryHandler
+                                            .insert(allAlphabets.trimLeft())
+                                        : print('');
+                                  }
                                   entryHandler.alphabetHandler.reset();
-                                  entryList.add(allAlphabets);
-                                  validateList.add(verifyWord(
-                                      entryHandler.getGameWord(),
-                                      allAlphabets));
-
-                                  criteria
-                                      ? _firestore
-                                          .collection('entry')
-                                          .document(widget.currentUserGameID)
-                                          .setData({
-                                          'senderID': widget.currentUserID,
-                                          'text': entryList,
-                                          'gameID': widget.currentUserGameID,
-                                          'validate': validateList
-                                        }, merge: true)
-                                      : print('');
-
-                                  criteria
-                                      ? entryHandler
-                                          .insert(allAlphabets.trimLeft())
-                                      : print('');
                                   letterMap.reset();
-                                  entryList = streamEntriesCurrentUser.toList();
                                 },
                               );
                             },

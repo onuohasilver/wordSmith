@@ -45,7 +45,6 @@ class EntryHandler {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              // SizedBox(width: 15),
               Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: Text(
@@ -58,7 +57,6 @@ class EntryHandler {
               ),
               Icon(correct ? Icons.check_box : Icons.cancel,
                   color: correct ? Colors.green : Colors.red),
-              // SizedBox(width: 15),
             ],
           ),
         ),

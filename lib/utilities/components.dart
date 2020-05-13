@@ -183,7 +183,7 @@ class RowEntryCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         entryCard,
-        validator ? Icon(Icons.check) : Icon(Icons.cancel)
+        validator ? Icon(Icons.check,color:Colors.green) : Icon(Icons.cancel,color: Colors.red,)
       ],
     );
   }
