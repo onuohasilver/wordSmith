@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wordsmith/screens/setupGameScreen.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 import 'package:wordsmith/components/displayComponents/buttons/alphabets.dart';
 import 'package:wordsmith/utilities/alphabetTile.dart';
@@ -15,11 +16,12 @@ class MultiLevelOne extends StatefulWidget {
   final String opponentID;
   final String currentUserName;
   final String currentUserID;
-
+  
   final String opponentGameID;
   final String currentUserGameID;
 
   MultiLevelOne({
+  
     this.opponentName,
     this.currentUserGameID,
     this.opponentGameID,
@@ -42,8 +44,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   final alphabetHandler = Alphabet().createState();
   List<String> entryList = [];
   List<bool> validateList = [];
-  final MappedLetters letterMap =
-      MappedLetters(alphabets: entryHandler.getWord());
+  
   FirebaseUser loggedInUser;
 
   void getCurrentUser() async {
@@ -65,6 +66,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
     startTimer();
     getCurrentUser();
     letterMap.getMapping();
+    
   }
 
   void startTimer() {
@@ -85,11 +87,14 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
       });
     });
   }
+  final MappedLetters letterMap =
+      MappedLetters(alphabets: entryHandler.getWord());
 
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
-
+    
+      
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
         alphabetWidget.add(AlphabetButton(
@@ -311,8 +316,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                             child: Icon(Icons.send,
                                 color: Colors.lightBlue, size: 30.0),
                             onTap: () {
-                              print(widget.currentUserGameID);
-                              print(widget.opponentGameID);
+                                
                               setState(
                                 () {
                                   String allAlphabets = entryHandler
@@ -344,7 +348,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
 
                                     criteria
                                         ? entryHandler
-                                            .insert(allAlphabets.trimLeft())
+                                            .insert(allAlphabets.trimLeft(),)
                                         : print('');
                                   }
                                   entryHandler.alphabetHandler.reset();

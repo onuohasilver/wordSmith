@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
+import 'package:wordsmith/screens/setupGameScreen.dart';
 import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart';
 import 'package:wordsmith/components/displayComponents/inputFields/inputField.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/utilities/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class JoinGameScreen extends StatefulWidget {
   final String opponentName;
@@ -24,6 +26,8 @@ class JoinGameScreen extends StatefulWidget {
 }
 
 bool startSpin = false;
+Firestore _firestore = Firestore.instance;
+List<String> activeGames = [];
 
 class _JoinGameScreenState extends State<JoinGameScreen> {
   @override
@@ -50,6 +54,7 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
                 onChanged: (String gameID) {
                   String gameIDreversed = gameID.split('').reversed.join();
                   userData.updateGameID(gameIDreversed);
+                  activeGames.add(gameID);
                 },
               ),
             ),
@@ -62,16 +67,24 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
                 setState(() {
                   startSpin = !startSpin;
                 });
+                _firestore
+                    .collection('activeGames')
+                    .document('active')
+                    .setData({'active': activeGames}, merge: true);
 
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MultiLevelOne(
-                      opponentName: widget.opponentName,
-                      opponentID: widget.opponentID,
-                      currentUserName: widget.currentUserName,
-                      currentUserID: widget.currentUserID,
-                      opponentGameID: userData.opponentGameID,
-                      currentUserGameID: userData.challengerGameID);
-                }));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) {
+                          return MultiLevelOne(
+                              opponentName: widget.opponentName,
+                              opponentID: widget.opponentID,
+                              currentUserName: widget.currentUserName,
+                              currentUserID: widget.currentUserID,
+                              opponentGameID: userData.opponentGameID,
+                              currentUserGameID: userData.challengerGameID);
+                        },
+                        maintainState: false));
               },
             ),
             SizedBox(
@@ -88,6 +101,26 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
               style: TextStyle(
                 color: Colors.white.withOpacity(.5),
               ),
+            ),
+            Column(
+              children: <Widget>[
+                StreamBuilder<DocumentSnapshot>(
+                    stream: _firestore
+                        .collection('activeGames')
+                        .document('active')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      List<Widget> entryWidgets = [Text('')];
+                      if (snapshot.hasData) {
+                        final entryCore = snapshot.data.data;
+                        final entry = entryCore['active'];
+                        for (var entryX in entry) {
+                          activeGames.add(entryX);
+                        }
+                      }
+                      return Wrap(children: entryWidgets);
+                    })
+              ],
             )
           ],
         ),
@@ -98,6 +131,7 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
   @override
   void dispose() {
     startSpin = false;
+    activeGames = [];
     super.dispose();
   }
 }
