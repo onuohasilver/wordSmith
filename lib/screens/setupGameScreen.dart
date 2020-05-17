@@ -71,7 +71,7 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                               currentUserName: widget.currentUserName,
                               currentUserID: widget.currentUserID,
                               opponentGameID: userData.opponentGameID,
-                              currentUserGameID: userData.challengerGameID);
+                              currentUserGameID: userData.challengerGameID,);
                         }));
                       }):SlimButton(
                       label: 'Create Game',

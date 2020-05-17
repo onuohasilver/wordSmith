@@ -1,7 +1,7 @@
 import 'dart:math';
-
 class Words {
-  int index=Random().nextInt(9);
+  
+   int index=Random().nextInt(9);
   List<List<String>> wordCollection = [
     ['Z', 'E', 'R', 'M', 'E', 'N', 'T', 'A', 'T', 'I', 'O', 'N'],
     ['F', 'O', 'P', 'E', 'L', 'E', 'S', 'S'],
