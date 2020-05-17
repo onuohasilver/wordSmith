@@ -8,7 +8,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/utilities/constants.dart';
 
-
 class SetupGameScreen extends StatefulWidget {
   final String opponentName;
   final String opponentID;
@@ -26,6 +25,7 @@ class SetupGameScreen extends StatefulWidget {
 }
 
 bool startSpin = false;
+bool activateGame = false;
 
 class _SetupGameScreenState extends State<SetupGameScreen> {
   final _firestore = Firestore.instance;
@@ -55,44 +55,55 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                 },
               ),
             ),
-            SlimButton(
-              label: 'Create Game',
-              useWidget: false,
-              color: Colors.lightBlueAccent.shade700,
-              textColor: Colors.white,
-              onTap: () {
-                setState(() {
-                  startSpin = !startSpin;
-                });
+            Container(
+              child: activateGame
+                  ? SlimButton(
+                      useWidget: false,
+                      label: startSpin?'Continue':'Tap to',
+                      color: Colors.purpleAccent,
+                      textColor: Colors.white,
+                      onTap: () {
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) {
+                          return MultiLevelOne(
+                              opponentName: widget.opponentName,
+                              opponentID: widget.opponentID,
+                              currentUserName: widget.currentUserName,
+                              currentUserID: widget.currentUserID,
+                              opponentGameID: userData.opponentGameID,
+                              currentUserGameID: userData.challengerGameID);
+                        }));
+                      }):SlimButton(
+                      label: 'Create Game',
+                      useWidget: false,
+                      color: Colors.lightBlueAccent.shade700,
+                      textColor: Colors.white,
+                      onTap: () {
+                        setState(() {
+                          startSpin = true;
+                        });
 
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MultiLevelOne(
-                      opponentName: widget.opponentName,
-                      opponentID: widget.opponentID,
-                      currentUserName: widget.currentUserName,
-                      currentUserID: widget.currentUserID,
-                      opponentGameID: userData.opponentGameID,
-                      currentUserGameID: userData.challengerGameID);
-                }));
-                _firestore
-                    .collection('entry')
-                    .document(userData.opponentGameID)
-                    .setData({
-                  'senderID': widget.opponentID,
-                  'text': [],
-                  'gameID': userData.opponentGameID,
-                  'validate': []
-                }, merge: true);
-                _firestore
-                    .collection('entry')
-                    .document(userData.challengerGameID)
-                    .setData({
-                  'senderID': widget.currentUserID,
-                  'text': [],
-                  'gameID': userData.challengerGameID,
-                  'validate': []
-                }, merge: true);
-              },
+                        _firestore
+                            .collection('entry')
+                            .document(userData.opponentGameID)
+                            .setData({
+                          'senderID': widget.opponentID,
+                          'text': [],
+                          'gameID': userData.opponentGameID,
+                          'validate': []
+                        }, merge: true);
+                        _firestore
+                            .collection('entry')
+                            .document(userData.challengerGameID)
+                            .setData({
+                          'senderID': widget.currentUserID,
+                          'text': [],
+                          'gameID': userData.challengerGameID,
+                          'validate': []
+                        }, merge: true);
+                      },
+                    )
+                  ,
             ),
             SizedBox(
                 child: SpinKitThreeBounce(
@@ -108,7 +119,12 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
               style: TextStyle(
                 color: Colors.white.withOpacity(.5),
               ),
-            )
+            ),
+            Container(
+                child: startSpin
+                    ? ActiveGameStream(
+                        firestore: _firestore, userData: userData)
+                    : Text(''))
           ],
         ),
       ),
@@ -118,6 +134,43 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
   @override
   void dispose() {
     startSpin = false;
+    activateGame = false;
+
     super.dispose();
+  }
+}
+
+class ActiveGameStream extends StatelessWidget {
+  const ActiveGameStream({
+    Key key,
+    @required Firestore firestore,
+    @required this.userData,
+  })  : _firestore = firestore,
+        super(key: key);
+
+  final Firestore _firestore;
+  final Data userData;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<DocumentSnapshot>(
+      stream:
+          _firestore.collection('activeGames').document('active').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final entry = snapshot.data;
+          final activeGameList = entry['active'];
+
+          if (activeGameList.contains(userData.opponentGameID)) {
+            print(activeGameList);
+            activateGame = true;
+          } else {
+            activateGame = false;
+          }
+        }
+
+        return Text('$activateGame, ${userData.opponentGameID}');
+      },
+    );
   }
 }

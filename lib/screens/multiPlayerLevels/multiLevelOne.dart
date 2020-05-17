@@ -63,10 +63,10 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
 
   void initState() {
     super.initState();
-    startTimer();
+   
     getCurrentUser();
     letterMap.getMapping();
-    
+    startTimer();
   }
 
   void startTimer() {
@@ -93,7 +93,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
-    
+     
       
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {

@@ -42,7 +42,7 @@ class SignInPage extends StatelessWidget {
                     keyboardType: TextInputType.text,
                     obscure: true,
                     onChanged: (password) => userData.updatePassword(password),
-                    enforceLength: null),
+                    enforceLength: 8),
                 SlimButton(
                   label: 'Login',
                   useWidget: false,
