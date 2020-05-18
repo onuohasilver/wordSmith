@@ -182,6 +182,7 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                                               loggedInUserID,
                                                         );
                                                       },
+                                                      maintainState: false
                                                     ),
                                                   ),
                                                 ),
@@ -225,11 +226,13 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                                               loggedInUserID,
                                                         );
                                                       },
+                                                       maintainState: false
                                                     ),
                                                   ),
                                                 ),
                                               ],
                                             ),
+                                            
                                           ));
                                     },
                                     child: UserCard(

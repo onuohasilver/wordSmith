@@ -56,7 +56,7 @@ class SignInPage extends StatelessWidget {
                               password: userData.password);
                       if (loggedinUser != null) {
                         userData.updateProgress();
-                        Navigator.pushNamed(context, 'ChooseOpponent');
+                        Navigator.pushReplacementNamed(context, 'ChooseOpponent');
                       }
                     } catch (e) {}
                   },

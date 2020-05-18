@@ -51,9 +51,10 @@ class RegisterScreen extends StatelessWidget {
                     userData: userData,
                     hintText: 'Password',
                     keyboardType: TextInputType.text,
+
                     obscure: true,
                     onChanged: (password) => userData.updatePassword(password),
-                    enforceLength: null),
+                    enforceLength: 8),
                 SlimButton(
                   label: 'Register Now',
                   useWidget: false,
@@ -76,7 +77,7 @@ class RegisterScreen extends StatelessWidget {
                           'username': userData.userName,
                           'friends': ['computer']
                         });
-                        Navigator.pushNamed(context, 'ChooseOpponent');
+                        Navigator.pushReplacementNamed(context, 'ChooseOpponent');
                       }
                     } catch (e) {}
                   },

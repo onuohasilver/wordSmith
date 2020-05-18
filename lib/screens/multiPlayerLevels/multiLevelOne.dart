@@ -15,7 +15,6 @@ class MultiLevelOne extends StatefulWidget {
   final String opponentID;
   final String currentUserName;
   final String currentUserID;
-  
   final String opponentGameID;
   final String currentUserGameID;
 
