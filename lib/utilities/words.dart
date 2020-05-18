@@ -1,7 +1,9 @@
-import 'dart:math';
+
+
 class Words {
+  Words({this.index});
+  final int index;
   
-   int index=Random().nextInt(9);
   List<List<String>> wordCollection = [
     ['Z', 'E', 'R', 'M', 'E', 'N', 'T', 'A', 'T', 'I', 'O', 'N'],
     ['F', 'O', 'P', 'E', 'L', 'E', 'S', 'S'],
@@ -12,7 +14,6 @@ class Words {
     ['C', 'Q', 'W', 'R', 'E', 'A', 'A', 'T', 'E'],
     ['N', 'O', 'W', 'E', 'L', 'E', 'S', 'S'],
     ['C', 'P', 'A', 'P', 'O', 'D', 'A', 'T', 'E'],
-    
   ];
 
   List<String> getRandom() {
@@ -20,12 +21,10 @@ class Words {
   }
 
   String allAlphabets() {
-      String collectAlphabet = '';
+    String collectAlphabet = '';
     wordCollection[index].forEach((alphabet) {
-        collectAlphabet = collectAlphabet + alphabet;
-      });
+      collectAlphabet = collectAlphabet + alphabet;
+    });
     return collectAlphabet;
-    
+  }
 }
-}
-

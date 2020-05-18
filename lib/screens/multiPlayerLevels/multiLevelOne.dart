@@ -9,6 +9,7 @@ import 'package:wordsmith/components/displayComponents/card/cards.dart';
 import 'package:wordsmith/components/displayComponents/popUps/dialogBox.dart';
 import 'package:wordsmith/utilities/dictionaryActivity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wordsmith/utilities/words.dart';
 
 class MultiLevelOne extends StatefulWidget {
   final String opponentName;
@@ -34,7 +35,7 @@ class MultiLevelOne extends StatefulWidget {
 class _MultiLevelOneState extends State<MultiLevelOne> {
   final _firestore = Firestore.instance;
   final _auth = FirebaseAuth.instance;
-  static EntryHandler entryHandler = EntryHandler();
+  
   final Set<String> streamEntriesCurrentUser = Set();
   final Set<String> streamEntriesOpponent = Set();
   String opponentScore = '0';
@@ -42,7 +43,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   final alphabetHandler = Alphabet().createState();
   List<String> entryList = [];
   List<bool> validateList = [];
-  
+  EntryHandler entryHandler;
+  MappedLetters letterMap;
   FirebaseUser loggedInUser;
 
   void getCurrentUser() async {
@@ -61,9 +63,14 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
 
   void initState() {
     super.initState();
+    entryHandler = EntryHandler(wordGenerator: Words(index:0));
     startTimer();
     getCurrentUser();
-    letterMap.getMapping();
+    
+    letterMap =
+      MappedLetters(alphabets: entryHandler.getWord());
+      letterMap.getMapping();
+
     
   }
 
@@ -85,9 +92,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
       });
     });
   }
-  final MappedLetters letterMap =
-      MappedLetters(alphabets: entryHandler.getWord());
-
+  
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];

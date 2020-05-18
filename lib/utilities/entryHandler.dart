@@ -5,13 +5,15 @@ import 'scoreKeeper.dart';
 import 'package:wordsmith/components/displayComponents/buttons/alphabets.dart';
 
 class EntryHandler {
+  EntryHandler({this.wordGenerator});
+
   String entry;
   String gameWord;
   List<Widget> entryList = [];
   final List<Widget> alphaWidgets = [];
   ScoreKeeper scoreKeeper = ScoreKeeper();
   final alphabetHandler = Alphabet().createState();
-  Words wordGenerator = Words();
+  final Words wordGenerator;
 
   List<String> getWord() {
     return wordGenerator.getRandom();

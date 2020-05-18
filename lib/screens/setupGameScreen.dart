@@ -7,6 +7,7 @@ import 'package:wordsmith/components/displayComponents/inputFields/inputField.da
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/utilities/constants.dart';
+import 'dart:math';
 
 class SetupGameScreen extends StatefulWidget {
   final String opponentName;
@@ -26,6 +27,7 @@ class SetupGameScreen extends StatefulWidget {
 
 bool startSpin = false;
 bool activateGame = false;
+int randomIndex=Random().nextInt(9);
 
 class _SetupGameScreenState extends State<SetupGameScreen> {
   final _firestore = Firestore.instance;
@@ -59,21 +61,25 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
               child: activateGame
                   ? SlimButton(
                       useWidget: false,
-                      label: startSpin?'Continue':'Tap to',
+                      label: startSpin ? 'Continue' : 'Tap to',
                       color: Colors.purpleAccent,
                       textColor: Colors.white,
                       onTap: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) {
-                          return MultiLevelOne(
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return MultiLevelOne(
                               opponentName: widget.opponentName,
                               opponentID: widget.opponentID,
                               currentUserName: widget.currentUserName,
                               currentUserID: widget.currentUserID,
                               opponentGameID: userData.opponentGameID,
-                              currentUserGameID: userData.challengerGameID,);
-                        }));
-                      }):SlimButton(
+                              currentUserGameID: userData.challengerGameID,
+                            );
+                          }),
+                        );
+                      })
+                  : SlimButton(
                       label: 'Create Game',
                       useWidget: false,
                       color: Colors.lightBlueAccent.shade700,
@@ -102,8 +108,7 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                           'validate': []
                         }, merge: true);
                       },
-                    )
-                  ,
+                    ),
             ),
             SizedBox(
                 child: SpinKitThreeBounce(

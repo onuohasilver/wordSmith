@@ -5,6 +5,8 @@ import 'package:wordsmith/utilities/entryHandler.dart';
 
 import 'dart:async';
 
+import 'package:wordsmith/utilities/words.dart';
+
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -30,7 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    EntryHandler().insert('    ');
+    EntryHandler(wordGenerator: Words(index:2)).insert('    ');
     startTime();
   }
 
