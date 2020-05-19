@@ -18,9 +18,10 @@ class MultiLevelOne extends StatefulWidget {
   final String currentUserID;
   final String opponentGameID;
   final String currentUserGameID;
+  final int randomIndex;
 
   MultiLevelOne({
-  
+    this.randomIndex,
     this.opponentName,
     this.currentUserGameID,
     this.opponentGameID,
@@ -35,10 +36,10 @@ class MultiLevelOne extends StatefulWidget {
 class _MultiLevelOneState extends State<MultiLevelOne> {
   final _firestore = Firestore.instance;
   final _auth = FirebaseAuth.instance;
-  
+
   final Set<String> streamEntriesCurrentUser = Set();
   final Set<String> streamEntriesOpponent = Set();
-  String opponentScore = '0';
+  int opponentScore = 0;
   String currentUserScore = '0';
   final alphabetHandler = Alphabet().createState();
   List<String> entryList = [];
@@ -58,20 +59,18 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
     }
   }
 
-  int counter = 1000;
+  int counter = 100;
   Timer timer;
 
   void initState() {
     super.initState();
-    entryHandler = EntryHandler(wordGenerator: Words(index:0));
+    entryHandler =
+        EntryHandler(wordGenerator: Words(index: widget.randomIndex));
     startTimer();
     getCurrentUser();
-    
-    letterMap =
-      MappedLetters(alphabets: entryHandler.getWord());
-      letterMap.getMapping();
 
-    
+    letterMap = MappedLetters(alphabets: entryHandler.getWord());
+    letterMap.getMapping();
   }
 
   void startTimer() {
@@ -86,18 +85,17 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
           counter--;
         } else {
           timer.cancel();
-          dialogBox(context, entryHandler.scoreKeeper.scoreValue().toString(),
+          multiDialogBox(context, entryHandler.scoreKeeper.scoreValue(),opponentScore,
               'MultiLevelTwo');
         }
       });
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
-    
-      
+
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
         alphabetWidget.add(AlphabetButton(
@@ -176,7 +174,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                     LittleCard(child: Text(currentUserScore)),
                     Text('${widget.opponentName.toUpperCase()} 😎',
                         style: TextStyle(color: Colors.white)),
-                    LittleCard(child: Text(opponentScore)),
+                    LittleCard(child: Text(opponentScore.toString())),
                   ],
                 ),
                 Expanded(
@@ -319,7 +317,6 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                             child: Icon(Icons.send,
                                 color: Colors.lightBlue, size: 30.0),
                             onTap: () {
-                                
                               setState(
                                 () {
                                   String allAlphabets = entryHandler
@@ -350,8 +347,9 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                         : print('');
 
                                     criteria
-                                        ? entryHandler
-                                            .insert(allAlphabets.trimLeft(),)
+                                        ? entryHandler.insert(
+                                            allAlphabets.trimLeft(),
+                                          )
                                         : print('');
                                   }
                                   entryHandler.alphabetHandler.reset();

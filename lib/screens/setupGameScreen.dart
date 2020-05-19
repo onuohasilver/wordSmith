@@ -75,6 +75,7 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                               currentUserID: widget.currentUserID,
                               opponentGameID: userData.opponentGameID,
                               currentUserGameID: userData.challengerGameID,
+                              randomIndex:randomIndex
                             );
                           }),
                         );
@@ -96,6 +97,7 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                           'senderID': widget.opponentID,
                           'text': [],
                           'gameID': userData.opponentGameID,
+                          'randomIndex':randomIndex,
                           'validate': []
                         }, merge: true);
                         _firestore
@@ -105,6 +107,7 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                           'senderID': widget.currentUserID,
                           'text': [],
                           'gameID': userData.challengerGameID,
+                          'randomIndex':randomIndex,
                           'validate': []
                         }, merge: true);
                       },

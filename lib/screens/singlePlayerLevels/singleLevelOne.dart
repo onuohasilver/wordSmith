@@ -7,6 +7,7 @@ import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
 import 'package:wordsmith/components/displayComponents/popUps/dialogBox.dart';
+import 'package:wordsmith/utilities/words.dart';
 
 class SingleLevelOne extends StatefulWidget {
   @override
@@ -14,14 +15,16 @@ class SingleLevelOne extends StatefulWidget {
 }
 
 class _SingleLevelOneState extends State<SingleLevelOne> {
-  static EntryHandler entryHandler = EntryHandler();
+  EntryHandler entryHandler;
 
   final alphabetHandler = Alphabet().createState();
-  final MappedLetters letterMap =
-      MappedLetters(alphabets: entryHandler.getWord());
+  MappedLetters letterMap;
 
   void initState() {
     super.initState();
+    entryHandler = EntryHandler(wordGenerator: Words(index: 3));
+    letterMap = MappedLetters(alphabets: entryHandler.getWord());
+
     startTimer();
     letterMap.getMapping();
   }
@@ -101,7 +104,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
                       child: LittleCard(
                           child: Icon(Icons.arrow_back, color: Colors.white)),
                       onTap: () {
-                        Navigator.popAndPushNamed(context,'LevelSelect');
+                        Navigator.popAndPushNamed(context, 'LevelSelect');
                         // Navigator.pushReplacementNamed(context, 'SingleLevelOne');
                         // Navigator.pushNamed(context, 'SingleLevelOne');
                         // // Navigator.pushNamed(context,'SingleLevelOne');
@@ -220,9 +223,9 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
     );
   }
 
- @override
+  @override
   void dispose() {
-    entryHandler=EntryHandler();
+    entryHandler = EntryHandler();
     super.dispose();
   }
 }

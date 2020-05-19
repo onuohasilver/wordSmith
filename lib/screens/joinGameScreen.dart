@@ -28,6 +28,7 @@ class JoinGameScreen extends StatefulWidget {
 bool startSpin = false;
 Firestore _firestore = Firestore.instance;
 List<String> activeGames = [];
+int randomIndex;
 
 class _JoinGameScreenState extends State<JoinGameScreen> {
   @override
@@ -63,7 +64,7 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
               useWidget: false,
               color: Colors.lightBlueAccent.shade700,
               textColor: Colors.white,
-              onTap: () {
+              onTap: () async {
                 setState(() {
                   startSpin = !startSpin;
                 });
@@ -71,6 +72,13 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
                     .collection('activeGames')
                     .document('active')
                     .setData({'active': activeGames}, merge: true);
+                await _firestore
+                    .collection('entry')
+                    .document(userData.challengerGameID)
+                    .get()
+                    .then((snapshot) {
+                  randomIndex = snapshot.data['randomIndex'];
+                });
 
                 Navigator.push(
                     context,
@@ -82,7 +90,8 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
                               currentUserName: widget.currentUserName,
                               currentUserID: widget.currentUserID,
                               opponentGameID: userData.opponentGameID,
-                              currentUserGameID: userData.challengerGameID);
+                              currentUserGameID: userData.challengerGameID,
+                              randomIndex: randomIndex);
                         },
                         maintainState: false));
               },
