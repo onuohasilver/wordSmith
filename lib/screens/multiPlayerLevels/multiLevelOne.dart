@@ -74,7 +74,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   }
 
   void startTimer() {
-    counter = 1000;
+    counter = 100;
 
     if (timer != null) {
       timer.cancel();
@@ -243,13 +243,15 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       .snapshots(),
                                   builder: (context, snapshot) {
                                     List<Widget> entryWidgets = [];
-                                    if (snapshot.hasData) {
+                                    if (!snapshot.hasData) {
+                                       return Container() ;
+                                    }else{
                                       final entry = snapshot.data;
                                       final entryValue = entry.data['text'];
                                       final senderID = entry.data['senderID'];
                                       final gameID = entry.data['gameID'];
                                       final validator = entry.data['validate'];
-                                      final score = entry.data['score'];
+                                      final String score = entry.data['score'];
                                       EntryCard entryWidget;
                                       if ((widget.opponentID == senderID) &
                                           (widget.opponentGameID == gameID)) {
@@ -258,7 +260,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                             index++) {
                                           streamEntriesOpponent
                                               .add(entryValue[index]);
-                                          opponentScore = score;
+                                          opponentScore = int.parse(score);
                                           entryWidget = EntryCard(
                                               entry: entryValue[index],
                                               handler: entryHandler);

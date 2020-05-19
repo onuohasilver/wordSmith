@@ -132,7 +132,9 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                     StreamBuilder<QuerySnapshot>(
                         stream: _firestore.collection('users').snapshots(),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData) {
+                          if (!snapshot.hasData) {
+                            return Container();
+                          } else {
                             final users = snapshot.data.documents;
                             List<Widget> entryWidgets = [];
                             List<dynamic> friends = [];
@@ -171,19 +173,18 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                                       Navigator.pushReplacement(
                                                     (context),
                                                     MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return SetupGameScreen(
-                                                          opponentName:
-                                                              userName,
-                                                          opponentID: userID,
-                                                          currentUserName:
-                                                              loggedInUserName,
-                                                          currentUserID:
-                                                              loggedInUserID,
-                                                        );
-                                                      },
-                                                      maintainState: false
-                                                    ),
+                                                        builder: (context) {
+                                                          return SetupGameScreen(
+                                                            opponentName:
+                                                                userName,
+                                                            opponentID: userID,
+                                                            currentUserName:
+                                                                loggedInUserName,
+                                                            currentUserID:
+                                                                loggedInUserID,
+                                                          );
+                                                        },
+                                                        maintainState: false),
                                                   ),
                                                 ),
                                                 SlimButton(
@@ -215,24 +216,22 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                                                       Navigator.pushReplacement(
                                                     (context),
                                                     MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return JoinGameScreen(
-                                                          opponentName:
-                                                              userName,
-                                                          opponentID: userID,
-                                                          currentUserName:
-                                                              loggedInUserName,
-                                                          currentUserID:
-                                                              loggedInUserID,
-                                                        );
-                                                      },
-                                                       maintainState: false
-                                                    ),
+                                                        builder: (context) {
+                                                          return JoinGameScreen(
+                                                            opponentName:
+                                                                userName,
+                                                            opponentID: userID,
+                                                            currentUserName:
+                                                                loggedInUserName,
+                                                            currentUserID:
+                                                                loggedInUserID,
+                                                          );
+                                                        },
+                                                        maintainState: false),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            
                                           ));
                                     },
                                     child: UserCard(

@@ -28,6 +28,7 @@ class JoinGameScreen extends StatefulWidget {
 bool startSpin = false;
 Firestore _firestore = Firestore.instance;
 List<String> activeGames = [];
+List<String> activeGamesL = [];
 int randomIndex;
 
 class _JoinGameScreenState extends State<JoinGameScreen> {
@@ -124,7 +125,7 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
                         final entryCore = snapshot.data.data;
                         final entry = entryCore['active'];
                         for (var entryX in entry) {
-                          activeGames.add(entryX);
+                          activeGamesL.add(entryX);
                         }
                       }
                       return Wrap(children: entryWidgets);
