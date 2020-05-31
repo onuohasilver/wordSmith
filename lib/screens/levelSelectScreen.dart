@@ -8,12 +8,13 @@ class LevelSelectScreen extends StatefulWidget {
 }
 
 class _LevelSelectScreenState extends State<LevelSelectScreen> {
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          decoration: kLevelSelectContainerDecoration,
+          decoration: GradientSetter().randomPair,
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

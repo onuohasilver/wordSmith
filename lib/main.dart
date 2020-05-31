@@ -18,7 +18,7 @@ void main() {
     ChangeNotifierProvider(
       create:(context)=>Data(),
           child: MaterialApp(
-        initialRoute: 'LoadingScreen',
+        initialRoute: 'LevelSelect',
         debugShowCheckedModeBanner: false,
         routes: {
           'LevelSelect': (context) => LevelSelectScreen(),
