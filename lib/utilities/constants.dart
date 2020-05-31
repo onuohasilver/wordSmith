@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-final kLevelSelectContainerDecoration = BoxDecoration(
-  gradient: LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      stops: [0.2, 1],
-      colors: [Colors.lightBlue[900], Colors.lightGreen[700]]),
-);
+final kLevelSelectContainerDecoration =BoxDecoration(
+            gradient: LinearGradient(colors: [
+              Colors.yellowAccent[100],
+              Colors.lightBlueAccent[100],
+            ], transform: GradientRotation(24)),
+          );
 
 final kTitleSelectText =
     TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 35);

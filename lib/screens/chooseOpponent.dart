@@ -34,12 +34,11 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
           body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomRight,
-            colors: [Colors.green, Colors.blueAccent],
+            gradient: LinearGradient(colors: [
+              Colors.yellowAccent[100],
+              Colors.greenAccent[100],
+            ], transform: GradientRotation(24)),
           ),
-        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -133,7 +132,7 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                         stream: _firestore.collection('users').snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return Container();
+                            return CircularProgressIndicator();
                           } else {
                             final users = snapshot.data.documents;
                             List<Widget> entryWidgets = [];
