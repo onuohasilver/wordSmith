@@ -2,43 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 
 class LevelCard extends StatelessWidget {
-  final String level;
-  final bool active;
+  final String label;
+
   final Function onPressed;
-  LevelCard({this.level, this.active, this.onPressed});
+
+  /// Returns a flat Tap-aware Card Widget
+  LevelCard({this.label, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(2.0, 4.0, 4.0, 0.0),
-      child: GestureDetector(
-        onTap: onPressed,
-        child: Card(
-          color: active
-              ? Colors.white.withOpacity(0.1)
-              : Colors.grey.withOpacity(0.25),
-          elevation: 12,
-          margin: EdgeInsets.all(10),
-          child: Padding(
-            padding: EdgeInsets.all(4.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    level,
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: active ? Colors.white : Colors.grey[400]),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
+      padding: const EdgeInsets.fromLTRB(2.0, 10.0, 10.0, 0.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(6),
+          color: Colors.white.withOpacity(0.2),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(6),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                label,
+                style: TextStyle(fontSize: 20, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-        ),
-      ),
+            onTap: onPressed,
+          )),
     );
   }
 }
@@ -55,7 +44,6 @@ class LittleCard extends StatelessWidget {
     );
   }
 }
-
 
 class UserCard extends StatelessWidget {
   const UserCard({Key key, @required this.userName, this.color})
@@ -87,9 +75,6 @@ class UserCard extends StatelessWidget {
   }
 }
 
-
-
-
 class EntryCard extends StatelessWidget {
   EntryCard({this.entry, this.handler});
   final String entry;
@@ -114,7 +99,6 @@ class EntryCard extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-
             SizedBox(width: 15),
           ],
         ),
@@ -133,9 +117,13 @@ class RowEntryCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         entryCard,
-        validator ? Icon(Icons.check,color:Colors.green) : Icon(Icons.cancel,color: Colors.red,)
+        validator
+            ? Icon(Icons.check, color: Colors.green)
+            : Icon(
+                Icons.cancel,
+                color: Colors.red,
+              )
       ],
     );
   }
 }
-

@@ -8,13 +8,17 @@ class LevelSelectScreen extends StatefulWidget {
 }
 
 class _LevelSelectScreenState extends State<LevelSelectScreen> {
-  
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    GradientSetter gradientSetter = GradientSetter();
     return SafeArea(
       child: Scaffold(
         body: Container(
-          decoration: GradientSetter().randomPair,
+          height: height,
+          width: width,
+          decoration: gradientSetter.randomPair,
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -25,8 +29,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(78.0, 3.0, 78, 3.0),
                   child: LevelCard(
-                    active: true,
-                    level: 'SINGLE PLAYER',
+                    label: 'SINGLE PLAYER',
                     onPressed: () {
                       Navigator.pushNamed((context), 'SingleLevelOne');
                     },
@@ -35,14 +38,34 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(78.0, 3.0, 78, 3.0),
                   child: LevelCard(
-                    active: true,
-                    level: 'MULTI-PLAYER',
+                    label: 'MULTI-PLAYER',
                     onPressed: () {
                       Navigator.pushNamed((context), 'SignInPage');
                     },
                   ),
                 ),
-               
+                ButtonBar(
+                  alignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Material(
+                      color: Colors.white.withOpacity(.2),
+                      borderRadius: BorderRadius.circular(12),
+                      child: InkWell(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.color_lens,
+                                color: Colors.white, size: height * .05),
+                          ),
+                          splashColor: Colors.white,
+                          onTap: () {
+                            setState(() {
+                              gradientSetter = GradientSetter();
+                            });
+                          }),
+                    )
+                  ],
+                )
               ],
             ),
           ),
