@@ -47,22 +47,21 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                 ButtonBar(
                   alignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Material(
-                      color: Colors.white.withOpacity(.2),
-                      borderRadius: BorderRadius.circular(12),
-                      child: InkWell(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.color_lens,
-                                color: Colors.white, size: height * .05),
-                          ),
-                          splashColor: Colors.white,
-                          onTap: () {
-                            setState(() {
-                              gradientSetter = GradientSetter();
-                            });
-                          }),
+                    CardButton(
+                      height: height,
+                      onTap: () {
+                        setState(() {
+                          gradientSetter = GradientSetter();
+                        });
+                      },
+                    ),
+                    CardButton(
+                      height: height,
+                      onTap: () {
+                        setState(() {
+                          gradientSetter = GradientSetter();
+                        });
+                      },
                     )
                   ],
                 )

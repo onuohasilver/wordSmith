@@ -32,6 +32,37 @@ class LevelCard extends StatelessWidget {
   }
 }
 
+
+
+
+/// Returns a tap-aware material button
+class CardButton extends StatelessWidget {
+  const CardButton({
+    Key key,
+    @required this.height, this.onTap,
+  }) : super(key: key);
+
+  final double height;
+  final Function onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white.withOpacity(.2),
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(Icons.color_lens,
+                color: Colors.white, size: height * .05),
+          ),
+          splashColor: Colors.white,
+          onTap: onTap)
+    );
+  }
+}
+
 class LittleCard extends StatelessWidget {
   LittleCard({@required this.child});
   final Widget child;
