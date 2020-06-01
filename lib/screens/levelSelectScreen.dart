@@ -4,6 +4,7 @@ import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
 
+
 class LevelSelectScreen extends StatefulWidget {
   @override
   _LevelSelectScreenState createState() => _LevelSelectScreenState();
@@ -17,6 +18,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
     GradientSetter gradientSetter = GradientSetter();
     final Data appData = Provider.of<Data>(context);
     
+
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -52,22 +54,31 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                   alignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CardButton(
+                      icon: Icons.person,
                       height: height,
                       onTap: () {
-                        setState(() {
-                          gradientSetter = GradientSetter();
-                        });
+                        setState(
+                          () {
+                            gradientSetter = GradientSetter();
+                          },
+                        );
                       },
                     ),
                     CardButton(
+                      icon: Icons.color_lens,
                       height: height,
-                      onTap: () {
-                        setState(() {
-                          gradientSetter = GradientSetter();
-                          appData.updateTheme(gradientSetter.randomPair);
-                        });
+                      onTap: ()  {
+                     
+                      
+                        
+                        setState(
+                          () {
+                            gradientSetter = GradientSetter();
+                            appData.updateTheme(gradientSetter.randomPair);
+                          },
+                        );
                       },
-                    )
+                    ),
                   ],
                 )
               ],

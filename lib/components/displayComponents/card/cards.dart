@@ -35,15 +35,16 @@ class LevelCard extends StatelessWidget {
 
 
 
-/// Returns a tap-aware material button
+/// Returns a tap-aware material rounded button
 class CardButton extends StatelessWidget {
   const CardButton({
-    Key key,
-    @required this.height, this.onTap,
+    Key key, @required this.icon,
+    @required this.height, @required this.onTap,
   }) : super(key: key);
 
   final double height;
   final Function onTap;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,7 @@ class CardButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.color_lens,
+            child: Icon(icon,
                 color: Colors.white, size: height * .05),
           ),
           splashColor: Colors.white,
