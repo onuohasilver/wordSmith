@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 import 'package:wordsmith/components/displayComponents/buttons/alphabets.dart';
 import 'dart:collection';
@@ -22,6 +24,8 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
 
   void initState() {
     super.initState();
+   
+    
     entryHandler = EntryHandler(wordGenerator: Words(index: 3));
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
 
@@ -44,7 +48,6 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
           counter--;
         } else {
           timer.cancel();
-          // entryHandler = EntryHandler();
           dialogBox(context, entryHandler.scoreKeeper.scoreValue().toString(),
               'SingleLevelTwo');
         }
@@ -55,6 +58,8 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
+    final appData = Provider.of<Data>(context);
+    
 
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
@@ -91,7 +96,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          decoration: kLevelOneContainerDecoration,
+          decoration: appData.theme,
           child: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Column(
@@ -105,9 +110,6 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
                           child: Icon(Icons.arrow_back, color: Colors.white)),
                       onTap: () {
                         Navigator.popAndPushNamed(context, 'LevelSelect');
-                        // Navigator.pushReplacementNamed(context, 'SingleLevelOne');
-                        // Navigator.pushNamed(context, 'SingleLevelOne');
-                        // // Navigator.pushNamed(context,'SingleLevelOne');
                       },
                     ),
                     LittleCard(

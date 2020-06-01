@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
 
@@ -13,6 +15,8 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     GradientSetter gradientSetter = GradientSetter();
+    final Data appData = Provider.of<Data>(context);
+    
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -60,6 +64,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                       onTap: () {
                         setState(() {
                           gradientSetter = GradientSetter();
+                          appData.updateTheme(gradientSetter.randomPair);
                         });
                       },
                     )

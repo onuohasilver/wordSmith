@@ -56,6 +56,7 @@ multiDialogBox(context, int scoreChallenger, int scoreOpponent, String level) {
       context: context,
       barrierDismissible: true,
       child: AlertDialog(
+        
         backgroundColor: Colors.blue.withOpacity(.4),
         content: Column(
           mainAxisSize: MainAxisSize.min,

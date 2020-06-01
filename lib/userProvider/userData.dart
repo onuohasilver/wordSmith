@@ -7,14 +7,14 @@ class Data extends ChangeNotifier {
   String gameID;
   String opponentGameID;
   String challengerGameID;
-  
+  BoxDecoration theme;
 
-  updateEmail(newEmail) {
+  updateEmail(String newEmail) {
     email = newEmail;
     notifyListeners();
   }
 
-  updatePassword(newPassword) {
+  updatePassword(String newPassword) {
     password = newPassword;
     notifyListeners();
   }
@@ -24,15 +24,20 @@ class Data extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateUserName(newUserName){
+  updateUserName(String newUserName){
     userName=newUserName;
     notifyListeners();
   }
 
-  updateGameID(newGameID){
+  updateGameID(String newGameID){
     gameID=newGameID;
     challengerGameID=gameID.split('').reversed.join();
     opponentGameID=gameID;
     notifyListeners();
+  }
+  updateTheme(BoxDecoration newTheme){
+    theme=newTheme;
+    notifyListeners();
+
   }
 }

@@ -70,7 +70,7 @@ class LittleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.lightBlue.withOpacity(.4),
+      color: Colors.white.withOpacity(.4),
       child: Padding(padding: const EdgeInsets.all(5.0), child: child),
     );
   }
