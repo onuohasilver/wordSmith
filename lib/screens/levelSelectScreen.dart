@@ -4,20 +4,18 @@ import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
 
-
-class LevelSelectScreen extends StatefulWidget {
+class SelectScreen extends StatefulWidget {
   @override
-  _LevelSelectScreenState createState() => _LevelSelectScreenState();
+  _SelectScreenState createState() => _SelectScreenState();
 }
 
-class _LevelSelectScreenState extends State<LevelSelectScreen> {
+class _SelectScreenState extends State<SelectScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     GradientSetter gradientSetter = GradientSetter();
     final Data appData = Provider.of<Data>(context);
-    
 
     return SafeArea(
       child: Scaffold(
@@ -57,20 +55,13 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
                       icon: Icons.person,
                       height: height,
                       onTap: () {
-                        setState(
-                          () {
-                            gradientSetter = GradientSetter();
-                          },
-                        );
+                        Navigator.pushNamed(context, 'PlayerScreen');
                       },
                     ),
                     CardButton(
                       icon: Icons.color_lens,
                       height: height,
-                      onTap: ()  {
-                     
-                      
-                        
+                      onTap: () {
                         setState(
                           () {
                             gradientSetter = GradientSetter();

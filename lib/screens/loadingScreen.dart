@@ -23,7 +23,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return LevelSelectScreen();
+          return SelectScreen();
         },
       ),
     );
