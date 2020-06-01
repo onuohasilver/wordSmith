@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wordsmith/components/displayComponents/card/cards.dart';
 import 'package:wordsmith/userProvider/userData.dart';
 
 class PlayerScreen extends StatefulWidget {
@@ -7,12 +8,26 @@ class PlayerScreen extends StatefulWidget {
   _PlayerScreenState createState() => _PlayerScreenState();
 }
 
-class _PlayerScreenState extends State<PlayerScreen> {
+class _PlayerScreenState extends State<PlayerScreen>
+    with SingleTickerProviderStateMixin {
+  AnimationController animationController;
+  Animation animation;
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+    animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
+  }
+
   @override
   Widget build(BuildContext context) {
     final appData = Provider.of<Data>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    animationController.repeat();
     return Scaffold(
       body: Container(
         decoration: appData.theme,
@@ -21,10 +36,20 @@ class _PlayerScreenState extends State<PlayerScreen> {
         child: Column(
           children: <Widget>[
             SizedBox(height: height * .2),
-            CircleAvatar(
-              radius: 45,
-              backgroundColor: Colors.white.withOpacity(.2),
-              child: Icon(Icons.person, size: 43, color: Colors.white),
+            FadeTransition(
+              opacity: animation,
+              child: CircleAvatar(
+                radius: 45,
+                backgroundColor: Colors.white.withOpacity(.2),
+                child: Icon(Icons.person, size: 43, color: Colors.white),
+              ),
+            ),
+            SizedBox(
+              height: height * .05,
+            ),
+            Text(
+              'Onuoha Silver',
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             SizedBox(
               height: height * .05,
@@ -33,9 +58,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
               height: height * .5,
               width: width * .9,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    
                     children: <Widget>[
                       ScoreCard(
                           height: height,
@@ -50,73 +77,41 @@ class _PlayerScreenState extends State<PlayerScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: height * .03,
-                  ),
+                  SizedBox(height:height*.05),
                   ScoreCard(
                     content: 'SKIRMISH',
-                    width: width * 2,
+                    width: width * 1.3,
                     height: height,
                     title: 'Best Word',
-                  )
+                  ),
+                  SizedBox(height:height*.05),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    
+                    ScoreCard(
+                      content: '34',
+                      title: 'Losses',
+                      height: height,
+                      width: width * .6,
+                    ),
+                    ScoreCard(
+                      content: '34',
+                      title: 'Losses',
+                      height: height,
+                      width: width * .6,
+                    ),
+                    ScoreCard(
+                      content: '34',
+                      title: 'Losses',
+                      height: height,
+                      width: width * .6,
+                    ),
+                  ])
                 ],
               ),
             )
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class ScoreCard extends StatelessWidget {
-  const ScoreCard(
-      {Key key,
-      @required this.height,
-      @required this.width,
-      @required this.title,
-      @required this.content})
-      : super(key: key);
-
-  final double height;
-  final double width;
-  final String title;
-  final String content;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: height * .1,
-        width: width * .4,
-        child: Material(
-
-          child: InkWell(
-            borderRadius: BorderRadius.circular(12),
-            onTap: (){},
-            child: Column(children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  title,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-              Text(
-                content,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600),
-              )
-            ]),
-          ),
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.white.withOpacity(.2),
         ),
       ),
     );

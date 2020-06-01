@@ -35,6 +35,60 @@ class LevelCard extends StatelessWidget {
 
 
 
+class ScoreCard extends StatelessWidget {
+  const ScoreCard(
+      {Key key,
+      @required this.height,
+      @required this.width,
+      @required this.title,
+      @required this.content})
+      : super(key: key);
+
+  final double height;
+  final double width;
+  final String title;
+  final String content;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: height * .1,
+        width: width * .4,
+        child: Material(
+          child: InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () {},
+            child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+              Text(
+                content,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600),
+              )
+            ]),
+          ),
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white.withOpacity(.2),
+        ),
+      ),
+    );
+  }
+}
+
+
 /// Returns a tap-aware material rounded button
 class CardButton extends StatelessWidget {
   const CardButton({
