@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+
 class Data extends ChangeNotifier {
   String email;
   String password;
   String userName;
-  bool progressComplete=false;
+  bool progressComplete = false;
   String gameID;
   String opponentGameID;
   String challengerGameID;
-  BoxDecoration theme;
+  BoxDecoration theme = BoxDecoration(
+    gradient: LinearGradient(
+      colors: [Color(0xff000e54), Color(0xff2a4299)],
+      stops: [0.2, 1],
+    ),
+  );
 
   updateEmail(String newEmail) {
     email = newEmail;
@@ -19,25 +25,25 @@ class Data extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateProgress(){
-    progressComplete=!progressComplete;
+  updateProgress() {
+    progressComplete = !progressComplete;
     notifyListeners();
   }
 
-  updateUserName(String newUserName){
-    userName=newUserName;
+  updateUserName(String newUserName) {
+    userName = newUserName;
     notifyListeners();
   }
 
-  updateGameID(String newGameID){
-    gameID=newGameID;
-    challengerGameID=gameID.split('').reversed.join();
-    opponentGameID=gameID;
+  updateGameID(String newGameID) {
+    gameID = newGameID;
+    challengerGameID = gameID.split('').reversed.join();
+    opponentGameID = gameID;
     notifyListeners();
   }
-  updateTheme(BoxDecoration newTheme){
-    theme=newTheme;
-    notifyListeners();
 
+  updateTheme(BoxDecoration newTheme) {
+    theme = newTheme;
+    notifyListeners();
   }
 }
