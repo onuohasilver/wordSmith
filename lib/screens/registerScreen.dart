@@ -78,7 +78,7 @@ class RegisterScreen extends StatelessWidget {
                           'friends': ['computer']
                         });
                         Navigator.pushReplacementNamed(
-                            context, 'ChooseOpponent');
+                            context, 'PlayerScreen');
                       }
                     } catch (e) {}
                   },
@@ -94,22 +94,7 @@ class RegisterScreen extends StatelessWidget {
                           fontWeight: FontWeight.w600, color: Colors.white),
                     ),
                     SizedBox(width: 10),
-                    Material(
-                      color: Colors.white.withOpacity(.1),
-                      child: InkWell(
-                        onTap: () => Navigator.pushNamed(context, 'SignInPage'),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text('SIGN IN',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
-                                  color: Colors.white,
-                                  shadows: kTextShadow,
-                                  decoration: TextDecoration.underline)),
-                        ),
-                      ),
-                    ),
+                    SignUp(label:'Sign In',routeName: 'SignInPage',),
                   ],
                 )
               ],
@@ -118,3 +103,4 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 }
+

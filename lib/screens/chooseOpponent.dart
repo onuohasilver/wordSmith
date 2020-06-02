@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import 'package:wordsmith/screens/joinGameScreen.dart';
 import 'package:wordsmith/screens/setupGameScreen.dart';
 import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
+import 'package:wordsmith/userProvider/userData.dart';
 
 class ChooseOpponent extends StatefulWidget {
   @override
@@ -28,17 +30,13 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
 
   @override
   Widget build(BuildContext context) {
+    final appData = Provider.of<Data>(context);
     List<String> friendList = [];
     return SafeArea(
       child: Scaffold(
           body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Colors.yellowAccent[100],
-              Colors.greenAccent[100],
-            ], transform: GradientRotation(24)),
-          ),
+        decoration: appData.theme,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -110,6 +108,8 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                             return Expanded(
                                 child: ListView(
                                     reverse: false, children: entryWidgets));
+                          } else {
+                            return CircularProgressIndicator();
                           }
                         }),
                   ],

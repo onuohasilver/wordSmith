@@ -32,8 +32,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     _highScore() async {
       final playerHighScore = await localData.highScore;
       setState(() {
-          highScore=playerHighScore;
-        
+        highScore = playerHighScore;
       });
     }
 
@@ -92,13 +91,6 @@ class _PlayerScreenState extends State<PlayerScreen>
                     ],
                   ),
                   SizedBox(height: height * .05),
-                  ScoreCard(
-                    content: 'SKIRMISH',
-                    width: width * 1.3,
-                    height: height,
-                    title: 'Best Word',
-                  ),
-                  SizedBox(height: height * .05),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     ScoreCard(
                       content: '34',
@@ -118,7 +110,22 @@ class _PlayerScreenState extends State<PlayerScreen>
                       height: height,
                       width: width * .6,
                     ),
-                  ])
+                  ]),
+                  SizedBox(height: height*.04,),
+                 Container(
+                   height: height*.1,
+                   width: width*.6,
+                   
+                   child: Material(
+                     color: Colors.lightGreen[400],
+                     borderRadius: BorderRadius.circular(20),
+                     child: InkWell(
+                       onTap: ()=>Navigator.pushReplacementNamed(context,'ChooseOpponent'),
+                       borderRadius: BorderRadius.circular(20),
+                       child:Center(child: Icon(Icons.settings_input_svideo,size:40))
+                     ),
+                   ),
+                 )
                 ],
               ),
             )

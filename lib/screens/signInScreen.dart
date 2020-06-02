@@ -57,7 +57,7 @@ class SignInPage extends StatelessWidget {
                       if (loggedinUser != null) {
                         userData.updateProgress();
                         Navigator.pushReplacementNamed(
-                            context, 'ChooseOpponent');
+                            context, 'PlayerScreen');
                       }
                     } catch (e) {}
                   },
@@ -74,22 +74,7 @@ class SignInPage extends StatelessWidget {
                           fontWeight: FontWeight.w600, color: Colors.white),
                     ),
                     SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () => Navigator.pushNamed(context, 'RegisterPage'),
-                      child: Card(
-                        color: Colors.white.withOpacity(.1),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text('REGISTER',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
-                                  color: Colors.white,
-                                  shadows: kTextShadow,
-                                  decoration: TextDecoration.underline)),
-                        ),
-                      ),
-                    ),
+                    SignUp(routeName: 'RegisterPage',label:'Register')
                   ],
                 )
               ],
