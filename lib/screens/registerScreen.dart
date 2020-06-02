@@ -18,7 +18,7 @@ class RegisterScreen extends StatelessWidget {
       body: ModalProgressHUD(
         inAsyncCall: userData.progressComplete,
         child: Container(
-            decoration: kPurpleScreenDecoration,
+            decoration: userData.theme,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -51,13 +51,13 @@ class RegisterScreen extends StatelessWidget {
                     userData: userData,
                     hintText: 'Password',
                     keyboardType: TextInputType.text,
-
                     obscure: true,
                     onChanged: (password) => userData.updatePassword(password),
                     enforceLength: 8),
                 SlimButton(
                   label: 'Register Now',
                   useWidget: false,
+                  color: Colors.white.withOpacity(.1),
                   onTap: () async {
                     userData.updateProgress();
                     try {
@@ -77,11 +77,11 @@ class RegisterScreen extends StatelessWidget {
                           'username': userData.userName,
                           'friends': ['computer']
                         });
-                        Navigator.pushReplacementNamed(context, 'ChooseOpponent');
+                        Navigator.pushReplacementNamed(
+                            context, 'ChooseOpponent');
                       }
                     } catch (e) {}
                   },
-                  color: Colors.lightBlueAccent,
                   textColor: Colors.white,
                 ),
                 SizedBox(height: 30),
@@ -94,15 +94,21 @@ class RegisterScreen extends StatelessWidget {
                           fontWeight: FontWeight.w600, color: Colors.white),
                     ),
                     SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () => Navigator.pushNamed(context, 'SignInPage'),
-                      child: Text('LOGIN',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.lightBlueAccent,
-                              shadows:kTextShadow,
-                              decoration: TextDecoration.underline)),
+                    Material(
+                      color: Colors.white.withOpacity(.1),
+                      child: InkWell(
+                        onTap: () => Navigator.pushNamed(context, 'SignInPage'),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('SIGN IN',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                  color: Colors.white,
+                                  shadows: kTextShadow,
+                                  decoration: TextDecoration.underline)),
+                        ),
+                      ),
                     ),
                   ],
                 )

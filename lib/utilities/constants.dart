@@ -13,29 +13,36 @@ class GradientSetter {
     print(random);
     return BoxDecoration(
       gradient: gradientList[random],
-     
     );
   }
 }
 
 const List<LinearGradient> gradientList = [
+  // LinearGradient(
+  //   begin: Alignment.topCenter,
+  //   end: Alignment.bottomCenter,
+  //   colors: [Color(0xff000e54), Color(0xff2a4299)],
+  //   stops: [0.2, 1],
+  // ),
   LinearGradient(
-    colors: [Color(0xff000e54), Color(0xff2a4299)],
-     stops: [0.2, 1],
-  ),
-  LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       Color(0xffc94b4b),
       Color(0xff4c134f),
     ],
   ),
   LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       Color(0xffad5389),
       Color(0xff3c1053),
     ],
   ),
   LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       Color(0xff134e5e),
       Color(0xff71b280),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class SlimButton extends StatelessWidget {
   SlimButton(
       {this.onTap,
@@ -16,9 +17,10 @@ class SlimButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
+    return Material(
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(34, 10, 34, 10),
             child: useWidget
@@ -29,11 +31,11 @@ class SlimButton extends StatelessWidget {
                         color: this.textColor, fontWeight: FontWeight.w600),
                   ),
           ),
-          elevation: 10,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          color: color),
-    );
+        ),
+        elevation: 10,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        color: color);
   }
 }

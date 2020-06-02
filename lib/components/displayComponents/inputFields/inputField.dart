@@ -32,11 +32,12 @@ class InputText extends StatelessWidget {
         maxLength: enforceLength,
         obscureText: obscure,
         decoration: InputDecoration(
+          
             hintText: hintText,
             hintStyle: TextStyle(),
             filled: true,
-            fillColor: Colors.lightBlueAccent.withOpacity(.3),
-            border: OutlineInputBorder(borderSide: BorderSide.none)),
+            fillColor: Colors.white.withOpacity(.3),
+            border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(15))),
         onChanged: onChanged,
       ),
     );

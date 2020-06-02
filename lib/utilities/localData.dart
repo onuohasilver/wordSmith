@@ -11,4 +11,6 @@ class LocalData {
     int highScore = sharedPreferences.getInt('HighScore');
     return highScore;
   }
+
+  
 }

@@ -16,7 +16,7 @@ class SignInPage extends StatelessWidget {
       body: ModalProgressHUD(
         inAsyncCall: userData.progressComplete,
         child: Container(
-            decoration: kGreenPageDecoration,
+            decoration: userData.theme,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -25,7 +25,7 @@ class SignInPage extends StatelessWidget {
                 Text('MULTIPLAYER',
                     style:
                         TextStyle(color: Colors.white, shadows: kTextShadow)),
-                Text('Log In to Play!',
+                Text('Log In to Play with Friends!',
                     style:
                         TextStyle(color: Colors.white, shadows: kTextShadow)),
                 SizedBox(height: 30),
@@ -56,11 +56,12 @@ class SignInPage extends StatelessWidget {
                               password: userData.password);
                       if (loggedinUser != null) {
                         userData.updateProgress();
-                        Navigator.pushReplacementNamed(context, 'ChooseOpponent');
+                        Navigator.pushReplacementNamed(
+                            context, 'ChooseOpponent');
                       }
                     } catch (e) {}
                   },
-                  color: Colors.lightBlueAccent,
+                  color: Colors.white.withOpacity(.1),
                   textColor: Colors.white,
                 ),
                 SizedBox(height: 30),
@@ -75,13 +76,19 @@ class SignInPage extends StatelessWidget {
                     SizedBox(width: 10),
                     GestureDetector(
                       onTap: () => Navigator.pushNamed(context, 'RegisterPage'),
-                      child: Text('REGISTER',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.lightBlueAccent,
-                              shadows: kTextShadow,
-                              decoration: TextDecoration.underline)),
+                      child: Card(
+                        color: Colors.white.withOpacity(.1),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('REGISTER',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                  color: Colors.white,
+                                  shadows: kTextShadow,
+                                  decoration: TextDecoration.underline)),
+                        ),
+                      ),
                     ),
                   ],
                 )

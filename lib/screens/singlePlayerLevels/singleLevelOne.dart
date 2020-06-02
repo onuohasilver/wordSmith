@@ -25,7 +25,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
   void initState() {
     super.initState();
 
-    entryHandler = EntryHandler(wordGenerator: Words(index: 3));
+    entryHandler = EntryHandler(wordGenerator: Words(index: 2));
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
 
     startTimer();
@@ -36,7 +36,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
   Timer timer;
   LocalData localData = LocalData();
   int highScore = 0;
-  getHighScore() async {
+  void getHighScore() async {
     final _highScore = await localData.highScore;
     setState(() {
       highScore = _highScore;
@@ -56,6 +56,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
         } else {
           timer.cancel();
           final currentScore = entryHandler.scoreKeeper.scoreValue();
+          getHighScore();
           if (highScore < currentScore) {
             localData.setHighScore(currentScore);
           }
