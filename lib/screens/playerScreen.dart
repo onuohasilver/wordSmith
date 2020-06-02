@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
 import 'package:wordsmith/userProvider/userData.dart';
+import 'package:wordsmith/utilities/localData.dart';
 
 class PlayerScreen extends StatefulWidget {
   @override
@@ -12,9 +13,13 @@ class _PlayerScreenState extends State<PlayerScreen>
     with SingleTickerProviderStateMixin {
   AnimationController animationController;
   Animation animation;
+  LocalData localData = LocalData();
+  int highScore = 0;
+
   @override
   void initState() {
     super.initState();
+
     animationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
@@ -24,6 +29,16 @@ class _PlayerScreenState extends State<PlayerScreen>
 
   @override
   Widget build(BuildContext context) {
+    _highScore() async {
+      final playerHighScore = await localData.highScore;
+      setState(() {
+          highScore=playerHighScore;
+        
+      });
+    }
+
+    _highScore();
+
     final appData = Provider.of<Data>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -62,13 +77,12 @@ class _PlayerScreenState extends State<PlayerScreen>
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    
                     children: <Widget>[
                       ScoreCard(
                           height: height,
                           width: width,
                           title: 'High Score',
-                          content: '95'),
+                          content: '$highScore'),
                       ScoreCard(
                         height: height,
                         width: width,
@@ -77,18 +91,15 @@ class _PlayerScreenState extends State<PlayerScreen>
                       ),
                     ],
                   ),
-                  SizedBox(height:height*.05),
+                  SizedBox(height: height * .05),
                   ScoreCard(
                     content: 'SKIRMISH',
                     width: width * 1.3,
                     height: height,
                     title: 'Best Word',
                   ),
-                  SizedBox(height:height*.05),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                    
+                  SizedBox(height: height * .05),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     ScoreCard(
                       content: '34',
                       title: 'Losses',

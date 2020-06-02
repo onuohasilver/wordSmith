@@ -14,7 +14,7 @@ class LevelCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(2.0, 10.0, 10.0, 0.0),
       child: Material(
-        borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(6),
           color: Colors.white.withOpacity(0.2),
           child: InkWell(
             borderRadius: BorderRadius.circular(6),
@@ -31,9 +31,6 @@ class LevelCard extends StatelessWidget {
     );
   }
 }
-
-
-
 
 class ScoreCard extends StatelessWidget {
   const ScoreCard(
@@ -88,12 +85,13 @@ class ScoreCard extends StatelessWidget {
   }
 }
 
-
 /// Returns a tap-aware material rounded button
 class CardButton extends StatelessWidget {
   const CardButton({
-    Key key, @required this.icon,
-    @required this.height, @required this.onTap,
+    Key key,
+    @required this.icon,
+    @required this.height,
+    @required this.onTap,
   }) : super(key: key);
 
   final double height;
@@ -103,18 +101,16 @@ class CardButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white.withOpacity(.2),
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(icon,
-                color: Colors.white, size: height * .05),
-          ),
-          splashColor: Colors.white,
-          onTap: onTap)
-    );
+        color: Colors.white.withOpacity(.2),
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+            borderRadius: BorderRadius.circular(12),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(icon, color: Colors.white, size: height * .05),
+            ),
+            splashColor: Colors.white,
+            onTap: onTap));
   }
 }
 

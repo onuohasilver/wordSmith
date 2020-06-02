@@ -8,6 +8,7 @@ import 'dart:collection';
 import 'package:wordsmith/utilities/alphabetTile.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
 import 'package:wordsmith/components/displayComponents/popUps/dialogBox.dart';
+import 'package:wordsmith/utilities/localData.dart';
 import 'package:wordsmith/utilities/words.dart';
 
 class SingleLevelOne extends StatefulWidget {
@@ -23,8 +24,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
 
   void initState() {
     super.initState();
-   
-    
+
     entryHandler = EntryHandler(wordGenerator: Words(index: 3));
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
 
@@ -34,9 +34,17 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
 
   int counter = 10;
   Timer timer;
+  LocalData localData = LocalData();
+  int highScore = 0;
+  getHighScore() async {
+    final _highScore = await localData.highScore;
+    setState(() {
+      highScore = _highScore;
+    });
+  }
 
   void startTimer() {
-    counter = 10;
+    counter = 20;
 
     if (timer != null) {
       timer.cancel();
@@ -47,8 +55,12 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
           counter--;
         } else {
           timer.cancel();
-          dialogBox(context, entryHandler.scoreKeeper.scoreValue().toString(),
-              'SingleLevelTwo');
+          final currentScore = entryHandler.scoreKeeper.scoreValue();
+          if (highScore < currentScore) {
+            localData.setHighScore(currentScore);
+          }
+
+          dialogBox(context, currentScore.toString(), 'SingleLevelTwo');
         }
       });
     });
@@ -58,7 +70,6 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
     final appData = Provider.of<Data>(context);
-    
 
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
