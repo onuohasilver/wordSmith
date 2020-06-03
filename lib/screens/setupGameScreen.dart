@@ -68,7 +68,7 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                   setState(() {
                     startSpin = true;
                   });
-
+                  
                   _firestore
                       .collection('entry')
                       .document(userData.opponentGameID)
@@ -154,9 +154,26 @@ class ActiveGameStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DocumentSnapshot>(
+    return StreamListenableBuilder<DocumentSnapshot>(
       stream:
           _firestore.collection('activeGames').document('active').snapshots(),
+      listener: (value) {
+        if (value['active'].contains(userData.opponentGameID)) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return MultiLevelOne(
+                  opponentName: opponentName,
+                  opponentID: opponentID,
+                  currentUserName: currentUserName,
+                  currentUserID: currentUserID,
+                  opponentGameID: userData.opponentGameID,
+                  currentUserGameID: userData.challengerGameID,
+                  randomIndex: randomIndex);
+            }),
+          );
+        }
+      },
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final entry = snapshot.data;
@@ -164,19 +181,7 @@ class ActiveGameStream extends StatelessWidget {
 
           if (activeGameList.contains(userData.opponentGameID)) {
             print(activeGameList);
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) {
-                return MultiLevelOne(
-                    opponentName: opponentName,
-                    opponentID: opponentID,
-                    currentUserName: currentUserName,
-                    currentUserID: currentUserID,
-                    opponentGameID: userData.opponentGameID,
-                    currentUserGameID: userData.challengerGameID,
-                    randomIndex: randomIndex);
-              }),
-            );
+
             activateGame = true;
           } else {
             activateGame = false;
@@ -186,5 +191,31 @@ class ActiveGameStream extends StatelessWidget {
         return Text('$activateGame, ${userData.opponentGameID}');
       },
     );
+  }
+}
+
+
+//thank you stackoverflow
+typedef StreamListener<T> = void Function(T value);
+
+class StreamListenableBuilder<T> extends StreamBuilder<T> {
+  final StreamListener<T> listener;
+
+  const StreamListenableBuilder({
+    Key key,
+    T initialData,
+    Stream<T> stream,
+    @required this.listener,
+    @required AsyncWidgetBuilder<T> builder,
+  }) : super(
+            key: key,
+            initialData: initialData,
+            stream: stream,
+            builder: builder);
+
+  @override
+  AsyncSnapshot<T> afterData(AsyncSnapshot<T> current, T data) {
+    listener(data);
+    return super.afterData(current, data);
   }
 }
