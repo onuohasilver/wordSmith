@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
@@ -19,12 +21,20 @@ class _PlayerScreenState extends State<PlayerScreen>
   @override
   void initState() {
     super.initState();
-
+    getUserDetails();
     animationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
     );
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
+  }
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  final _firestore = Firestore.instance;
+  String loggedInUserId;
+  getUserDetails() async {
+    final loggedInUser = await _auth.currentUser();
+    loggedInUserId = loggedInUser.uid;
   }
 
   @override
@@ -61,10 +71,19 @@ class _PlayerScreenState extends State<PlayerScreen>
             SizedBox(
               height: height * .05,
             ),
-            Text(
-              'Onuoha Silver',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: _firestore.collection('users').snapshots(),
+                builder: (context, snapshot) {
+                  final _users = snapshot.data.documents;
+                  String _userName;
+                  for (var user in _users) {
+                    if (user.data['userid'] == loggedInUserId) {
+                      _userName = user.data['username'];
+                    }
+                  }
+                  return Text(_userName,style: TextStyle(color: Colors.white, fontSize: 20),);
+                }),
+            
             SizedBox(
               height: height * .05,
             ),
@@ -111,21 +130,25 @@ class _PlayerScreenState extends State<PlayerScreen>
                       width: width * .6,
                     ),
                   ]),
-                  SizedBox(height: height*.04,),
-                 Container(
-                   height: height*.1,
-                   width: width*.6,
-                   
-                   child: Material(
-                     color: Colors.lightGreen[400],
-                     borderRadius: BorderRadius.circular(20),
-                     child: InkWell(
-                       onTap: ()=>Navigator.pushReplacementNamed(context,'ChooseOpponent'),
-                       borderRadius: BorderRadius.circular(20),
-                       child:Center(child: Icon(Icons.settings_input_svideo,size:40))
-                     ),
-                   ),
-                 )
+                  SizedBox(
+                    height: height * .04,
+                  ),
+                  Container(
+                    height: height * .1,
+                    width: width * .6,
+                    child: Material(
+                      color: Colors.lightGreen[400],
+                      borderRadius: BorderRadius.circular(20),
+                      child: InkWell(
+                          splashColor: Colors.green[900],
+                          onTap: () => Navigator.pushReplacementNamed(
+                              context, 'ChooseOpponent'),
+                          borderRadius: BorderRadius.circular(20),
+                          child: Center(
+                              child:
+                                  Icon(Icons.settings_input_svideo, size: 40))),
+                    ),
+                  )
                 ],
               ),
             )
