@@ -27,10 +27,11 @@ class SetupGameScreen extends StatefulWidget {
 
 bool startSpin = false;
 bool activateGame = false;
-int randomIndex=Random().nextInt(9);
+int randomIndex = Random().nextInt(9);
 
 class _SetupGameScreenState extends State<SetupGameScreen> {
   final _firestore = Firestore.instance;
+
   @override
   Widget build(BuildContext context) {
     final userData = Provider.of<Data>(context);
@@ -58,60 +59,38 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
               ),
             ),
             Container(
-              child: activateGame
-                  ? SlimButton(
-                      useWidget: false,
-                      label: startSpin ? 'Continue' : 'Tap to',
-                      color: Colors.purpleAccent,
-                      textColor: Colors.white,
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return MultiLevelOne(
-                              opponentName: widget.opponentName,
-                              opponentID: widget.opponentID,
-                              currentUserName: widget.currentUserName,
-                              currentUserID: widget.currentUserID,
-                              opponentGameID: userData.opponentGameID,
-                              currentUserGameID: userData.challengerGameID,
-                              randomIndex:randomIndex
-                            );
-                          }),
-                        );
-                      })
-                  : SlimButton(
-                      label: 'Create Game',
-                      useWidget: false,
-                      color: Colors.lightBlueAccent.shade700,
-                      textColor: Colors.white,
-                      onTap: () {
-                        setState(() {
-                          startSpin = true;
-                        });
+              child: SlimButton(
+                label: 'Create Game',
+                useWidget: false,
+                color: Colors.lightBlueAccent.shade700,
+                textColor: Colors.white,
+                onTap: () {
+                  setState(() {
+                    startSpin = true;
+                  });
 
-                        _firestore
-                            .collection('entry')
-                            .document(userData.opponentGameID)
-                            .setData({
-                          'senderID': widget.opponentID,
-                          'text': [],
-                          'gameID': userData.opponentGameID,
-                          'randomIndex':randomIndex,
-                          'validate': []
-                        }, merge: true);
-                        _firestore
-                            .collection('entry')
-                            .document(userData.challengerGameID)
-                            .setData({
-                          'senderID': widget.currentUserID,
-                          'text': [],
-                          'gameID': userData.challengerGameID,
-                          'randomIndex':randomIndex,
-                          'validate': []
-                        }, merge: true);
-                      },
-                    ),
+                  _firestore
+                      .collection('entry')
+                      .document(userData.opponentGameID)
+                      .setData({
+                    'senderID': widget.opponentID,
+                    'text': [],
+                    'gameID': userData.opponentGameID,
+                    'randomIndex': randomIndex,
+                    'validate': []
+                  }, merge: true);
+                  _firestore
+                      .collection('entry')
+                      .document(userData.challengerGameID)
+                      .setData({
+                    'senderID': widget.currentUserID,
+                    'text': [],
+                    'gameID': userData.challengerGameID,
+                    'randomIndex': randomIndex,
+                    'validate': []
+                  }, merge: true);
+                },
+              ),
             ),
             SizedBox(
                 child: SpinKitThreeBounce(
@@ -131,7 +110,13 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
             Container(
                 child: startSpin
                     ? ActiveGameStream(
-                        firestore: _firestore, userData: userData)
+                        firestore: _firestore,
+                        userData: userData,
+                        opponentID: widget.opponentID,
+                        opponentName: widget.opponentName,
+                        currentUserID: widget.currentUserID,
+                        currentUserName: widget.currentUserName,
+                      )
                     : Text(''))
           ],
         ),
@@ -153,11 +138,19 @@ class ActiveGameStream extends StatelessWidget {
     Key key,
     @required Firestore firestore,
     @required this.userData,
+    @required this.opponentName,
+    @required this.opponentID,
+    @required this.currentUserName,
+    @required this.currentUserID,
   })  : _firestore = firestore,
         super(key: key);
 
   final Firestore _firestore;
   final Data userData;
+  final String opponentName;
+  final String opponentID;
+  final String currentUserName;
+  final String currentUserID;
 
   @override
   Widget build(BuildContext context) {
@@ -171,6 +164,19 @@ class ActiveGameStream extends StatelessWidget {
 
           if (activeGameList.contains(userData.opponentGameID)) {
             print(activeGameList);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return MultiLevelOne(
+                    opponentName: opponentName,
+                    opponentID: opponentID,
+                    currentUserName: currentUserName,
+                    currentUserID: currentUserID,
+                    opponentGameID: userData.opponentGameID,
+                    currentUserGameID: userData.challengerGameID,
+                    randomIndex: randomIndex);
+              }),
+            );
             activateGame = true;
           } else {
             activateGame = false;

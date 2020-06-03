@@ -81,9 +81,11 @@ class _PlayerScreenState extends State<PlayerScreen>
                       _userName = user.data['username'];
                     }
                   }
-                  return Text(_userName,style: TextStyle(color: Colors.white, fontSize: 20),);
+                  return Text(
+                    _userName,
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  );
                 }),
-            
             SizedBox(
               height: height * .05,
             ),

@@ -69,6 +69,9 @@ class _ChooseOpponentState extends State<ChooseOpponent> {
                               if (friends.contains(userID)) {
                                 entryWidgets.add(UserCard(
                                   onTap: () {
+                                    //FIXME: Use a custom Dialog Box. 
+                                    //TODO: Eliminate Wrapping.
+                                    //TODO: Push to new file.
                                     showDialog(
                                         context: context,
                                         child: AlertDialog(
