@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 /// Returns a random color gradient pair
 /// as a BoxDecoration property
-///
-
 class GradientSetter {
+  
   int random = Random().nextInt(gradientList.length);
 
+  ///returns a random gradient from the pre-specified gradientList
   BoxDecoration get randomPair {
     print(random);
     return BoxDecoration(

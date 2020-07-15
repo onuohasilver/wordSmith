@@ -28,9 +28,15 @@ class SetupGameScreen extends StatefulWidget {
 bool startSpin = false;
 bool activateGame = false;
 int randomIndex = Random().nextInt(9);
+String gameID;
+getGameID(String current,String challenger){
+  return '${current.substring(4,10)}${challenger.substring(4,10)}';
+}
+
 
 class _SetupGameScreenState extends State<SetupGameScreen> {
   final _firestore = Firestore.instance;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +60,12 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                 enforceLength: 8,
                 keyboardType: TextInputType.text,
                 onChanged: (String gameID) {
-                  userData.updateGameID(gameID);
+                  userData.updateGameID('gameID');
                 },
               ),
             ),
+            
+
             Container(
               child: SlimButton(
                 label: 'Create Game',
@@ -68,7 +76,9 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                   setState(() {
                     startSpin = true;
                   });
-                  
+
+
+
                   _firestore
                       .collection('entry')
                       .document(userData.opponentGameID)
@@ -193,7 +203,6 @@ class ActiveGameStream extends StatelessWidget {
     );
   }
 }
-
 
 //thank you stackoverflow
 typedef StreamListener<T> = void Function(T value);

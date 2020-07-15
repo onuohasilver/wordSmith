@@ -2,17 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 
 class LevelCard extends StatelessWidget {
+  ///Text displayed on Card Body [label] must be a non-null value
   final String label;
 
-  final Function onPressed;
+  ///Named route to be navigated to onTap [routeName] must not be a non-null value
+  final String routeName;
 
-  /// Returns a flat Tap-aware Card Widget
-  LevelCard({this.label, this.onPressed});
+  /// Returns a flat Tap-aware Card Widget that takes two
+  /// arguments the card label that will be displayed on the
+  /// card body and the route name which is a specified route
+  /// where the card navigates to onTap both values are String values.
+  /// The Card defaults to a color white with an opacity of .2
+  /// ```dart
+  /// LevelCard('Card Label','Home Screen');
+  /// ```
+  LevelCard({this.label, @required this.routeName});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(2.0, 10.0, 10.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(80.0, 13.0, 88.0, 3.0),
       child: Material(
           borderRadius: BorderRadius.circular(6),
           color: Colors.white.withOpacity(0.2),
@@ -26,13 +35,22 @@ class LevelCard extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            onTap: onPressed,
+            onTap: () {
+              Navigator.pushNamed((context), routeName);
+            },
           )),
     );
   }
 }
 
 class ScoreCard extends StatelessWidget {
+  ///Creates a Card to display the Score of a Player
+  ///[content] argument must be non-null
+  ///[title] argument must be non-null
+  ///```dart
+  ///ScoreCard(height:height,width:width,title:'Card Title',content:'Card Content');
+  ///```
+  ///[height] and [width] args are size references gotten from MediaQuery size requests.
   const ScoreCard(
       {Key key,
       @required this.height,
@@ -41,9 +59,16 @@ class ScoreCard extends StatelessWidget {
       @required this.content})
       : super(key: key);
 
+  ///MediaQuery height value: must be a double
   final double height;
+
+  ///MediaQuery width value: must be a double
   final double width;
+
+  ///Title of the Card defaults to null and must be provided
   final String title;
+
+  ///Content of the Card defaults to null and must be provided
   final String content;
 
   @override
@@ -85,8 +110,18 @@ class ScoreCard extends StatelessWidget {
   }
 }
 
-/// Returns a tap-aware material rounded button
 class CardButton extends StatelessWidget {
+  /// Returns a tap-aware material rounded button
+  /// that displays an Icon on a faded white background
+  /// [icon] IconData is centered and with a default color of white.
+  ///
+  /// Sizing of the CardButton is achieved using a ratio of the MediaQuery height
+  /// provided as the [height] argument. with the CardButton Occupying 5% of the device height
+  /// ```dart
+  /// CardButton(height:height,
+  ///           onTap:()=>DoSomething(),
+  ///           icon:Icons.forward)
+  /// ```
   const CardButton({
     Key key,
     @required this.icon,
@@ -94,8 +129,13 @@ class CardButton extends StatelessWidget {
     @required this.onTap,
   }) : super(key: key);
 
+  ///MediaQuery height
   final double height;
+
+  ///Function to be executed on button tap
   final Function onTap;
+
+  ///Icon to be displayed on the card body
   final IconData icon;
 
   @override
@@ -115,9 +155,15 @@ class CardButton extends StatelessWidget {
 }
 
 class LittleCard extends StatelessWidget {
+  ///A widget that wraps its child in a background with white opacity and a padding of 5px
+  ///The LittleCard despite its name can expand to the size of its child.
+  ///```dart
+  ///LittleCard(child:Text('ScareCrow'));
+  ///````
   LittleCard({@required this.child});
-  final Widget child;
 
+  ///Widget displayed in the body of the LittleCard
+  final Widget child;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -128,11 +174,21 @@ class LittleCard extends StatelessWidget {
 }
 
 class UserCard extends StatelessWidget {
-  const UserCard({Key key, @required this.userName, this.color, @required this.onTap})
+  ///Creates a Card that displays a user's name and also accept touch gestures
+  ///color defaults to White with an opacity of .4
+  ///```dart
+  ///UserCard(userName:'')
+  const UserCard(
+      {Key key, @required this.userName, this.color, @required this.onTap})
       : super(key: key);
 
+  ///Name[String] of the User as displayed on the firebase db
   final String userName;
+
+  ///Color[Color] of the Card
   final Color color;
+
+  ///onTap [Function]  function to be executed on gesture detection.
   final Function onTap;
 
   @override
@@ -140,13 +196,12 @@ class UserCard extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        
         customBorder: CircleBorder(),
         onTap: onTap,
         child: Card(
           margin: EdgeInsets.only(left: 9, right: 9, top: 5),
           elevation: 6,
-          color: color.withOpacity(.4),
+          color: color.withOpacity(.4) ?? Colors.white.withOpacity(.4),
           child: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Row(
