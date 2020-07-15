@@ -1,4 +1,7 @@
+import 'dart:math' show pi;
+
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 import 'package:provider/provider.dart';
 import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/constants.dart';
@@ -19,7 +22,7 @@ class _SelectScreenState extends State<SelectScreen>
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 5),
+      duration: Duration(seconds: 2),
     );
     animation = Tween(begin: 1.0, end: 0.0).animate(animationController);
   }
@@ -30,7 +33,7 @@ class _SelectScreenState extends State<SelectScreen>
     double width = MediaQuery.of(context).size.width;
     GradientSetter gradientSetter = GradientSetter();
     final Data appData = Provider.of<Data>(context);
-    animationController.forward();
+    animationController.repeat(reverse: true);
 
     return Scaffold(
       body: AnimatedBuilder(
@@ -39,55 +42,86 @@ class _SelectScreenState extends State<SelectScreen>
           return Container(
             height: height,
             width: width,
-            // decoration: gradientSetter.randomPair,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/wooden-wall.jpg'),fit: BoxFit.cover)),
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Text('WORD SMITH',
-                      textAlign: TextAlign.center, style: kTitleSelectText),
-                  Transform(
-                      transform: Matrix4.translationValues(
-                          width * animation.value, 0, 0),
-                      child: LevelCard(
-                          label: 'SINGLE PLAYER',
-                          routeName: 'SingleLevelOne')),
-                  Transform(
-                    transform: Matrix4.translationValues(
-                        width * animation.value, 0, 0),
-                    child: LevelCard(
-                      label: 'MULTI-PLAYER',
-                      routeName: 'SignInPage',
+                    image: AssetImage('assets/wooden-wall.jpg'),
+                    fit: BoxFit.cover)),
+            child: BackdropFilter(
+              filter: ui.ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: width,
+                      height: height * .3,
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Text(
+                              'WORD',
+                              textAlign: TextAlign.center,
+                              style: kTitleSelectText.copyWith(
+                                  color: Colors.brown[900],
+                                  fontSize: height * .18),
+                            ),
+                          ),
+                          Positioned.fill(
+                            top: height * .18,
+                            child: Text(
+                              'CRAFT',
+                              textAlign: TextAlign.center,
+                              style: kTitleSelectText.copyWith(
+                                color: Colors.green[900],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  ButtonBar(
-                    alignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CardButton(
-                        icon: Icons.person,
+                    Transform.rotate(
+                      angle: -pi / 30 * animation.value,
+                      child: LevelCard(
+                        label: 'SINGLE PLAYER',
+                        routeName: 'SingleLevelOne',
                         height: height,
-                        onTap: () {
-                          Navigator.pushNamed(context, 'PlayerScreen');
-                        },
+                        width: width,
                       ),
-                      CardButton(
-                        icon: Icons.color_lens,
-                        height: height,
-                        onTap: () {
-                          setState(
-                            () {
-                              appData.updateTheme(gradientSetter.randomPair);
-                            },
-                          );
-                        },
-                      ),
-                    ],
-                  )
-                ],
+                    ),
+                    Transform.rotate(
+                      angle: pi / 30 * animation.value,
+                      child: LevelCard(
+                          label: 'MULTI-PLAYER',
+                          routeName: 'SignInPage',
+                          height: height,
+                          width: width),
+                    ),
+                    // ButtonBar(
+                    //   alignment: MainAxisAlignment.center,
+                    //   children: <Widget>[
+                    //     CardButton(
+                    //       icon: Icons.person,
+                    //       height: height,
+                    //       onTap: () {
+                    //         Navigator.pushNamed(context, 'PlayerScreen');
+                    //       },
+                    //     ),
+                    //     CardButton(
+                    //       icon: Icons.color_lens,
+                    //       height: height,
+                    //       onTap: () {
+                    //         setState(
+                    //           () {
+                    //             appData.updateTheme(gradientSetter.randomPair);
+                    //           },
+                    //         );
+                    //       },
+                    //     ),
+                    //   ],
+                    // )
+                  ],
+                ),
               ),
             ),
           );

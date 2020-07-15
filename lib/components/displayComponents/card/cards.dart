@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:math' show pi;
 import 'package:wordsmith/utilities/entryHandler.dart';
 
 class LevelCard extends StatelessWidget {
@@ -8,37 +10,70 @@ class LevelCard extends StatelessWidget {
   ///Named route to be navigated to onTap [routeName] must not be a non-null value
   final String routeName;
 
-  /// Returns a flat Tap-aware Card Widget that takes two
-  /// arguments the card label that will be displayed on the
-  /// card body and the route name which is a specified route
+  ///MediaQuery height data[height] must be specified.
+  final double height;
+
+  ///MediaQuery height data[width] must be specified.
+  final double width;
+
+  /// Returns a flat Tap-aware Card Widget with [assets/labelHanger.png] as a background
+  ///  that takes two
+  /// arguments the card [label] that will be displayed on the
+  /// card body and the [routeName] which is a specified route
   /// where the card navigates to onTap both values are String values.
-  /// The Card defaults to a color white with an opacity of .2
+
   /// ```dart
   /// LevelCard('Card Label','Home Screen');
   /// ```
-  LevelCard({this.label, @required this.routeName});
+  LevelCard({
+    this.label,
+    @required this.routeName,
+    @required this.height,
+    @required this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(80.0, 13.0, 88.0, 3.0),
-      child: Material(
-          borderRadius: BorderRadius.circular(6),
-          color: Colors.white.withOpacity(0.2),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(6),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                label,
-                style: TextStyle(fontSize: 20, color: Colors.white),
-                textAlign: TextAlign.center,
+      child: Stack(
+        children: [
+          Container(child: Image.asset('assets/labelHanger.png')),
+          Positioned.fill(
+            bottom: height*.01,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Transform.rotate(
+                angle:-pi/33,
+                child: Container(
+                  height: height * .09,
+                  width: width * .58,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(6),
+                      splashColor: Colors.yellow,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(
+                            label,
+                            style: GoogleFonts.creepster(fontSize: height*.03, color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed((context), routeName);
+                      },
+                    ),
+                  ),
+                ),
               ),
             ),
-            onTap: () {
-              Navigator.pushNamed((context), routeName);
-            },
-          )),
+          ),
+        ],
+      ),
     );
   }
 }
