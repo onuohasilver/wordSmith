@@ -3,6 +3,8 @@ import 'dart:math' show pi;
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:provider/provider.dart';
+import 'package:wordsmith/components/displayComponents/logo.dart';
+import 'package:wordsmith/userProvider/themeData.dart';
 import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
@@ -31,8 +33,8 @@ class _SelectScreenState extends State<SelectScreen>
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    GradientSetter gradientSetter = GradientSetter();
-    final Data appData = Provider.of<Data>(context);
+
+    final AppThemeData theme = Provider.of<AppThemeData>(context);
     animationController.repeat(reverse: true);
 
     return Scaffold(
@@ -42,10 +44,7 @@ class _SelectScreenState extends State<SelectScreen>
           return Container(
             height: height,
             width: width,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/wooden-wall.jpg'),
-                    fit: BoxFit.cover)),
+            decoration: theme.background,
             child: BackdropFilter(
               filter: ui.ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
               child: Container(
@@ -53,32 +52,10 @@ class _SelectScreenState extends State<SelectScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(
+                    WordCraftLogo(
                       width: width,
-                      height: height * .3,
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Text(
-                              'WORD',
-                              textAlign: TextAlign.center,
-                              style: kTitleSelectText.copyWith(
-                                  color: Colors.brown[900],
-                                  fontSize: height * .18),
-                            ),
-                          ),
-                          Positioned.fill(
-                            top: height * .18,
-                            child: Text(
-                              'CRAFT',
-                              textAlign: TextAlign.center,
-                              style: kTitleSelectText.copyWith(
-                                color: Colors.green[900],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      height: height,
+                      animation: animation,
                     ),
                     Transform.rotate(
                       angle: -pi / 30 * animation.value,
