@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
@@ -86,3 +87,7 @@ final kPurpleScreenDecoration = BoxDecoration(
 );
 
 final kTextShadow = [Shadow(blurRadius: 3, color: Colors.grey)];
+final BackdropFilter blurBox = BackdropFilter(
+  filter: ui.ImageFilter.blur(sigmaX: 5.0, sigmaY: 6.0),
+  child: Text('a'),
+);

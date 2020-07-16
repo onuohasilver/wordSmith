@@ -32,7 +32,8 @@ class LevelCard extends StatelessWidget {
     this.label,
     @required this.routeName,
     @required this.height,
-    @required this.width, this.controller,
+    @required this.width,
+    this.controller,
   });
 
   @override
@@ -43,11 +44,11 @@ class LevelCard extends StatelessWidget {
         children: [
           Container(child: Image.asset('assets/labelHanger.png')),
           Positioned.fill(
-            bottom: height*.01,
+            bottom: height * .01,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Transform.rotate(
-                angle:-pi/33,
+                angle: -pi / 33,
                 child: Container(
                   height: height * .09,
                   width: width * .58,
@@ -61,15 +62,14 @@ class LevelCard extends StatelessWidget {
                         child: Center(
                           child: Text(
                             label,
-                            style: GoogleFonts.creepster(fontSize: height*.03, color: Colors.white),
+                            style: GoogleFonts.creepster(
+                                fontSize: height * .03, color: Colors.white),
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
                       onTap: () {
-                        
                         Navigator.pushNamed((context), routeName);
-
                       },
                     ),
                   ),
@@ -115,37 +115,50 @@ class ScoreCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: height * .1,
-        width: width * .4,
-        child: Material(
-          child: InkWell(
-            borderRadius: BorderRadius.circular(12),
-            onTap: () {},
-            child: Column(children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  title,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-              Text(
-                content,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600),
-              )
-            ]),
-          ),
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.white.withOpacity(.2),
+      child: Stack(children: [
+        Container(
+          height: height * .15,
+          width: width * .3,
+          
+          child: Image.asset('assets/labelHanger2.png',fit:BoxFit.fill ,),
         ),
-      ),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: height * .1,
+              width: width * .4,
+              
+              child: Material(
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {},
+                    child: Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                              color: Colors.lightGreen[600],
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Text(
+                        content,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w600),
+                      )
+                    ]),
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.transparent),
+            ),
+          ),
+        ),
+      ]),
     );
   }
 }
