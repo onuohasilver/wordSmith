@@ -62,97 +62,101 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
       body: SingleChildScrollView(
         child: ModalProgressHUD(
           inAsyncCall: userData.progressComplete,
-          child: AnimatedBuilder(
-            animation: animationController,
-            builder: (context, widget) {
-              return Container(
-                height: height,
-                width: width,
-                decoration: theme.background,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    BackdropFilter(
-                      filter: ui.ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
-                      child: WordCraftLogo(
-                        height: height,
-                        width: width,
-                        animation: animation,
-                      ),
-                    ),
-                    Text(
-                      'MULTIPLAYER',
-                      style: TextStyle(
-                        color: Colors.white,
-                        shadows: kTextShadow,
-                      ),
-                    ),
-                    Text(
-                      'Log In to Play with Friends!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        shadows: kTextShadow,
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                    InputText(
-                      userData: userData,
-                      hintText: 'Email',
-                      keyboardType: TextInputType.emailAddress,
-                      enforceLength: null,
-                      onChanged: (email) => userData.updateEmail(email),
-                      obscure: false,
-                      animation: rboxAnimation,
-                      width: width,
-                    ),
-                    InputText(
-                        userData: userData,
-                        hintText: 'Password',
-                        keyboardType: TextInputType.text,
-                        obscure: true,
-                        animation: boxAnimation,
-                        width: width,
-                        onChanged: (password) =>
-                            userData.updatePassword(password),
-                        enforceLength: 8),
-                    SlimButton(
-                      label: 'Login',
-                      useWidget: false,
-                      onTap: () async {
-                        userData.updateProgress();
-
-                        try {
-                          final loggedinUser =
-                              await _auth.signInWithEmailAndPassword(
-                                  email: userData.email,
-                                  password: userData.password);
-                          if (loggedinUser != null) {
-                            userData.updateProgress();
-                            Navigator.pushReplacementNamed(
-                                context, 'PlayerScreen');
-                          }
-                        } catch (e) {}
-                      },
-                      color: Colors.white.withOpacity(.1),
-                      textColor: Colors.white,
-                    ),
-                    SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Need a new account?',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, color: Colors.white),
+          child: Container(
+            height:height,
+            width:width,
+            child: AnimatedBuilder(
+              animation: animationController,
+              builder: (context, widget) {
+                return Container(
+                  height: height,
+                  width: width,
+                  decoration: theme.background,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      BackdropFilter(
+                        filter: ui.ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
+                        child: WordCraftLogo(
+                          height: height,
+                          width: width,
+                          animation: animation,
                         ),
-                        SizedBox(width: 10),
-                        SignUp(routeName: 'RegisterPage', label: 'Register')
-                      ],
-                    )
-                  ],
-                ),
-              );
-            },
+                      ),
+                      Text(
+                        'MULTIPLAYER',
+                        style: TextStyle(
+                          color: Colors.white,
+                          shadows: kTextShadow,
+                        ),
+                      ),
+                      Text(
+                        'Log In to Play with Friends!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          shadows: kTextShadow,
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      InputText(
+                        userData: userData,
+                        hintText: 'Email',
+                        keyboardType: TextInputType.emailAddress,
+                        enforceLength: null,
+                        onChanged: (email) => userData.updateEmail(email),
+                        obscure: false,
+                        animation: rboxAnimation,
+                        width: width,
+                      ),
+                      InputText(
+                          userData: userData,
+                          hintText: 'Password',
+                          keyboardType: TextInputType.text,
+                          obscure: true,
+                          animation: boxAnimation,
+                          width: width,
+                          onChanged: (password) =>
+                              userData.updatePassword(password),
+                          enforceLength: 8),
+                      SlimButton(
+                        label: 'Login',
+                        useWidget: false,
+                        onTap: () async {
+                          userData.updateProgress();
+
+                          try {
+                            final loggedinUser =
+                                await _auth.signInWithEmailAndPassword(
+                                    email: userData.email,
+                                    password: userData.password);
+                            if (loggedinUser != null) {
+                              userData.updateProgress();
+                              Navigator.pushReplacementNamed(
+                                  context, 'PlayerScreen');
+                            }
+                          } catch (e) {}
+                        },
+                        color: Colors.white.withOpacity(.1),
+                        textColor: Colors.white,
+                      ),
+                      SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Need a new account?',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, color: Colors.white),
+                          ),
+                          SizedBox(width: 10),
+                          SignUp(routeName: 'RegisterPage', label: 'Register')
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),

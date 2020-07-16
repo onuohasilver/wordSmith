@@ -96,7 +96,8 @@ class ScoreCard extends StatelessWidget {
       @required this.height,
       @required this.width,
       @required this.title,
-      @required this.content})
+      @required this.content,
+      this.iconPath})
       : super(key: key);
 
   ///MediaQuery height value: must be a double
@@ -111,6 +112,9 @@ class ScoreCard extends StatelessWidget {
   ///Content of the Card defaults to null and must be provided
   final String content;
 
+  ///Path [String] of the icon
+  final String iconPath;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -119,42 +123,65 @@ class ScoreCard extends StatelessWidget {
         Container(
           height: height * .15,
           width: width * .3,
-          
-          child: Image.asset('assets/labelHanger2.png',fit:BoxFit.fill ,),
+          child: Image.asset(
+            'assets/labelHanger2.png',
+            fit: BoxFit.fill,
+          ),
+        ),
+        Positioned.fill(
+          top:height*0.04,
+          child: Align(
+            alignment: Alignment.center,
+            child: Container(
+              height: height * .07,
+              width: width * .15,
+              child: Material(
+                elevation: 60,
+                color: Colors.transparent,
+                child: Image.asset(
+                  iconPath ?? 'assets/ff.png',
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+          ),
         ),
         Positioned.fill(
           child: Align(
             alignment: Alignment.bottomCenter,
-            child: Container(
-              height: height * .1,
-              width: width * .4,
-              
-              child: Material(
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(12),
-                    onTap: () {},
-                    child: Column(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(
-                          title,
-                          style: TextStyle(
-                              color: Colors.lightGreen[600],
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500),
+            child: Transform.rotate(
+              angle: pi / 33,
+              child: Container(
+                height: height * .1,
+                width: width * .4,
+                child: Material(
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(500),
+                      splashColor: Colors.lightGreen[600].withOpacity(.5),
+                      onTap: () {},
+                      child: Column(children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                                color: Colors.lightGreen[600].withOpacity(.5),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
-                      ),
-                      Text(
-                        content,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w600),
-                      )
-                    ]),
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.transparent),
+                        Text(
+                          content,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600),
+                        )
+                      ]),
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.transparent),
+              ),
             ),
           ),
         ),

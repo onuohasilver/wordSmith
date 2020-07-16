@@ -57,25 +57,37 @@ class _SelectScreenState extends State<SelectScreen>
                       height: height,
                       animation: animation,
                     ),
-                    Transform.rotate(
-                      angle: -pi / 30 * animation.value,
-                      child: LevelCard(
-                        label: 'SINGLE PLAYER',
-                        routeName: 'SingleLevelOne',
-                        height: height,
-                        width: width,
+                    Container(
+                      height: height * .33,
+                      width: width,
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Transform.rotate(
+                                angle: pi / 30 * animation.value,
+                                child: LevelCard(
+                                    label: 'MULTI-PLAYER',
+                                    routeName: 'SignInPage',
+                                    height: height,
+                                    controller: animationController,
+                                    width: width),
+                              ),
+                            ),
+                          ),
+                          Transform.rotate(
+                            angle: -pi / 30 * animation.value,
+                            child: LevelCard(
+                              label: 'SINGLE PLAYER',
+                              routeName: 'SingleLevelOne',
+                              height: height,
+                              width: width,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Transform.rotate(
-                      angle: pi / 30 * animation.value,
-                      child: LevelCard(
-                          label: 'MULTI-PLAYER',
-                          routeName: 'SignInPage',
-                          height: height,
-                          controller:animationController, 
-                          width: width),
-                    ),
-                   
                   ],
                 ),
               ),
