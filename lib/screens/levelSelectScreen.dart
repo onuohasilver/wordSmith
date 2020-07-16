@@ -72,31 +72,10 @@ class _SelectScreenState extends State<SelectScreen>
                           label: 'MULTI-PLAYER',
                           routeName: 'SignInPage',
                           height: height,
+                          controller:animationController, 
                           width: width),
                     ),
-                    // ButtonBar(
-                    //   alignment: MainAxisAlignment.center,
-                    //   children: <Widget>[
-                    //     CardButton(
-                    //       icon: Icons.person,
-                    //       height: height,
-                    //       onTap: () {
-                    //         Navigator.pushNamed(context, 'PlayerScreen');
-                    //       },
-                    //     ),
-                    //     CardButton(
-                    //       icon: Icons.color_lens,
-                    //       height: height,
-                    //       onTap: () {
-                    //         setState(
-                    //           () {
-                    //             appData.updateTheme(gradientSetter.randomPair);
-                    //           },
-                    //         );
-                    //       },
-                    //     ),
-                    //   ],
-                    // )
+                   
                   ],
                 ),
               ),

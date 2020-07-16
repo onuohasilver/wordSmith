@@ -56,7 +56,7 @@ class SignUp extends StatelessWidget {
       color: Colors.white.withOpacity(.1),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
-        onTap: () => Navigator.pushNamed(context,routeName),
+        onTap: () => Navigator.pushReplacementNamed(context,routeName),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(

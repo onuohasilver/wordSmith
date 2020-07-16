@@ -15,19 +15,36 @@ class SignInPage extends StatefulWidget {
   _SignInPageState createState() => _SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage>
-    with SingleTickerProviderStateMixin {
+class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   AnimationController animationController;
+  AnimationController boxAnimationController;
   Animation animation;
+  Animation boxAnimation;
+  Animation rboxAnimation;
   @override
   void initState() {
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
     );
-    animation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
-        curve: Curves.bounceInOut, parent: animationController));
+    animation = Tween(begin: 1.0, end: 0.0).animate(
+        CurvedAnimation(curve: Curves.easeInBack, parent: animationController));
+    boxAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+    );
+    boxAnimation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
+        curve: Curves.bounceIn, parent: boxAnimationController));
+    rboxAnimation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
+        curve: Curves.bounceIn, parent: boxAnimationController));
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    boxAnimationController.dispose();
+    super.dispose();
   }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -35,6 +52,8 @@ class _SignInPageState extends State<SignInPage>
   @override
   Widget build(BuildContext context) {
     animationController.repeat(reverse: true);
+    
+    boxAnimationController.forward();
     final Data userData = Provider.of<Data>(context);
     final theme = Provider.of<AppThemeData>(context);
     double height = MediaQuery.of(context).size.height;
@@ -77,17 +96,22 @@ class _SignInPageState extends State<SignInPage>
                     ),
                     SizedBox(height: 30),
                     InputText(
-                        userData: userData,
-                        hintText: 'Email',
-                        keyboardType: TextInputType.emailAddress,
-                        enforceLength: null,
-                        onChanged: (email) => userData.updateEmail(email),
-                        obscure: false),
+                      userData: userData,
+                      hintText: 'Email',
+                      keyboardType: TextInputType.emailAddress,
+                      enforceLength: null,
+                      onChanged: (email) => userData.updateEmail(email),
+                      obscure: false,
+                      animation: rboxAnimation,
+                      width: width,
+                    ),
                     InputText(
                         userData: userData,
                         hintText: 'Password',
                         keyboardType: TextInputType.text,
                         obscure: true,
+                        animation: boxAnimation,
+                        width: width,
                         onChanged: (password) =>
                             userData.updatePassword(password),
                         enforceLength: 8),

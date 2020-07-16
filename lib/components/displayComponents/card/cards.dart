@@ -16,6 +16,9 @@ class LevelCard extends StatelessWidget {
   ///MediaQuery height data[width] must be specified.
   final double width;
 
+  /// a controller that needs to be disposed on page routing
+  final AnimationController controller;
+
   /// Returns a flat Tap-aware Card Widget with [assets/labelHanger.png] as a background
   ///  that takes two
   /// arguments the card [label] that will be displayed on the
@@ -29,7 +32,7 @@ class LevelCard extends StatelessWidget {
     this.label,
     @required this.routeName,
     @required this.height,
-    @required this.width,
+    @required this.width, this.controller,
   });
 
   @override
@@ -64,7 +67,9 @@ class LevelCard extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
+                        
                         Navigator.pushNamed((context), routeName);
+
                       },
                     ),
                   ),
