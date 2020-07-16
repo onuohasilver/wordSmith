@@ -1,5 +1,10 @@
+import 'dart:math' show pi;
+
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 import 'package:provider/provider.dart';
+import 'package:wordsmith/components/displayComponents/logo.dart';
+import 'package:wordsmith/userProvider/themeData.dart';
 import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
@@ -9,73 +14,86 @@ class SelectScreen extends StatefulWidget {
   _SelectScreenState createState() => _SelectScreenState();
 }
 
-class _SelectScreenState extends State<SelectScreen> {
+class _SelectScreenState extends State<SelectScreen>
+    with SingleTickerProviderStateMixin {
+  Animation animation;
+  AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+    animation = Tween(begin: 1.0, end: 0.0).animate(animationController);
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    GradientSetter gradientSetter = GradientSetter();
-    final Data appData = Provider.of<Data>(context);
 
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          height: height,
-          width: width,
-          decoration: gradientSetter.randomPair,
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text('WORD SMITH',
-                    textAlign: TextAlign.center, style: kTitleSelectText),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(78.0, 3.0, 78, 3.0),
-                  child: LevelCard(
-                    label: 'SINGLE PLAYER',
-                    onPressed: () {
-                      Navigator.pushNamed((context), 'SingleLevelOne');
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(78.0, 3.0, 78, 3.0),
-                  child: LevelCard(
-                    label: 'MULTI-PLAYER',
-                    onPressed: () {
-                      Navigator.pushNamed((context), 'SignInPage');
-                    },
-                  ),
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.center,
+    final AppThemeData theme = Provider.of<AppThemeData>(context);
+    animationController.repeat(reverse: true);
+
+    return Scaffold(
+      body: AnimatedBuilder(
+        animation: animationController,
+        builder: (context, widget) {
+          return Container(
+            height: height,
+            width: width,
+            decoration: theme.background,
+            child: BackdropFilter(
+              filter: ui.ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    CardButton(
-                      icon: Icons.person,
+                    WordCraftLogo(
+                      width: width,
                       height: height,
-                      onTap: () {
-                        Navigator.pushNamed(context, 'PlayerScreen');
-                      },
+                      animation: animation,
                     ),
-                    CardButton(
-                      icon: Icons.color_lens,
-                      height: height,
-                      onTap: () {
-                        setState(
-                          () {
-                            gradientSetter = GradientSetter();
-                            appData.updateTheme(gradientSetter.randomPair);
-                          },
-                        );
-                      },
+                    Container(
+                      height: height * .33,
+                      width: width,
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Transform.rotate(
+                                angle: pi / 30 * animation.value,
+                                child: LevelCard(
+                                    label: 'MULTI-PLAYER',
+                                    routeName: 'SignInPage',
+                                    height: height,
+                                    controller: animationController,
+                                    width: width),
+                              ),
+                            ),
+                          ),
+                          Transform.rotate(
+                            angle: -pi / 30 * animation.value,
+                            child: LevelCard(
+                              label: 'SINGLE PLAYER',
+                              routeName: 'SingleLevelOne',
+                              height: height,
+                              width: width,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
-                )
-              ],
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

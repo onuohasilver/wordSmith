@@ -13,30 +13,31 @@ import 'package:wordsmith/screens/chooseOpponent.dart';
 import 'package:wordsmith/screens/signInScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/userProvider/userData.dart';
+import 'package:wordsmith/userProvider/themeData.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create:(context)=>Data(),
-          child: MaterialApp(
-        initialRoute: 'LevelSelect',
-        debugShowCheckedModeBanner: false,
-        routes: {
-          'LevelSelect': (context) => SelectScreen(),
-          'LoadingScreen': (context) => LoadingScreen(),
-          'SingleLevelOne': (context) => SingleLevelOne(),
-          'SingleLevelTwo': (context) => SingleLevelTwo(),
-          'SingleLevelThree': (context) => SingleLevelThree(),
-          'MultiLevelOne': (context) => MultiLevelOne(),
-          'MultiLevelTwo': (context)=>MultiLevelTwo(),
-          'MultiLevelThree': (context)=>MultiLevelThree(),
-          'SignInPage': (context) => SignInPage(),
-          'RegisterPage':(context)=>RegisterScreen(),
-          'ChooseOpponent':(context)=>ChooseOpponent(),
-          'PlayerScreen':(context)=>PlayerScreen()
-        },
-      ),
-    )
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => Data()),
+      ChangeNotifierProvider(create: (context) => AppThemeData())
+    ],
+    child: MaterialApp(
+      initialRoute: 'LevelSelect',
+      debugShowCheckedModeBanner: false,
+      routes: {
+        'LevelSelect': (context) => SelectScreen(),
+        'LoadingScreen': (context) => LoadingScreen(),
+        'SingleLevelOne': (context) => SingleLevelOne(),
+        'SingleLevelTwo': (context) => SingleLevelTwo(),
+        'SingleLevelThree': (context) => SingleLevelThree(),
+        'MultiLevelOne': (context) => MultiLevelOne(),
+        'MultiLevelTwo': (context) => MultiLevelTwo(),
+        'MultiLevelThree': (context) => MultiLevelThree(),
+        'SignInPage': (context) => SignInPage(),
+        'RegisterPage': (context) => RegisterScreen(),
+        'ChooseOpponent': (context) => ChooseOpponent(),
+        'PlayerScreen': (context) => PlayerScreen()
+      },
+    ),
+  ));
 }
-

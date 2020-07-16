@@ -28,9 +28,15 @@ class SetupGameScreen extends StatefulWidget {
 bool startSpin = false;
 bool activateGame = false;
 int randomIndex = Random().nextInt(9);
+String gameID;
+getGameID(String current,String challenger){
+  return '${current.substring(4,10)}${challenger.substring(4,10)}';
+}
+
 
 class _SetupGameScreenState extends State<SetupGameScreen> {
   final _firestore = Firestore.instance;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +60,12 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                 enforceLength: 8,
                 keyboardType: TextInputType.text,
                 onChanged: (String gameID) {
-                  userData.updateGameID(gameID);
+                  userData.updateGameID('gameID');
                 },
               ),
             ),
+            
+
             Container(
               child: SlimButton(
                 label: 'Create Game',
@@ -68,6 +76,8 @@ class _SetupGameScreenState extends State<SetupGameScreen> {
                   setState(() {
                     startSpin = true;
                   });
+
+
 
                   _firestore
                       .collection('entry')
@@ -154,9 +164,26 @@ class ActiveGameStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DocumentSnapshot>(
+    return StreamListenableBuilder<DocumentSnapshot>(
       stream:
           _firestore.collection('activeGames').document('active').snapshots(),
+      listener: (value) {
+        if (value['active'].contains(userData.opponentGameID)) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return MultiLevelOne(
+                  opponentName: opponentName,
+                  opponentID: opponentID,
+                  currentUserName: currentUserName,
+                  currentUserID: currentUserID,
+                  opponentGameID: userData.opponentGameID,
+                  currentUserGameID: userData.challengerGameID,
+                  randomIndex: randomIndex);
+            }),
+          );
+        }
+      },
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final entry = snapshot.data;
@@ -164,19 +191,7 @@ class ActiveGameStream extends StatelessWidget {
 
           if (activeGameList.contains(userData.opponentGameID)) {
             print(activeGameList);
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) {
-                return MultiLevelOne(
-                    opponentName: opponentName,
-                    opponentID: opponentID,
-                    currentUserName: currentUserName,
-                    currentUserID: currentUserID,
-                    opponentGameID: userData.opponentGameID,
-                    currentUserGameID: userData.challengerGameID,
-                    randomIndex: randomIndex);
-              }),
-            );
+
             activateGame = true;
           } else {
             activateGame = false;
@@ -186,5 +201,30 @@ class ActiveGameStream extends StatelessWidget {
         return Text('$activateGame, ${userData.opponentGameID}');
       },
     );
+  }
+}
+
+//thank you stackoverflow
+typedef StreamListener<T> = void Function(T value);
+
+class StreamListenableBuilder<T> extends StreamBuilder<T> {
+  final StreamListener<T> listener;
+
+  const StreamListenableBuilder({
+    Key key,
+    T initialData,
+    Stream<T> stream,
+    @required this.listener,
+    @required AsyncWidgetBuilder<T> builder,
+  }) : super(
+            key: key,
+            initialData: initialData,
+            stream: stream,
+            builder: builder);
+
+  @override
+  AsyncSnapshot<T> afterData(AsyncSnapshot<T> current, T data) {
+    listener(data);
+    return super.afterData(current, data);
   }
 }

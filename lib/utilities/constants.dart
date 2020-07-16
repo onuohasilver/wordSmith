@@ -1,14 +1,14 @@
 import 'dart:math';
-
+import 'dart:ui' as ui;
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
 /// Returns a random color gradient pair
 /// as a BoxDecoration property
-///
-
 class GradientSetter {
   int random = Random().nextInt(gradientList.length);
 
+  ///returns a random gradient from the pre-specified gradientList
   BoxDecoration get randomPair {
     print(random);
     return BoxDecoration(
@@ -18,12 +18,6 @@ class GradientSetter {
 }
 
 const List<LinearGradient> gradientList = [
-  // LinearGradient(
-  //   begin: Alignment.topCenter,
-  //   end: Alignment.bottomCenter,
-  //   colors: [Color(0xff000e54), Color(0xff2a4299)],
-  //   stops: [0.2, 1],
-  // ),
   LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
@@ -57,8 +51,16 @@ var kLevelSelectContainerDecoration = BoxDecoration(
   ]),
 );
 
-final kTitleSelectText =
-    TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 35);
+final kTitleSelectText = GoogleFonts.creepster(
+    color: Colors.brown[900],
+    fontWeight: FontWeight.w800,
+    fontSize: 70,
+    shadows: [
+      Shadow(offset: Offset(-1, 1), color: Colors.white),
+      Shadow(offset: Offset(0, 1), color: Colors.white),
+      Shadow(offset: Offset(1, -1), color: Colors.white),
+      Shadow(offset: Offset(1, 0), color: Colors.white),
+    ]);
 
 final kLevelOneContainerDecoration = BoxDecoration(
   gradient: LinearGradient(
@@ -85,3 +87,7 @@ final kPurpleScreenDecoration = BoxDecoration(
 );
 
 final kTextShadow = [Shadow(blurRadius: 3, color: Colors.grey)];
+final BackdropFilter blurBox = BackdropFilter(
+  filter: ui.ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
+  child: Text('.'),
+);
