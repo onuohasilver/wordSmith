@@ -98,7 +98,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                             Text(
                               _userName,
                               style: GoogleFonts.poppins(
-                                  color: Colors.brown[900],
+                                  color: Colors.white,
                                   fontSize: 40,
                                   fontWeight: FontWeight.w600,
                                   shadows: [Shadow(blurRadius: 30)]),

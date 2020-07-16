@@ -88,6 +88,6 @@ final kPurpleScreenDecoration = BoxDecoration(
 
 final kTextShadow = [Shadow(blurRadius: 3, color: Colors.grey)];
 final BackdropFilter blurBox = BackdropFilter(
-  filter: ui.ImageFilter.blur(sigmaX: 5.0, sigmaY: 6.0),
-  child: Text('a'),
+  filter: ui.ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
+  child: Text('.'),
 );

@@ -59,9 +59,9 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: ModalProgressHUD(
-          inAsyncCall: userData.progressComplete,
+      body: ModalProgressHUD(
+        inAsyncCall: userData.progressComplete,
+        child: SingleChildScrollView(
           child: Container(
             height:height,
             width:width,

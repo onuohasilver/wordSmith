@@ -123,13 +123,17 @@ class ScoreCard extends StatelessWidget {
         Container(
           height: height * .15,
           width: width * .3,
-          child: Image.asset(
-            'assets/labelHanger2.png',
-            fit: BoxFit.fill,
+          child: Material(
+            color: Colors.transparent,
+            elevation: 50,
+            child: Image.asset(
+              'assets/labelHanger2.png',
+              fit: BoxFit.fill,
+            ),
           ),
         ),
         Positioned.fill(
-          top:height*0.04,
+          top: height * 0.04,
           child: Align(
             alignment: Alignment.center,
             child: Container(
