@@ -48,11 +48,10 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   @override
   Widget build(BuildContext context) {
     animationController.repeat(reverse: true);
-    
+
     boxAnimationController.forward();
     final Data userData = Provider.of<Data>(context);
     final theme = Provider.of<AppThemeData>(context);
@@ -63,8 +62,8 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
         inAsyncCall: userData.progressComplete,
         child: SingleChildScrollView(
           child: Container(
-            height:height,
-            width:width,
+            height: height,
+            width: width,
             child: AnimatedBuilder(
               animation: animationController,
               builder: (context, widget) {
@@ -131,6 +130,9 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                                     password: userData.password);
                             if (loggedinUser != null) {
                               userData.updateProgress();
+                              final loggedInUser = await _auth.currentUser();
+                              String loggedInUserId = loggedInUser.uid;
+                              userData.updateUserID(loggedInUserId);
                               Navigator.pushReplacementNamed(
                                   context, 'PlayerScreen');
                             }
@@ -146,7 +148,8 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                           Text(
                             'Need a new account?',
                             style: TextStyle(
-                                fontWeight: FontWeight.w600, color: Colors.white),
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white),
                           ),
                           SizedBox(width: 10),
                           SignUp(routeName: 'RegisterPage', label: 'Register')

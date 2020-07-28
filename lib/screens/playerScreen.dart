@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
 import 'package:wordsmith/userProvider/themeData.dart';
+import 'package:wordsmith/userProvider/userData.dart';
 
 import 'package:wordsmith/utilities/constants.dart';
 import 'package:wordsmith/utilities/localData.dart';
@@ -27,7 +28,8 @@ class _PlayerScreenState extends State<PlayerScreen>
   @override
   void initState() {
     super.initState();
-    getUserDetails();
+    
+
     animationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 5),
@@ -35,15 +37,8 @@ class _PlayerScreenState extends State<PlayerScreen>
     animation = Tween(begin: 0.5, end: 1.0).animate(animationController);
     flipAnimation = Tween(begin: 1.0, end: 0.0).animate(animationController);
   }
-
-  FirebaseAuth _auth = FirebaseAuth.instance;
   final _firestore = Firestore.instance;
-  String loggedInUserId;
-  getUserDetails() async {
-    final loggedInUser = await _auth.currentUser();
-    loggedInUserId = loggedInUser.uid;
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     _highScore() async {
@@ -55,11 +50,12 @@ class _PlayerScreenState extends State<PlayerScreen>
 
     _highScore();
 
-    // final Data appData = Provider.of<Data>(context);
-    final AppThemeData theme = Provider.of<AppThemeData>(context);
+    AppThemeData theme = Provider.of<AppThemeData>(context);
+    Data userData = Provider.of<Data>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     animationController.repeat();
+
     return Scaffold(
       body: AnimatedBuilder(
         animation: animationController,
@@ -88,7 +84,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                         final _users = snapshot.data.documents;
                         String _userName;
                         for (var user in _users) {
-                          if (user.data['userid'] == loggedInUserId) {
+                          if (user.data['userid'] == userData.currentUserID) {
                             _userName = user.data['username'];
                           }
                         }
@@ -104,7 +100,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                                   shadows: [Shadow(blurRadius: 30)]),
                             ),
                             Positioned.fill(
-                              right: width*.02,
+                              right: width * .02,
                               child: Align(
                                 alignment: Alignment.centerRight,
                                 child: CircleAvatar(
@@ -129,9 +125,10 @@ class _PlayerScreenState extends State<PlayerScreen>
                           child: Align(
                             alignment: Alignment.bottomRight,
                             child: ScoreCard(
+                              toolTip: 'Settings',
                               content: '',
                               title: '',
-                              iconPath:'assets/settings.png' ,
+                              iconPath: 'assets/settings.png',
                               height: height * 1.3,
                               width: width * 1.3,
                             ),
@@ -142,11 +139,12 @@ class _PlayerScreenState extends State<PlayerScreen>
                           child: Align(
                             alignment: Alignment.bottomLeft,
                             child: ScoreCard(
+                                toolTip: 'Log Off',
                                 content: '',
                                 title: '',
                                 height: height * 1.3,
                                 width: width * 1.3,
-                                iconPath:'assets/logOff.png' ),
+                                iconPath: 'assets/logOff.png'),
                           ),
                         ),
                         Positioned.fill(
@@ -154,9 +152,10 @@ class _PlayerScreenState extends State<PlayerScreen>
                           child: Align(
                             alignment: Alignment.topRight,
                             child: ScoreCard(
+                              toolTip: "All Users",
                               content: '',
                               title: '',
-                              iconPath:'assets/people.png' ,
+                              iconPath: 'assets/people.png',
                               height: height * 1.3,
                               width: width * 1.3,
                             ),
@@ -167,8 +166,10 @@ class _PlayerScreenState extends State<PlayerScreen>
                           child: Align(
                             alignment: Alignment.topLeft,
                             child: ScoreCard(
+                              toolTip: "Friends",
+                              routeName: "FriendScreen",
                               content: '',
-                              iconPath:'assets/ff2.png' ,
+                              iconPath: 'assets/ff2.png',
                               title: '',
                               height: height * 1.3,
                               width: width * 1.3,

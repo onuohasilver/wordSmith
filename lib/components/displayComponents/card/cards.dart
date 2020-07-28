@@ -97,7 +97,9 @@ class ScoreCard extends StatelessWidget {
       @required this.width,
       @required this.title,
       @required this.content,
-      this.iconPath})
+      this.iconPath,
+      this.toolTip,
+      this.routeName})
       : super(key: key);
 
   ///MediaQuery height value: must be a double
@@ -114,6 +116,12 @@ class ScoreCard extends StatelessWidget {
 
   ///Path [String] of the icon
   final String iconPath;
+
+  ///tooltip message to be displayed [String]
+  final String toolTip;
+
+  /// route to be navigated to on button press [String]
+  final String routeName;
 
   @override
   Widget build(BuildContext context) {
@@ -151,37 +159,41 @@ class ScoreCard extends StatelessWidget {
           ),
         ),
         Positioned.fill(
+          bottom: height * .01,
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Transform.rotate(
               angle: pi / 33,
               child: Container(
-                height: height * .1,
+                height: height * .09,
                 width: width * .4,
                 child: Material(
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(500),
-                      splashColor: Colors.lightGreen[600].withOpacity(.5),
-                      onTap: () {},
-                      child: Column(children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text(
-                            title,
-                            style: TextStyle(
-                                color: Colors.lightGreen[600].withOpacity(.5),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500),
+                    child: Tooltip(
+                      message: toolTip,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(500),
+                        splashColor: Colors.lightGreen[600].withOpacity(.5),
+                        onTap: () => Navigator.pushNamed(context, routeName),
+                        child: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text(
+                              title,
+                              style: TextStyle(
+                                  color: Colors.lightGreen[600].withOpacity(.5),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                            ),
                           ),
-                        ),
-                        Text(
-                          content,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 25,
-                              fontWeight: FontWeight.w600),
-                        )
-                      ]),
+                          Text(
+                            content,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.w600),
+                          )
+                        ]),
+                      ),
                     ),
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.transparent),

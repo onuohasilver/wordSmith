@@ -87,6 +87,9 @@ final kPurpleScreenDecoration = BoxDecoration(
 );
 
 final kTextShadow = [Shadow(blurRadius: 3, color: Colors.grey)];
+///blurs out the background image behind it.
+/// 
+/// child is a simple [Text] widget with a ['.'] as content.
 final BackdropFilter blurBox = BackdropFilter(
   filter: ui.ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
   child: Text('.'),

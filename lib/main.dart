@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordsmith/screens/friendsScreen.dart';
 import 'package:wordsmith/screens/levelSelectScreen.dart';
 import 'package:wordsmith/screens/playerScreen.dart';
 import 'package:wordsmith/screens/registerScreen.dart';
@@ -36,7 +37,8 @@ void main() {
         'SignInPage': (context) => SignInPage(),
         'RegisterPage': (context) => RegisterScreen(),
         'ChooseOpponent': (context) => ChooseOpponent(),
-        'PlayerScreen': (context) => PlayerScreen()
+        'PlayerScreen': (context) => PlayerScreen(),
+        'FriendScreen':(context)=>FriendScreen()
       },
     ),
   ));
