@@ -5,9 +5,6 @@ class Data extends ChangeNotifier {
   String password;
   String userName;
   bool progressComplete = false;
-  String gameID;
-  String opponentGameID;
-  String challengerGameID;
   ///Current User ID as attached to firestore.
   String currentUserID;
   BoxDecoration theme = BoxDecoration(
@@ -42,15 +39,5 @@ class Data extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateGameID(String newGameID) {
-    gameID = newGameID;
-    challengerGameID = gameID.split('').reversed.join();
-    opponentGameID = gameID;
-    notifyListeners();
-  }
-
-  updateTheme(BoxDecoration newTheme) {
-    theme = newTheme;
-    notifyListeners();
-  }
+  
 }

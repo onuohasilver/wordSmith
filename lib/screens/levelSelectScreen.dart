@@ -3,6 +3,7 @@ import 'dart:math' show pi;
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:provider/provider.dart';
+import 'package:wordsmith/components/displayComponents/card/levelSelectCard.dart';
 import 'package:wordsmith/components/displayComponents/logo.dart';
 import 'package:wordsmith/userProvider/themeData.dart';
 import 'package:wordsmith/userProvider/userData.dart';

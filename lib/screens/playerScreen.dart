@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
+import 'package:wordsmith/components/displayComponents/card/scoreCard.dart';
 import 'package:wordsmith/userProvider/themeData.dart';
 import 'package:wordsmith/userProvider/userData.dart';
 
@@ -24,9 +25,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   Animation flipAnimation;
   LocalData localData = LocalData();
   int highScore = 0;
-
-  @override
-  final _firestore = Firestore.instance;
+  Firestore _firestore = Firestore.instance;
 
   @override
   Widget build(BuildContext context) {

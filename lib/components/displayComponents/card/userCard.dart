@@ -7,6 +7,10 @@ import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/constants.dart';
 
 class UserCard extends StatelessWidget {
+  ///display User Information with
+  ///an option to either follow the user or
+  ///send a game challenge.
+  ///it defaults to a [Colors.lime] background container
   const UserCard(
       {Key key,
       @required this.width,
@@ -15,9 +19,18 @@ class UserCard extends StatelessWidget {
       @required this.height})
       : super(key: key);
 
+  ///MediaQuery request on the width of the current context
   final double width;
+
+  ///MediaQuery request on the height of the current context
   final double height;
+
+  ///UserName of the current User being displayed gotten from an
+  ///initial firebase request
   final String userName;
+
+  ///UserID of the current User being displayed gotten from an
+  ///initial firebase request
   final String userID;
 
   @override

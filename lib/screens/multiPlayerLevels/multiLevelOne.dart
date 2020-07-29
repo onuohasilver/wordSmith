@@ -161,7 +161,9 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                   children: <Widget>[
                     Text('${userData.userName.toUpperCase()} 😎',
                         style: TextStyle(color: Colors.white)),
-                    LittleCard(child: Text(entryHandler.scoreKeeper.scoreValue().toString())),
+                    LittleCard(
+                        child: Text(
+                            entryHandler.scoreKeeper.scoreValue().toString())),
                     Text('${widget.opponentName.toUpperCase()} 😎',
                         style: TextStyle(color: Colors.white)),
                     LittleCard(child: Text(opponentScore.toString())),
@@ -193,9 +195,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               OpponentUserStream(
-                                opponentUserID: widget.opponentID,
+                                  opponentUserID: widget.opponentID,
                                   firestore: _firestore,
-                                  widget: widget,
                                   streamEntriesOpponent: streamEntriesOpponent,
                                   entryHandler: entryHandler)
                             ],
@@ -205,7 +206,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                     ],
                   ),
                 ),
-                //FIXME: Alphabet Widgets do not respond to setState calls. Find a fix. 
+                //FIXME: Alphabet Widgets do not respond to setState calls. Find a fix.
                 // DisplayCurrentEntry(
                 //     entryHandler: entryHandler,
                 //     letterMap: letterMap,
@@ -213,95 +214,103 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                 //     firestore: _firestore,
                 //     userData: userData),
                 Card(
-        color: Colors.lightBlue.withOpacity(.4),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: GestureDetector(
-                child: Icon(Icons.delete_forever,
-                    color: Colors.lightBlue, size: 30.0),
-                onTap: () {
-                  setState(
-                    () {
-                      entryHandler.alphabetHandler.reset();
-                      letterMap.reset();
-                    },
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Center(
-                child: Text(
-                    entryHandler.alphabetHandler.newAlpha.toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, color: Colors.white)),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: GestureDetector(
-                child: Icon(Icons.send, color: Colors.lightBlue, size: 30.0),
-                onTap: () async {
-                  ///retrieve all the previously entered words from firestore
-                  /// so that it can be merged with the current entry and re-uploaded
-                  Map activeGamesMap;
-                  await _firestore
-                      .collection('users')
-                      .document(userData.currentUserID)
-                      .get()
-                      .then((value) => activeGamesMap = value['activeGames']);
-                  setState(
-                    () {
-                      String allAlphabets =
-                          entryHandler.alphabetHandler.allAlphabets();
-                      print('trying to reset this');
-                      entryHandler.alphabetHandler.reset();
-                      letterMap.reset();
-                      if (!streamEntriesCurrentUser
-                          .contains(allAlphabets)) {
-                        bool criteria = allAlphabets.length > 3;
+                    color: Colors.lightBlue.withOpacity(.4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: GestureDetector(
+                            child: Icon(Icons.delete_forever,
+                                color: Colors.lightBlue, size: 30.0),
+                            onTap: () {
+                              setState(
+                                () {
+                                  entryHandler.alphabetHandler.reset();
+                                  letterMap.reset();
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Text(
+                                entryHandler.alphabetHandler.newAlpha
+                                    .toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: GestureDetector(
+                            child: Icon(Icons.send,
+                                color: Colors.lightBlue, size: 30.0),
+                            onTap: () async {
+                              ///retrieve all the previously entered words from firestore
+                              /// so that it can be merged with the current entry and re-uploaded
+                              Map activeGamesMap;
+                              await _firestore
+                                  .collection('users')
+                                  .document(userData.currentUserID)
+                                  .get()
+                                  .then((value) =>
+                                      activeGamesMap = value['activeGames']);
+                              setState(
+                                () {
+                                  String allAlphabets = entryHandler
+                                      .alphabetHandler
+                                      .allAlphabets();
+                                  print('trying to reset this');
+                                  entryHandler.alphabetHandler.reset();
+                                  letterMap.reset();
+                                  if (!streamEntriesCurrentUser
+                                      .contains(allAlphabets)) {
+                                    bool criteria = allAlphabets.length > 3;
 
-                        List currentUserWords = [allAlphabets];
-                        List currentUserValidList = [
-                          verifyWord(
-                              entryHandler.getGameWord(), allAlphabets)
-                        ];
-                        currentUserWords
-                            .addAll(activeGamesMap['currentUserWords']);
-                        currentUserValidList
-                            .addAll(activeGamesMap['currentUserValidList']);
-                        activeGamesMap['currentUserWords'] = currentUserWords;
-                        activeGamesMap['currentUserScore'] =
-                            entryHandler.scoreKeeper.scoreValue().toString();
-                        activeGamesMap['currentUserValidList'] =
-                            currentUserValidList;
+                                    List currentUserWords = [allAlphabets];
+                                    List currentUserValidList = [
+                                      verifyWord(entryHandler.getGameWord(),
+                                          allAlphabets)
+                                    ];
+                                    currentUserWords.addAll(
+                                        activeGamesMap['currentUserWords']);
+                                    currentUserValidList.addAll(
+                                        activeGamesMap['currentUserValidList']);
+                                    activeGamesMap['currentUserWords'] =
+                                        currentUserWords;
+                                    activeGamesMap['currentUserScore'] =
+                                        entryHandler.scoreKeeper
+                                            .scoreValue()
+                                            .toString();
+                                    activeGamesMap['currentUserValidList'] =
+                                        currentUserValidList;
 
-                        criteria
-                            ? _firestore
-                                .collection('users')
-                                .document(userData.currentUserID)
-                                .setData({
-                                'activeGames': activeGamesMap,
-                              }, merge: true)
-                            : print('');
+                                    criteria
+                                        ? _firestore
+                                            .collection('users')
+                                            .document(userData.currentUserID)
+                                            .setData({
+                                            'activeGames': activeGamesMap,
+                                          }, merge: true)
+                                        : print('');
 
-                        criteria
-                            ? entryHandler.insert(
-                                allAlphabets.trimLeft(),
-                              )
-                            : print('');
-                      }
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        )),
+                                    criteria
+                                        ? entryHandler.insert(
+                                            allAlphabets.trimLeft(),
+                                          )
+                                        : print('');
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    )),
                 Wrap(
                   direction: Axis.horizontal,
                   alignment: WrapAlignment.center,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wordsmith/utilities/constants.dart';
 
 class WordCraftLogo extends StatelessWidget {
+  ///Creates the App Logo Widget
   const WordCraftLogo({
     Key key,
     @required this.width,
@@ -11,8 +12,13 @@ class WordCraftLogo extends StatelessWidget {
     this.animation,
   }) : super(key: key);
 
+  ///MediaQuery request on the width of the current context
   final double width;
+
+  ///MediaQuery request on the height of the current context
   final double height;
+
+  ///Animation double for the transformation of the text
   final Animation animation;
 
   @override

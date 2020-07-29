@@ -2,12 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-// import 'package:wordsmith/screens/joinGameScreen.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
 import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/constants.dart';
 
 class WaitingForOpponent extends StatelessWidget {
+  ///A popup streambuilder widget that listens for changes
+  ///in the opponent user's [acceptedChallenges] document
+  ///on firestore and pushes to the gameplay screen
+  ///once the sent challenge has been accepted
   const WaitingForOpponent(
       {Key key,
       @required this.height,
@@ -17,10 +20,19 @@ class WaitingForOpponent extends StatelessWidget {
       @required this.opponentName})
       : super(key: key);
 
+  /// MediaQuery request on the height of the current context
   final double height;
+
+  /// MediaQuery request on the width of the current context
   final double width;
+
+  /// Firestore Instance
   final Firestore firestore;
+
+  /// Opponent UserID
   final String userID;
+
+  ///Opponent Username
   final String opponentName;
 
   @override
@@ -80,6 +92,7 @@ class WaitingForOpponent extends StatelessWidget {
 }
 
 class GameStream extends StatelessWidget {
+  ///Stream Listener that carries out the [WaitingForOpponent] functionality
   const GameStream({
     Key key,
     @required this.firestore,

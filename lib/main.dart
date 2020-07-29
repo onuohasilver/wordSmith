@@ -7,10 +7,7 @@ import 'package:wordsmith/screens/singlePlayerLevels/singleLevelThree.dart';
 import 'package:wordsmith/screens/singlePlayerLevels/singleLevelTwo.dart';
 import 'package:wordsmith/screens/singlePlayerLevels/singleLevelOne.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
-import 'package:wordsmith/screens/multiPlayerLevels/multiLevelThree.dart';
-import 'package:wordsmith/screens/multiPlayerLevels/multiLevelTwo.dart';
 import 'package:wordsmith/screens/loadingScreen.dart';
-import 'package:wordsmith/screens/chooseOpponent.dart';
 import 'package:wordsmith/screens/signInScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/userProvider/userData.dart';
@@ -32,13 +29,12 @@ void main() {
         'SingleLevelTwo': (context) => SingleLevelTwo(),
         'SingleLevelThree': (context) => SingleLevelThree(),
         'MultiLevelOne': (context) => MultiLevelOne(),
-        'MultiLevelTwo': (context) => MultiLevelTwo(),
-        'MultiLevelThree': (context) => MultiLevelThree(),
+
         'SignInPage': (context) => SignInPage(),
         'RegisterPage': (context) => RegisterScreen(),
         // 'ChooseOpponent': (context) => ChooseOpponent(),
         'PlayerScreen': (context) => PlayerScreen(),
-        'FriendScreen':(context)=>FriendScreen()
+        'FriendScreen': (context) => FriendScreen()
       },
     ),
   ));
