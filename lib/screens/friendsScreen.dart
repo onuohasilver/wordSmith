@@ -17,6 +17,7 @@ class _FriendScreenState extends State<FriendScreen> {
   List<String> friendList = [];
   List<dynamic> friends = [];
   List<String> friendUserNames;
+  List<String> friendUserIDs;
 
   @override
   void initState() {
@@ -31,7 +32,6 @@ class _FriendScreenState extends State<FriendScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-   
     return Scaffold(
         body: StreamBuilder<QuerySnapshot>(
             stream: _firestore.collection('users').snapshots(),
@@ -41,23 +41,23 @@ class _FriendScreenState extends State<FriendScreen> {
                   child: CircularProgressIndicator(),
                 );
               } else {
-                print(userData.currentUserID);
-
                 final users = snapshot.data.documents;
                 friendUserNames = [];
+                friendUserIDs = [];
+
+                for (var user in users) {
+                  final String userID = user.data['userid'];
+                  if (userData.currentUserID == userID) {
+                    friends = user.data['friends'];
+                  }
+                }
 
                 for (var user in users) {
                   final String userID = user.data['userid'];
                   final String userName = user.data['username'];
-
-                  if (userData.currentUserID == userID) {
-                    friends = user.data['friends'];
-                    // print(friends);
-
-                  }
                   if (friends.contains(userID)) {
-                    print(friends);
                     friendUserNames.add(userName);
+                    friendUserIDs.add(userID);
                   }
                 }
               }
@@ -82,7 +82,11 @@ class _FriendScreenState extends State<FriendScreen> {
                                   mainAxisSpacing: 10),
                           itemBuilder: (context, index) {
                             return UserCard(
-                                width: width, userName: friendUserNames[index]);
+                              width: width,
+                              height: height,
+                              userName: friendUserNames[index],
+                              userID: friendUserIDs[index],
+                            );
                           },
                         ),
                       ),
@@ -93,4 +97,3 @@ class _FriendScreenState extends State<FriendScreen> {
             }));
   }
 }
-

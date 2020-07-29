@@ -1,270 +1,270 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart';
-import 'package:wordsmith/screens/joinGameScreen.dart';
-import 'package:wordsmith/screens/setupGameScreen.dart';
-import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart';
-import 'package:wordsmith/components/displayComponents/card/cards.dart';
-import 'package:wordsmith/userProvider/userData.dart';
+// import 'package:flutter/material.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:provider/provider.dart';
+// import 'package:wordsmith/screens/joinGameScreen.dart';
+// import 'package:wordsmith/screens/setupGameScreen.dart';
+// import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart';
+// import 'package:wordsmith/components/displayComponents/card/cards.dart';
+// import 'package:wordsmith/userProvider/userData.dart';
 
-class ChooseOpponent extends StatefulWidget {
-  @override
-  _ChooseOpponentState createState() => _ChooseOpponentState();
-}
+// class ChooseOpponent extends StatefulWidget {
+//   @override
+//   _ChooseOpponentState createState() => _ChooseOpponentState();
+// }
 
-class _ChooseOpponentState extends State<ChooseOpponent> {
-  @override
-  void initState() {
-    getUserDetails();
-    super.initState();
-  }
+// class _ChooseOpponentState extends State<ChooseOpponent> {
+//   @override
+//   void initState() {
+//     getUserDetails();
+//     super.initState();
+//   }
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  final _firestore = Firestore.instance;
-  String loggedInUserId;
-  getUserDetails() async {
-    final loggedInUser = await _auth.currentUser();
-    loggedInUserId = loggedInUser.uid;
-  }
+//   FirebaseAuth _auth = FirebaseAuth.instance;
+//   final _firestore = Firestore.instance;
+//   String loggedInUserId;
+//   getUserDetails() async {
+//     final loggedInUser = await _auth.currentUser();
+//     loggedInUserId = loggedInUser.uid;
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    final appData = Provider.of<Data>(context);
-    List<String> friendList = [];
-    return SafeArea(
-      child: Scaffold(
-          body: Container(
-        width: double.infinity,
-        decoration: appData.theme,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: Card(
-                color: Colors.transparent,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      'Friends',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    StreamBuilder<QuerySnapshot>(
-                        stream: _firestore.collection('users').snapshots(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            final users = snapshot.data.documents;
-                            List<Widget> entryWidgets = [];
-                            List<dynamic> friends = [];
+//   @override
+//   Widget build(BuildContext context) {
+//     final appData = Provider.of<Data>(context);
+//     List<String> friendList = [];
+//     return SafeArea(
+//       child: Scaffold(
+//           body: Container(
+//         width: double.infinity,
+//         decoration: appData.theme,
+//         child: Row(
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           children: <Widget>[
+//             Expanded(
+//               child: Card(
+//                 color: Colors.transparent,
+//                 child: Column(
+//                   children: <Widget>[
+//                     SizedBox(
+//                       height: 4,
+//                     ),
+//                     Text(
+//                       'Friends',
+//                       style: TextStyle(color: Colors.white),
+//                     ),
+//                     StreamBuilder<QuerySnapshot>(
+//                         stream: _firestore.collection('users').snapshots(),
+//                         builder: (context, snapshot) {
+//                           if (snapshot.hasData) {
+//                             final users = snapshot.data.documents;
+//                             List<Widget> entryWidgets = [];
+//                             List<dynamic> friends = [];
 
-                            for (var user in users) {
-                              final String userID = user.data['userid'];
-                              final String userName = user.data['username'];
-                              if (loggedInUserId == userID) {
-                                friends = user.data['friends'];
-                              }
-                              if (friends.contains(userID)) {
-                                entryWidgets.add(UserCard(
-                                  onTap: () {
-                                    //FIXME: Use a custom Dialog Box. 
-                                    //TODO: Eliminate Wrapping.
-                                    //TODO: Push to new file.
-                                    showDialog(
-                                        context: context,
-                                        child: AlertDialog(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15)),
-                                          backgroundColor: Colors.white,
-                                          elevation: 3,
-                                          content: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              RaisedButton(
-                                                child: Text('Play'),
-                                                onPressed: () => Navigator
-                                                    .pushReplacementNamed(
-                                                        context,
-                                                        'MultiLevelOne'),
-                                                elevation: 12,
-                                              ),
-                                              RaisedButton(
-                                                child: Text('Remove'),
-                                                onPressed: () {},
-                                                elevation: 12,
-                                              )
-                                            ],
-                                          ),
-                                        ));
-                                  },
-                                  userName: userName,
-                                  color: Colors.greenAccent,
-                                ));
-                              }
-                            }
-                            return Expanded(
-                                child: ListView(
-                                    reverse: false, children: entryWidgets));
-                          } else {
-                            return CircularProgressIndicator();
-                          }
-                        }),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: Card(
-                color: Colors.transparent,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      'All Users',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    StreamBuilder<QuerySnapshot>(
-                        stream: _firestore.collection('users').snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return CircularProgressIndicator();
-                          } else {
-                            final users = snapshot.data.documents;
-                            List<Widget> entryWidgets = [];
-                            List<dynamic> friends = [];
-                            String loggedInUserName;
-                            String loggedInUserID;
+//                             for (var user in users) {
+//                               final String userID = user.data['userid'];
+//                               final String userName = user.data['username'];
+//                               if (loggedInUserId == userID) {
+//                                 friends = user.data['friends'];
+//                               }
+//                               if (friends.contains(userID)) {
+//                                 entryWidgets.add(UserCard(
+//                                   onTap: () {
+//                                     //FIXME: Use a custom Dialog Box. 
+//                                     //TODO: Eliminate Wrapping.
+//                                     //TODO: Push to new file.
+//                                     showDialog(
+//                                         context: context,
+//                                         child: AlertDialog(
+//                                           shape: RoundedRectangleBorder(
+//                                               borderRadius:
+//                                                   BorderRadius.circular(15)),
+//                                           backgroundColor: Colors.white,
+//                                           elevation: 3,
+//                                           content: Row(
+//                                             mainAxisAlignment:
+//                                                 MainAxisAlignment.spaceEvenly,
+//                                             children: <Widget>[
+//                                               RaisedButton(
+//                                                 child: Text('Play'),
+//                                                 onPressed: () => Navigator
+//                                                     .pushReplacementNamed(
+//                                                         context,
+//                                                         'MultiLevelOne'),
+//                                                 elevation: 12,
+//                                               ),
+//                                               RaisedButton(
+//                                                 child: Text('Remove'),
+//                                                 onPressed: () {},
+//                                                 elevation: 12,
+//                                               )
+//                                             ],
+//                                           ),
+//                                         ));
+//                                   },
+//                                   userName: userName,
+//                                   color: Colors.greenAccent,
+//                                 ));
+//                               }
+//                             }
+//                             return Expanded(
+//                                 child: ListView(
+//                                     reverse: false, children: entryWidgets));
+//                           } else {
+//                             return CircularProgressIndicator();
+//                           }
+//                         }),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//             Expanded(
+//               child: Card(
+//                 color: Colors.transparent,
+//                 child: Column(
+//                   children: <Widget>[
+//                     SizedBox(
+//                       height: 4,
+//                     ),
+//                     Text(
+//                       'All Users',
+//                       style: TextStyle(color: Colors.white),
+//                     ),
+//                     StreamBuilder<QuerySnapshot>(
+//                         stream: _firestore.collection('users').snapshots(),
+//                         builder: (context, snapshot) {
+//                           if (!snapshot.hasData) {
+//                             return CircularProgressIndicator();
+//                           } else {
+//                             final users = snapshot.data.documents;
+//                             List<Widget> entryWidgets = [];
+//                             List<dynamic> friends = [];
+//                             String loggedInUserName;
+//                             String loggedInUserID;
 
-                            for (var user in users) {
-                              final String userID = user.data['userid'];
-                              final String userName = user.data['username'];
-                              if (loggedInUserId == userID) {
-                                friends = user.data['friends'];
-                                loggedInUserName = user.data['username'];
-                                loggedInUserID = user.data['userid'];
-                              }
+//                             for (var user in users) {
+//                               final String userID = user.data['userid'];
+//                               final String userName = user.data['username'];
+//                               if (loggedInUserId == userID) {
+//                                 friends = user.data['friends'];
+//                                 loggedInUserName = user.data['username'];
+//                                 loggedInUserID = user.data['userid'];
+//                               }
 
-                              if (!(friends.contains(userID)) &
-                                  (loggedInUserId != userID)) {
-                                entryWidgets.add(
-                                  UserCard(
-                                      onTap: () {
-                                        showDialog(
-                                            context: context,
-                                            child: Container(
-                                              width: 50,
-                                              child: AlertDialog(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                backgroundColor: Colors.white
-                                                    .withOpacity(.6),
-                                                content: Wrap(
-                                                  alignment:
-                                                      WrapAlignment.center,
-                                                  children: <Widget>[
-                                                    SlimButton(
-                                                      color: Colors
-                                                          .lightBlueAccent,
-                                                      useWidget: false,
-                                                      label: 'SetUp Game',
-                                                      onTap: () => Navigator
-                                                          .pushReplacement(
-                                                        (context),
-                                                        MaterialPageRoute(
-                                                            builder: (context) {
-                                                              return SetupGameScreen(
-                                                                opponentName:
-                                                                    userName,
-                                                                opponentID:
-                                                                    userID,
-                                                                currentUserName:
-                                                                    loggedInUserName,
-                                                                currentUserID:
-                                                                    loggedInUserID,
-                                                              );
-                                                            },
-                                                            maintainState:
-                                                                false),
-                                                      ),
-                                                    ),
-                                                    SlimButton(
-                                                      label: 'Add Friend',
-                                                      color: Colors
-                                                          .lightBlueAccent,
-                                                      useWidget: false,
-                                                      onTap: () {
-                                                        for (var friend
-                                                            in friends) {
-                                                          friendList
-                                                              .add(friend);
-                                                        }
+//                               if (!(friends.contains(userID)) &
+//                                   (loggedInUserId != userID)) {
+//                                 entryWidgets.add(
+//                                   UserCard(
+//                                       onTap: () {
+//                                         showDialog(
+//                                             context: context,
+//                                             child: Container(
+//                                               width: 50,
+//                                               child: AlertDialog(
+//                                                 shape: RoundedRectangleBorder(
+//                                                     borderRadius:
+//                                                         BorderRadius.circular(
+//                                                             15)),
+//                                                 backgroundColor: Colors.white
+//                                                     .withOpacity(.6),
+//                                                 content: Wrap(
+//                                                   alignment:
+//                                                       WrapAlignment.center,
+//                                                   children: <Widget>[
+//                                                     SlimButton(
+//                                                       color: Colors
+//                                                           .lightBlueAccent,
+//                                                       useWidget: false,
+//                                                       label: 'SetUp Game',
+//                                                       onTap: () => Navigator
+//                                                           .pushReplacement(
+//                                                         (context),
+//                                                         MaterialPageRoute(
+//                                                             builder: (context) {
+//                                                               return SetupGameScreen(
+//                                                                 opponentName:
+//                                                                     userName,
+//                                                                 opponentID:
+//                                                                     userID,
+//                                                                 currentUserName:
+//                                                                     loggedInUserName,
+//                                                                 currentUserID:
+//                                                                     loggedInUserID,
+//                                                               );
+//                                                             },
+//                                                             maintainState:
+//                                                                 false),
+//                                                       ),
+//                                                     ),
+//                                                     SlimButton(
+//                                                       label: 'Add Friend',
+//                                                       color: Colors
+//                                                           .lightBlueAccent,
+//                                                       useWidget: false,
+//                                                       onTap: () {
+//                                                         for (var friend
+//                                                             in friends) {
+//                                                           friendList
+//                                                               .add(friend);
+//                                                         }
 
-                                                        friendList.add(userID);
-                                                        _firestore
-                                                            .collection('users')
-                                                            .document(
-                                                                loggedInUserId)
-                                                            .setData({
-                                                          'friends': friendList
-                                                        }, merge: true);
-                                                        friendList.clear();
-                                                      },
-                                                    ),
-                                                    SlimButton(
-                                                      color: Colors
-                                                          .lightBlueAccent,
-                                                      useWidget: false,
-                                                      label: 'Join Game',
-                                                      onTap: () => Navigator
-                                                          .pushReplacement(
-                                                        (context),
-                                                        MaterialPageRoute(
-                                                            builder: (context) {
-                                                              return JoinGameScreen(
-                                                                opponentName:
-                                                                    userName,
-                                                                opponentID:
-                                                                    userID,
-                                                                currentUserName:
-                                                                    loggedInUserName,
-                                                                currentUserID:
-                                                                    loggedInUserID,
-                                                              );
-                                                            },
-                                                            maintainState:
-                                                                false),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ));
-                                      },
-                                      userName: userName,
-                                      color: Colors.blueAccent),
-                                );
-                              }
-                            }
-                            return Expanded(
-                                child: ListView(
-                                    reverse: false, children: entryWidgets));
-                          }
-                        }),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      )),
-    );
-  }
-}
+//                                                         friendList.add(userID);
+//                                                         _firestore
+//                                                             .collection('users')
+//                                                             .document(
+//                                                                 loggedInUserId)
+//                                                             .setData({
+//                                                           'friends': friendList
+//                                                         }, merge: true);
+//                                                         friendList.clear();
+//                                                       },
+//                                                     ),
+//                                                     SlimButton(
+//                                                       color: Colors
+//                                                           .lightBlueAccent,
+//                                                       useWidget: false,
+//                                                       label: 'Join Game',
+//                                                       onTap: () => Navigator
+//                                                           .pushReplacement(
+//                                                         (context),
+//                                                         MaterialPageRoute(
+//                                                             builder: (context) {
+//                                                               return JoinGameScreen(
+//                                                                 opponentName:
+//                                                                     userName,
+//                                                                 opponentID:
+//                                                                     userID,
+//                                                                 currentUserName:
+//                                                                     loggedInUserName,
+//                                                                 currentUserID:
+//                                                                     loggedInUserID,
+//                                                               );
+//                                                             },
+//                                                             maintainState:
+//                                                                 false),
+//                                                       ),
+//                                                     ),
+//                                                   ],
+//                                                 ),
+//                                               ),
+//                                             ));
+//                                       },
+//                                       userName: userName,
+//                                       color: Colors.blueAccent),
+//                                 );
+//                               }
+//                             }
+//                             return Expanded(
+//                                 child: ListView(
+//                                     reverse: false, children: entryWidgets));
+//                           }
+//                         }),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       )),
+//     );
+//   }
+// }

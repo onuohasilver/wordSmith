@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 import 'package:wordsmith/components/displayComponents/buttons/alphabets.dart';
 import 'package:wordsmith/utilities/alphabetTile.dart';
@@ -14,20 +16,12 @@ import 'package:wordsmith/utilities/words.dart';
 class MultiLevelOne extends StatefulWidget {
   final String opponentName;
   final String opponentID;
-  final String currentUserName;
-  final String currentUserID;
-  final String opponentGameID;
-  final String currentUserGameID;
   final int randomIndex;
 
   MultiLevelOne({
     this.randomIndex,
     this.opponentName,
-    this.currentUserGameID,
-    this.opponentGameID,
     this.opponentID,
-    this.currentUserName,
-    this.currentUserID,
   });
   @override
   _MultiLevelOneState createState() => _MultiLevelOneState();
@@ -48,17 +42,6 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   MappedLetters letterMap;
   FirebaseUser loggedInUser;
 
-  void getCurrentUser() async {
-    try {
-      final user = await _auth.currentUser();
-      if (user != null) {
-        loggedInUser = user;
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
   int counter = 100;
   Timer timer;
 
@@ -67,7 +50,6 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
     entryHandler =
         EntryHandler(wordGenerator: Words(index: widget.randomIndex));
     startTimer();
-    getCurrentUser();
 
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
     letterMap.getMapping();
@@ -85,8 +67,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
           counter--;
         } else {
           timer.cancel();
-          multiDialogBox(context, entryHandler.scoreKeeper.scoreValue(),opponentScore,
-              'MultiLevelTwo');
+          multiDialogBox(context, entryHandler.scoreKeeper.scoreValue(),
+              opponentScore, 'MultiLevelTwo');
         }
       });
     });
@@ -95,6 +77,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
+    Data userData = Provider.of<Data>(context);
 
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
@@ -169,7 +152,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Text('${widget.currentUserName.toUpperCase()} 😎',
+                    Text('${userData.userName.toUpperCase()} 😎',
                         style: TextStyle(color: Colors.white)),
                     LittleCard(child: Text(currentUserScore)),
                     Text('${widget.opponentName.toUpperCase()} 😎',
@@ -189,7 +172,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                               StreamBuilder<DocumentSnapshot>(
                                   stream: _firestore
                                       .collection('entry')
-                                      .document(widget.currentUserGameID)
+                                      .document('currentUserGameID')
                                       .snapshots(),
                                   builder: (context, snapshot) {
                                     List<Widget> entryWidgets = [];
@@ -201,9 +184,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                       final validator = entry.data['validate'];
                                       final score = entry.data['score'];
                                       EntryCard entryWidget;
-                                      if ((widget.currentUserID == senderID) &
-                                          (widget.currentUserGameID ==
-                                              gameID)) {
+                                      if ((userData.currentUserID ==
+                                          senderID)) {
                                         for (int index = 0;
                                             index < entryValue.length;
                                             index++) {
@@ -239,22 +221,21 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                               StreamBuilder<DocumentSnapshot>(
                                   stream: _firestore
                                       .collection('entry')
-                                      .document(widget.opponentGameID)
+                                      .document('opponentGameID')
                                       .snapshots(),
                                   builder: (context, snapshot) {
                                     List<Widget> entryWidgets = [];
                                     if (!snapshot.hasData) {
-                                       return Container() ;
-                                    }else{
+                                      return Container();
+                                    } else {
                                       final entry = snapshot.data;
                                       final entryValue = entry.data['text'];
                                       final senderID = entry.data['senderID'];
-                                      final gameID = entry.data['gameID'];
+
                                       final validator = entry.data['validate'];
                                       final String score = entry.data['score'];
                                       EntryCard entryWidget;
-                                      if ((widget.opponentID == senderID) &
-                                          (widget.opponentGameID == gameID)) {
+                                      if ((widget.opponentID == senderID)) {
                                         for (int index = 0;
                                             index < entryValue.length;
                                             index++) {
@@ -336,11 +317,11 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                     criteria
                                         ? _firestore
                                             .collection('entry')
-                                            .document(widget.currentUserGameID)
+                                            .document(
+                                                "widget.currentUserGameID")
                                             .setData({
-                                            'senderID': widget.currentUserID,
+                                            'senderID': userData.currentUserID,
                                             'text': entryList,
-                                            'gameID': widget.currentUserGameID,
                                             'validate': validateList,
                                             'score': entryHandler.scoreKeeper
                                                 .scoreValue()

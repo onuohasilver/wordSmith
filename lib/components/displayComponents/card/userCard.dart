@@ -1,21 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:wordsmith/components/displayComponents/popUps/waitingForOpponent.dart';
 import 'package:wordsmith/userProvider/userData.dart';
+import 'package:wordsmith/utilities/constants.dart';
 
 class UserCard extends StatelessWidget {
-  const UserCard({
-    Key key,
-    @required this.width,
-    @required this.userName,
-  }) : super(key: key);
+  const UserCard(
+      {Key key,
+      @required this.width,
+      @required this.userName,
+      @required this.userID,
+      @required this.height})
+      : super(key: key);
 
   final double width;
+  final double height;
   final String userName;
+  final String userID;
 
   @override
   Widget build(BuildContext context) {
-     final Data userData = Provider.of<Data>(context);
+    Firestore firestore = Firestore.instance;
+    final Data userData = Provider.of<Data>(context);
     return Material(
       color: Colors.black12,
       borderRadius: BorderRadius.circular(10),
@@ -53,8 +61,33 @@ class UserCard extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: RaisedButton(
               elevation: 3,
-              onPressed: () {
-
+              onPressed: () async {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return WaitingForOpponent(
+                      height: height,
+                      width: width,
+                      firestore: firestore,
+                      userID: userID,
+                      opponentName: userName,
+                    );
+                  },
+                );
+                List previousChallenges = await firestore
+                    .collection('users')
+                    .document(userID)
+                    .get()
+                    .then((value) => value['challenges']);
+                List challenges = [];
+                challenges.addAll(previousChallenges);
+                challenges.add(userData.currentUserID);
+                firestore
+                    .collection('users')
+                    .document(
+                      userID,
+                    )
+                    .setData({'challenges': challenges}, merge: true);
               },
               child: Text(
                 'Challenge',

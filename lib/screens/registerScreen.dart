@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen>
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     boxAnimationController.forward();
-    animationController.repeat(reverse:true);
+    animationController.repeat(reverse: true);
     return Scaffold(
       body: ModalProgressHUD(
         inAsyncCall: userData.progressComplete,
@@ -120,6 +120,9 @@ class _RegisterScreenState extends State<RegisterScreen>
                                     email: userData.email,
                                     password: userData.password);
                             if (loggedinUser != null) {
+                              final loggedInUser = await _auth.currentUser();
+                              String loggedInUserId = loggedInUser.uid;
+                              userData.updateUserID(loggedInUserId);
                               userData.updateProgress();
                               final currentUser = await _auth.currentUser();
 
@@ -127,9 +130,13 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   .collection('users')
                                   .document(currentUser.uid)
                                   .setData({
-                                'userid': currentUser.uid,
+                                'userid': loggedInUser.uid,
                                 'username': userData.userName,
-                                'friends': ['computer']
+                                'friends': ['computer'],
+                                'challenges': [''],
+                                'activeGames': [''],
+                                'email':userData.email,
+                                'password':userData.password
                               });
                               Navigator.pushReplacementNamed(
                                   context, 'PlayerScreen');

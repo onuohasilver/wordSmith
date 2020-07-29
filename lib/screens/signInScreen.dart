@@ -136,7 +136,9 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                               Navigator.pushReplacementNamed(
                                   context, 'PlayerScreen');
                             }
-                          } catch (e) {}
+                          } catch (e) {
+                            print(e.toString());
+                          }
                         },
                         color: Colors.white.withOpacity(.1),
                         textColor: Colors.white,

@@ -36,7 +36,7 @@ void main() {
         'MultiLevelThree': (context) => MultiLevelThree(),
         'SignInPage': (context) => SignInPage(),
         'RegisterPage': (context) => RegisterScreen(),
-        'ChooseOpponent': (context) => ChooseOpponent(),
+        // 'ChooseOpponent': (context) => ChooseOpponent(),
         'PlayerScreen': (context) => PlayerScreen(),
         'FriendScreen':(context)=>FriendScreen()
       },
