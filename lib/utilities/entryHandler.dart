@@ -57,7 +57,7 @@ class EntryHandler {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              Icon(correct ? Icons.check_box : Icons.cancel,
+              Icon(correct ? Icons.mood : Icons.mood_bad,
                   color: correct ? Colors.green : Colors.red),
             ],
           ),

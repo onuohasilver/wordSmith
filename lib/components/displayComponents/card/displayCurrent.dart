@@ -76,6 +76,9 @@ class _DisplayCurrentEntryState extends State<DisplayCurrentEntry> {
                     () {
                       String allAlphabets =
                           widget.entryHandler.alphabetHandler.allAlphabets();
+                      print('trying to reset this');
+                      widget.entryHandler.alphabetHandler.reset();
+                      widget.letterMap.reset();
                       if (!widget.streamEntriesCurrentUser
                           .contains(allAlphabets)) {
                         bool criteria = allAlphabets.length > 3;
@@ -110,8 +113,6 @@ class _DisplayCurrentEntryState extends State<DisplayCurrentEntry> {
                               )
                             : print('');
                       }
-                      widget.entryHandler.alphabetHandler.reset();
-                      widget.letterMap.reset();
                     },
                   );
                 },

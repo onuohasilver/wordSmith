@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:wordsmith/userProvider/userData.dart';
 import 'dart:math' show pi;
 import 'package:wordsmith/utilities/entryHandler.dart';
 
@@ -127,7 +125,6 @@ class ScoreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Data userData = Provider.of<Data>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(children: [
@@ -176,9 +173,7 @@ class ScoreCard extends StatelessWidget {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(500),
                         splashColor: Colors.lightGreen[600].withOpacity(.5),
-                        onTap: () {
-                          Navigator.pushNamed(context, routeName);
-                        },
+                        onTap: () => Navigator.pushNamed(context, routeName),
                         child: Column(children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -323,9 +318,9 @@ class UserCard extends StatelessWidget {
 }
 
 class EntryCard extends StatelessWidget {
-  EntryCard({this.entry, this.handler});
+  EntryCard({this.entry});
   final String entry;
-  final EntryHandler handler;
+  // final EntryHandler handler;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -340,7 +335,7 @@ class EntryCard extends StatelessWidget {
               padding: const EdgeInsets.all(6.0),
               child: Text(
                 entry.toUpperCase(),
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold),
@@ -355,7 +350,7 @@ class EntryCard extends StatelessWidget {
 }
 
 class RowEntryCard extends StatelessWidget {
-  RowEntryCard({this.entryCard, this.validator});
+  RowEntryCard({this.entryCard, this.validator, entry});
   final EntryCard entryCard;
   final bool validator;
   @override
@@ -365,10 +360,10 @@ class RowEntryCard extends StatelessWidget {
       children: <Widget>[
         entryCard,
         validator
-            ? Icon(Icons.check, color: Colors.green)
+            ? Icon(Icons.mood, color: Colors.green[700])
             : Icon(
-                Icons.cancel,
-                color: Colors.red,
+                Icons.mood_bad,
+                color: Colors.red[700],
               )
       ],
     );

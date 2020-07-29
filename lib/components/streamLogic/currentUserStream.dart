@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wordsmith/components/displayComponents/card/cards.dart';
 import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
@@ -23,6 +24,8 @@ class CurrentUserStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return StreamBuilder<DocumentSnapshot>(
         stream: _firestore
             .collection('users')
@@ -32,14 +35,26 @@ class CurrentUserStream extends StatelessWidget {
           List<Widget> entryWidgets = [];
 
           if (snapshot.hasData) {
-            dynamic activeGames = snapshot.data['activeGames']['currentUserWords'];
-
-            for (var value in activeGames) {
-              // print(value);
-              entryWidgets.add(Text(value));
+            dynamic activeGamesWord =
+                snapshot.data['activeGames']['currentUserWords'];
+            dynamic activeValidList =
+                snapshot.data['activeGames']['currentUserValidList'];
+            for (int index = 0; index < activeGamesWord.length; index++) {
+              entryWidgets.add(
+                RowEntryCard(
+                  entry: activeGamesWord[index],
+                  entryCard: EntryCard(entry: activeGamesWord[index]),
+                  validator: activeValidList[index],
+                ),
+              );
             }
           }
-          return Expanded(child: ListView(children: entryWidgets));
+          return Expanded(
+              child: ListView.builder(
+                  itemCount: entryWidgets.length,
+                  itemBuilder: (context, index) {
+                    return entryWidgets[index];
+                  }));
         });
   }
 }

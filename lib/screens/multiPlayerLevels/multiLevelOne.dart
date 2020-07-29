@@ -43,40 +43,40 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   List<String> entryList = [];
   List<bool> validateList = [];
   EntryHandler entryHandler;
-  MappedLetters letterMap;
+
   FirebaseUser loggedInUser;
 
   int counter = 100;
   Timer timer;
-
+  MappedLetters letterMap;
   void initState() {
     super.initState();
     entryHandler =
         EntryHandler(wordGenerator: Words(index: widget.randomIndex));
-    startTimer();
+    // startTimer();
 
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
     letterMap.getMapping();
   }
 
-  void startTimer() {
-    counter = 10000;
+  // void startTimer() {
+  //   counter = 10000;
 
-    if (timer != null) {
-      timer.cancel();
-    }
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (counter > 0) {
-          counter--;
-        } else {
-          timer.cancel();
-          multiDialogBox(context, entryHandler.scoreKeeper.scoreValue(),
-              opponentScore, 'MultiLevelTwo');
-        }
-      });
-    });
-  }
+  //   if (timer != null) {
+  //     timer.cancel();
+  //   }
+  //   timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     setState(() {
+  //       if (counter > 0) {
+  //         counter--;
+  //       } else {
+  //         timer.cancel();
+  //         multiDialogBox(context, entryHandler.scoreKeeper.scoreValue(),
+  //             opponentScore, 'MultiLevelTwo');
+  //       }
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +133,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                       child: LittleCard(
                           child: Icon(Icons.arrow_back, color: Colors.white)),
                       onTap: () {
-                        Navigator.popAndPushNamed(context, 'FriendsScreen');
+                        Navigator.popAndPushNamed(context, 'FriendScreen');
                       },
                     ),
                     LittleCard(
@@ -171,7 +171,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                     children: <Widget>[
                       Expanded(
                         child: Card(
-                          color: Colors.white.withOpacity(.3),
+                          color: Colors.white.withOpacity(.1),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
@@ -203,12 +203,103 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                     ],
                   ),
                 ),
-                DisplayCurrentEntry(
-                    entryHandler: entryHandler,
-                    letterMap: letterMap,
-                    streamEntriesCurrentUser: streamEntriesCurrentUser,
-                    firestore: _firestore,
-                    userData: userData),
+                //FIXME: Alphabet Widgets do not respond to setState calls. Find a fix. 
+                // DisplayCurrentEntry(
+                //     entryHandler: entryHandler,
+                //     letterMap: letterMap,
+                //     streamEntriesCurrentUser: streamEntriesCurrentUser,
+                //     firestore: _firestore,
+                //     userData: userData),
+                Card(
+        color: Colors.lightBlue.withOpacity(.4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: GestureDetector(
+                child: Icon(Icons.delete_forever,
+                    color: Colors.lightBlue, size: 30.0),
+                onTap: () {
+                  setState(
+                    () {
+                      entryHandler.alphabetHandler.reset();
+                      letterMap.reset();
+                    },
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: Text(
+                    entryHandler.alphabetHandler.newAlpha.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20, color: Colors.white)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: GestureDetector(
+                child: Icon(Icons.send, color: Colors.lightBlue, size: 30.0),
+                onTap: () async {
+                  ///retrieve all the previously entered words from firestore
+                  /// so that it can be merged with the current entry and re-uploaded
+                  Map activeGamesMap;
+                  await _firestore
+                      .collection('users')
+                      .document(userData.currentUserID)
+                      .get()
+                      .then((value) => activeGamesMap = value['activeGames']);
+                  setState(
+                    () {
+                      String allAlphabets =
+                          entryHandler.alphabetHandler.allAlphabets();
+                      print('trying to reset this');
+                      entryHandler.alphabetHandler.reset();
+                      letterMap.reset();
+                      if (!streamEntriesCurrentUser
+                          .contains(allAlphabets)) {
+                        bool criteria = allAlphabets.length > 3;
+
+                        List currentUserWords = [allAlphabets];
+                        List currentUserValidList = [
+                          verifyWord(
+                              entryHandler.getGameWord(), allAlphabets)
+                        ];
+                        currentUserWords
+                            .addAll(activeGamesMap['currentUserWords']);
+                        currentUserValidList
+                            .addAll(activeGamesMap['currentUserValidList']);
+                        activeGamesMap['currentUserWords'] = currentUserWords;
+                        // activeGamesMap['currentUserScore'] =
+                        //     widget.entryHandler.scoreKeeper;
+                        activeGamesMap['currentUserValidList'] =
+                            currentUserValidList;
+
+                        criteria
+                            ? _firestore
+                                .collection('users')
+                                .document(userData.currentUserID)
+                                .setData({
+                                'activeGames': activeGamesMap,
+                              }, merge: true)
+                            : print('');
+
+                        criteria
+                            ? entryHandler.insert(
+                                allAlphabets.trimLeft(),
+                              )
+                            : print('');
+                      }
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        )),
                 Wrap(
                   direction: Axis.horizontal,
                   alignment: WrapAlignment.center,
