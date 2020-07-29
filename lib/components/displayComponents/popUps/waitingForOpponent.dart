@@ -99,12 +99,12 @@ class GameStream extends StatelessWidget {
         stream: firestore.collection('users').document(userID).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List activeGames = snapshot.data['activeGames'];
+            List activeGames = snapshot.data['acceptedChallenges'];
             print(activeGames);
             if (activeGames.contains(userData.currentUserID)) {
               WidgetsBinding.instance.addPostFrameCallback(
                 (_) {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) {
                       return MultiLevelOne(

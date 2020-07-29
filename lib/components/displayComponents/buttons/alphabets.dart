@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Alphabet extends StatefulWidget {
   @override
@@ -55,9 +56,10 @@ class AlphabetButton extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(14.0),
             child: Text(alphabet,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold, fontSize: 17)),
           ),
-          color: active ? Colors.white.withOpacity(.4) : Colors.transparent),
+          color: active ? Colors.white.withOpacity(.6) : Colors.transparent),
     );
   }
 }

@@ -133,7 +133,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                       child: LittleCard(
                           child: Icon(Icons.arrow_back, color: Colors.white)),
                       onTap: () {
-                        Navigator.popAndPushNamed(context, 'FriendScreen');
+                        Navigator.pushReplacementNamed(context, 'FriendScreen');
                       },
                     ),
                     LittleCard(
@@ -155,12 +155,13 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                     ),
                   ],
                 ),
+                Text(widget.opponentID),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Text('${userData.userName.toUpperCase()} 😎',
                         style: TextStyle(color: Colors.white)),
-                    LittleCard(child: Text(currentUserScore)),
+                    LittleCard(child: Text(entryHandler.scoreKeeper.scoreValue().toString())),
                     Text('${widget.opponentName.toUpperCase()} 😎',
                         style: TextStyle(color: Colors.white)),
                     LittleCard(child: Text(opponentScore.toString())),
@@ -192,6 +193,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               OpponentUserStream(
+                                opponentUserID: widget.opponentID,
                                   firestore: _firestore,
                                   widget: widget,
                                   streamEntriesOpponent: streamEntriesOpponent,
@@ -273,8 +275,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                         currentUserValidList
                             .addAll(activeGamesMap['currentUserValidList']);
                         activeGamesMap['currentUserWords'] = currentUserWords;
-                        // activeGamesMap['currentUserScore'] =
-                        //     widget.entryHandler.scoreKeeper;
+                        activeGamesMap['currentUserScore'] =
+                            entryHandler.scoreKeeper.scoreValue().toString();
                         activeGamesMap['currentUserValidList'] =
                             currentUserValidList;
 
