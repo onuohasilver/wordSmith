@@ -11,8 +11,6 @@ class DisplayCurrentEntry extends StatefulWidget {
     @required this.entryHandler,
     @required this.letterMap,
     @required this.streamEntriesCurrentUser,
-    @required this.entryList,
-    @required this.validateList,
     @required Firestore firestore,
     @required this.userData,
   })  : _firestore = firestore,
@@ -21,8 +19,7 @@ class DisplayCurrentEntry extends StatefulWidget {
   final EntryHandler entryHandler;
   final MappedLetters letterMap;
   final Set<String> streamEntriesCurrentUser;
-  final List<String> entryList;
-  final List<bool> validateList;
+
   final Firestore _firestore;
   final Data userData;
 
@@ -66,7 +63,15 @@ class _DisplayCurrentEntryState extends State<DisplayCurrentEntry> {
               padding: const EdgeInsets.all(15.0),
               child: GestureDetector(
                 child: Icon(Icons.send, color: Colors.lightBlue, size: 30.0),
-                onTap: () {
+                onTap: () async {
+                  ///retrieve all the previously entered words from firestore
+                  /// so that it can be merged with the current entry and re-uploaded
+                  Map activeGamesMap;
+                  await widget._firestore
+                      .collection('users')
+                      .document(widget.userData.currentUserID)
+                      .get()
+                      .then((value) => activeGamesMap = value['activeGames']);
                   setState(
                     () {
                       String allAlphabets =
@@ -75,21 +80,27 @@ class _DisplayCurrentEntryState extends State<DisplayCurrentEntry> {
                           .contains(allAlphabets)) {
                         bool criteria = allAlphabets.length > 3;
 
-                        widget.entryList.add(allAlphabets);
-                        widget.validateList.add(verifyWord(
-                            widget.entryHandler.getGameWord(), allAlphabets));
+                        List currentUserWords = [allAlphabets];
+                        List currentUserValidList = [
+                          verifyWord(
+                              widget.entryHandler.getGameWord(), allAlphabets)
+                        ];
+                        currentUserWords
+                            .addAll(activeGamesMap['currentUserWords']);
+                        currentUserValidList
+                            .addAll(activeGamesMap['currentUserValidList']);
+                        activeGamesMap['currentUserWords'] = currentUserWords;
+                        // activeGamesMap['currentUserScore'] =
+                        //     widget.entryHandler.scoreKeeper;
+                        activeGamesMap['currentUserValidList'] =
+                            currentUserValidList;
 
                         criteria
                             ? widget._firestore
-                                .collection('entry')
-                                .document("widget.currentUserGameID")
+                                .collection('users')
+                                .document(widget.userData.currentUserID)
                                 .setData({
-                                'senderID': widget.userData.currentUserID,
-                                'text': widget.entryList,
-                                'validate': widget.validateList,
-                                'score': widget.entryHandler.scoreKeeper
-                                    .scoreValue()
-                                    .toString()
+                                'activeGames': activeGamesMap,
                               }, merge: true)
                             : print('');
 

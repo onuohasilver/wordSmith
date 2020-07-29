@@ -25,12 +25,20 @@ class CurrentUserStream extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
         stream: _firestore
-            .collection(userData.currentUserID)
-            .document('activeGames')
+            .collection('users')
+            .document(userData.currentUserID)
             .snapshots(),
         builder: (context, snapshot) {
           List<Widget> entryWidgets = [];
-          if (snapshot.hasData) {}
+
+          if (snapshot.hasData) {
+            dynamic activeGames = snapshot.data['activeGames']['currentUserWords'];
+
+            for (var value in activeGames) {
+              // print(value);
+              entryWidgets.add(Text(value));
+            }
+          }
           return Expanded(child: ListView(children: entryWidgets));
         });
   }

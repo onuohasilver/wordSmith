@@ -66,19 +66,15 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
       timer.cancel();
     }
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) {
-          setState(() {
-            if (counter > 0) {
-              counter--;
-            } else {
-              timer.cancel();
-              multiDialogBox(context, entryHandler.scoreKeeper.scoreValue(),
-                  opponentScore, 'MultiLevelTwo');
-            }
-          });
-        },
-      );
+      setState(() {
+        if (counter > 0) {
+          counter--;
+        } else {
+          timer.cancel();
+          multiDialogBox(context, entryHandler.scoreKeeper.scoreValue(),
+              opponentScore, 'MultiLevelTwo');
+        }
+      });
     });
   }
 
@@ -129,8 +125,36 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                MutoScoreCard(counter: counter),
-                blurBox,
+                blurBoxLower,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      child: LittleCard(
+                          child: Icon(Icons.arrow_back, color: Colors.white)),
+                      onTap: () {
+                        Navigator.popAndPushNamed(context, 'FriendsScreen');
+                      },
+                    ),
+                    LittleCard(
+                      child: (counter > 7)
+                          ? Text(
+                              '$counter',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.white),
+                            )
+                          : Text(
+                              "$counter",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                  fontSize: 20),
+                            ),
+                    ),
+                  ],
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -183,8 +207,6 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                     entryHandler: entryHandler,
                     letterMap: letterMap,
                     streamEntriesCurrentUser: streamEntriesCurrentUser,
-                    entryList: entryList,
-                    validateList: validateList,
                     firestore: _firestore,
                     userData: userData),
                 Wrap(
@@ -204,46 +226,5 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   void dispose() {
     entryHandler = EntryHandler();
     super.dispose();
-  }
-}
-
-class MutoScoreCard extends StatelessWidget {
-  const MutoScoreCard({
-    Key key,
-    @required this.counter,
-  }) : super(key: key);
-
-  final int counter;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        GestureDetector(
-          child: LittleCard(child: Icon(Icons.arrow_back, color: Colors.white)),
-          onTap: () {
-            Navigator.popAndPushNamed(context, 'FriendsScreen');
-          },
-        ),
-        LittleCard(
-          child: (counter > 7)
-              ? Text(
-                  '$counter',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Colors.white),
-                )
-              : Text(
-                  "$counter",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                      fontSize: 20),
-                ),
-        ),
-      ],
-    );
   }
 }

@@ -23,7 +23,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => AppThemeData())
     ],
     child: MaterialApp(
-      initialRoute: 'LevelSelect',
+      initialRoute: 'LoadingScreen',
       debugShowCheckedModeBanner: false,
       routes: {
         'LevelSelect': (context) => SelectScreen(),

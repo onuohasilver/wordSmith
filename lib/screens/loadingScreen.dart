@@ -15,7 +15,7 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   startTime() async {
-    var _duration = new Duration(seconds: 10);
+    var _duration = new Duration(seconds: 4);
     return new Timer(_duration, navigationPage);
   }
  
