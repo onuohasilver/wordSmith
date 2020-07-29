@@ -28,7 +28,6 @@ class _PlayerScreenState extends State<PlayerScreen>
   @override
   void initState() {
     super.initState();
-    
 
     animationController = AnimationController(
       vsync: this,
@@ -37,8 +36,9 @@ class _PlayerScreenState extends State<PlayerScreen>
     animation = Tween(begin: 0.5, end: 1.0).animate(animationController);
     flipAnimation = Tween(begin: 1.0, end: 0.0).animate(animationController);
   }
+
   final _firestore = Firestore.instance;
- 
+
   @override
   Widget build(BuildContext context) {
     _highScore() async {
@@ -55,6 +55,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     animationController.repeat();
+    String _userName;
 
     return Scaffold(
       body: AnimatedBuilder(
@@ -81,8 +82,11 @@ class _PlayerScreenState extends State<PlayerScreen>
                   StreamBuilder<QuerySnapshot>(
                       stream: _firestore.collection('users').snapshots(),
                       builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Container();
+                        }
                         final _users = snapshot.data.documents;
-                        String _userName;
+
                         for (var user in _users) {
                           if (user.data['userid'] == userData.currentUserID) {
                             _userName = user.data['username'];

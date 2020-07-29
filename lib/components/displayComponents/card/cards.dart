@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:wordsmith/userProvider/userData.dart';
 import 'dart:math' show pi;
 import 'package:wordsmith/utilities/entryHandler.dart';
 
@@ -125,6 +127,7 @@ class ScoreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Data userData = Provider.of<Data>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(children: [
@@ -173,7 +176,9 @@ class ScoreCard extends StatelessWidget {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(500),
                         splashColor: Colors.lightGreen[600].withOpacity(.5),
-                        onTap: () => Navigator.pushNamed(context, routeName),
+                        onTap: () {
+                          Navigator.pushNamed(context, routeName);
+                        },
                         child: Column(children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),

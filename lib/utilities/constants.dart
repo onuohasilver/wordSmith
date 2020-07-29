@@ -94,3 +94,11 @@ final BackdropFilter blurBox = BackdropFilter(
   filter: ui.ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
   child: Text('.'),
 );
+
+//blurs out the background image behind it.
+/// 
+/// child is a simple [Text] widget with a ['.'] as content.
+final BackdropFilter blurBoxLower = BackdropFilter(
+  filter: ui.ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
+  child: Text('.'),
+);

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:wordsmith/components/displayComponents/inputFields/inputField.dart';
@@ -48,6 +49,7 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Firestore firestore = Firestore.instance;
   @override
   Widget build(BuildContext context) {
     animationController.repeat(reverse: true);
@@ -133,6 +135,12 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                               final loggedInUser = await _auth.currentUser();
                               String loggedInUserId = loggedInUser.uid;
                               userData.updateUserID(loggedInUserId);
+                              firestore
+                                  .collection('users')
+                                  .document(loggedInUserId)
+                                  .get()
+                                  .then((value) =>
+                                      userData.updateUserName(value['username']));
                               Navigator.pushReplacementNamed(
                                   context, 'PlayerScreen');
                             }

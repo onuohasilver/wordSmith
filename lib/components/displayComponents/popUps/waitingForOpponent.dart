@@ -8,14 +8,14 @@ import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/constants.dart';
 
 class WaitingForOpponent extends StatelessWidget {
-  const WaitingForOpponent({
-    Key key,
-    @required this.height,
-    @required this.width,
-    @required this.firestore,
-    @required this.userID,
-    @required this.opponentName
-  }) : super(key: key);
+  const WaitingForOpponent(
+      {Key key,
+      @required this.height,
+      @required this.width,
+      @required this.firestore,
+      @required this.userID,
+      @required this.opponentName})
+      : super(key: key);
 
   final double height;
   final double width;
@@ -102,14 +102,18 @@ class GameStream extends StatelessWidget {
             List activeGames = snapshot.data['activeGames'];
             print(activeGames);
             if (activeGames.contains(userData.currentUserID)) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return MultiLevelOne(
-                      opponentName: opponentName,
-                      opponentID: userID,
-                      randomIndex: 1);
-                }),
+              WidgetsBinding.instance.addPostFrameCallback(
+                (_) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return MultiLevelOne(
+                          opponentName: opponentName,
+                          opponentID: userID,
+                          randomIndex: 1);
+                    }),
+                  );
+                },
               );
             }
             return Container();

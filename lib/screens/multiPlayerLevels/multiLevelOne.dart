@@ -2,6 +2,10 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wordsmith/components/displayComponents/card/displayCurrent.dart';
+import 'package:wordsmith/components/streamLogic/currentUserStream.dart';
+import 'package:wordsmith/components/streamLogic/opponentUserStream.dart';
+import 'package:wordsmith/userProvider/themeData.dart';
 import 'package:wordsmith/userProvider/userData.dart';
 import 'package:wordsmith/utilities/entryHandler.dart';
 import 'package:wordsmith/components/displayComponents/buttons/alphabets.dart';
@@ -56,21 +60,25 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   }
 
   void startTimer() {
-    counter = 100;
+    counter = 10000;
 
     if (timer != null) {
       timer.cancel();
     }
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (counter > 0) {
-          counter--;
-        } else {
-          timer.cancel();
-          multiDialogBox(context, entryHandler.scoreKeeper.scoreValue(),
-              opponentScore, 'MultiLevelTwo');
-        }
-      });
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          setState(() {
+            if (counter > 0) {
+              counter--;
+            } else {
+              timer.cancel();
+              multiDialogBox(context, entryHandler.scoreKeeper.scoreValue(),
+                  opponentScore, 'MultiLevelTwo');
+            }
+          });
+        },
+      );
     });
   }
 
@@ -78,6 +86,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
     Data userData = Provider.of<Data>(context);
+    AppThemeData theme = Provider.of<AppThemeData>(context);
 
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
@@ -114,41 +123,14 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          decoration: kGreenPageDecoration,
+          decoration: theme.background,
           child: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    GestureDetector(
-                      child: LittleCard(
-                          child: Icon(Icons.arrow_back, color: Colors.white)),
-                      onTap: () {
-                        Navigator.popAndPushNamed(context, 'ChooseOpponent');
-                      },
-                    ),
-                    LittleCard(
-                      child: (counter > 7)
-                          ? Text(
-                              '$counter',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Colors.white),
-                            )
-                          : Text(
-                              "$counter",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red,
-                                  fontSize: 20),
-                            ),
-                    ),
-                  ],
-                ),
+                MutoScoreCard(counter: counter),
+                blurBox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -169,45 +151,12 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              StreamBuilder<DocumentSnapshot>(
-                                  stream: _firestore
-                                      .collection('entry')
-                                      .document('currentUserGameID')
-                                      .snapshots(),
-                                  builder: (context, snapshot) {
-                                    List<Widget> entryWidgets = [];
-                                    if (snapshot.hasData) {
-                                      final entry = snapshot.data;
-                                      final entryValue = entry.data['text'];
-                                      final senderID = entry.data['senderID'];
-                                      final gameID = entry.data['gameID'];
-                                      final validator = entry.data['validate'];
-                                      final score = entry.data['score'];
-                                      EntryCard entryWidget;
-                                      if ((userData.currentUserID ==
-                                          senderID)) {
-                                        for (int index = 0;
-                                            index < entryValue.length;
-                                            index++) {
-                                          currentUserScore = score;
-                                          streamEntriesCurrentUser
-                                              .add(entryValue[index]);
-                                          entryList =
-                                              streamEntriesCurrentUser.toList();
-                                          entryWidget = EntryCard(
-                                              entry: entryValue[index],
-                                              handler: entryHandler);
-                                          final rowEntryWidget = RowEntryCard(
-                                              entryCard: entryWidget,
-                                              validator: validator[index]);
-                                          entryWidgets.add(rowEntryWidget);
-                                        }
-                                      }
-                                    }
-                                    return Expanded(
-                                        child:
-                                            ListView(children: entryWidgets));
-                                  })
+                              CurrentUserStream(
+                                  firestore: _firestore,
+                                  userData: userData,
+                                  streamEntriesCurrentUser:
+                                      streamEntriesCurrentUser,
+                                  entryHandler: entryHandler)
                             ],
                           ),
                         ),
@@ -218,44 +167,11 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              StreamBuilder<DocumentSnapshot>(
-                                  stream: _firestore
-                                      .collection('entry')
-                                      .document('opponentGameID')
-                                      .snapshots(),
-                                  builder: (context, snapshot) {
-                                    List<Widget> entryWidgets = [];
-                                    if (!snapshot.hasData) {
-                                      return Container();
-                                    } else {
-                                      final entry = snapshot.data;
-                                      final entryValue = entry.data['text'];
-                                      final senderID = entry.data['senderID'];
-
-                                      final validator = entry.data['validate'];
-                                      final String score = entry.data['score'];
-                                      EntryCard entryWidget;
-                                      if ((widget.opponentID == senderID)) {
-                                        for (int index = 0;
-                                            index < entryValue.length;
-                                            index++) {
-                                          streamEntriesOpponent
-                                              .add(entryValue[index]);
-                                          opponentScore = int.parse(score);
-                                          entryWidget = EntryCard(
-                                              entry: entryValue[index],
-                                              handler: entryHandler);
-                                          final rowEntryWidget = RowEntryCard(
-                                              entryCard: entryWidget,
-                                              validator: validator[index]);
-                                          entryWidgets.add(rowEntryWidget);
-                                        }
-                                      }
-                                    }
-                                    return Expanded(
-                                        child:
-                                            ListView(children: entryWidgets));
-                                  })
+                              OpponentUserStream(
+                                  firestore: _firestore,
+                                  widget: widget,
+                                  streamEntriesOpponent: streamEntriesOpponent,
+                                  entryHandler: entryHandler)
                             ],
                           ),
                         ),
@@ -263,87 +179,14 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                     ],
                   ),
                 ),
-                Card(
-                    color: Colors.lightBlue.withOpacity(.4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GestureDetector(
-                            child: Icon(Icons.delete_forever,
-                                color: Colors.lightBlue, size: 30.0),
-                            onTap: () {
-                              setState(
-                                () {
-                                  entryHandler.alphabetHandler.reset();
-                                  letterMap.reset();
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Center(
-                            child: Text(
-                                entryHandler.alphabetHandler.newAlpha
-                                    .toString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white)),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GestureDetector(
-                            child: Icon(Icons.send,
-                                color: Colors.lightBlue, size: 30.0),
-                            onTap: () {
-                              setState(
-                                () {
-                                  String allAlphabets = entryHandler
-                                      .alphabetHandler
-                                      .allAlphabets();
-                                  if (!streamEntriesCurrentUser
-                                      .contains(allAlphabets)) {
-                                    bool criteria = allAlphabets.length > 3;
-
-                                    entryList.add(allAlphabets);
-                                    validateList.add(verifyWord(
-                                        entryHandler.getGameWord(),
-                                        allAlphabets));
-
-                                    criteria
-                                        ? _firestore
-                                            .collection('entry')
-                                            .document(
-                                                "widget.currentUserGameID")
-                                            .setData({
-                                            'senderID': userData.currentUserID,
-                                            'text': entryList,
-                                            'validate': validateList,
-                                            'score': entryHandler.scoreKeeper
-                                                .scoreValue()
-                                                .toString()
-                                          }, merge: true)
-                                        : print('');
-
-                                    criteria
-                                        ? entryHandler.insert(
-                                            allAlphabets.trimLeft(),
-                                          )
-                                        : print('');
-                                  }
-                                  entryHandler.alphabetHandler.reset();
-                                  letterMap.reset();
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    )),
+                DisplayCurrentEntry(
+                    entryHandler: entryHandler,
+                    letterMap: letterMap,
+                    streamEntriesCurrentUser: streamEntriesCurrentUser,
+                    entryList: entryList,
+                    validateList: validateList,
+                    firestore: _firestore,
+                    userData: userData),
                 Wrap(
                   direction: Axis.horizontal,
                   alignment: WrapAlignment.center,
@@ -361,5 +204,46 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   void dispose() {
     entryHandler = EntryHandler();
     super.dispose();
+  }
+}
+
+class MutoScoreCard extends StatelessWidget {
+  const MutoScoreCard({
+    Key key,
+    @required this.counter,
+  }) : super(key: key);
+
+  final int counter;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        GestureDetector(
+          child: LittleCard(child: Icon(Icons.arrow_back, color: Colors.white)),
+          onTap: () {
+            Navigator.popAndPushNamed(context, 'FriendsScreen');
+          },
+        ),
+        LittleCard(
+          child: (counter > 7)
+              ? Text(
+                  '$counter',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.white),
+                )
+              : Text(
+                  "$counter",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                      fontSize: 20),
+                ),
+        ),
+      ],
+    );
   }
 }
