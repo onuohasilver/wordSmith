@@ -1,9 +1,11 @@
+///Model for Letter and current State information
 class LetterActivePair {
   String word;
   bool active;
   LetterActivePair(this.word, this.active);
 }
-
+///Mapping the letters to differentiate where 
+///the letters occur multiple times
 class MappedLetters {
   MappedLetters({this.alphabets});
   final List<String> alphabets;
@@ -18,6 +20,8 @@ class MappedLetters {
     print(map3);
     print(map4);
   }
+  ///reset the states of each of the mapped
+  ///letter-active pairs
   reset(){
     map1.keys.forEach((key) {
     map1[key] = true;
@@ -32,6 +36,10 @@ class MappedLetters {
     map4[key] = true;
   });
   }
+
+  ///generates the mappings of the letter-active pairs
+  ///using an oddly constructed for-loop
+  //TODO: Improve this ridiculous loop boy. looks laggy.
   getMapping() {
     for (var letter in alphabets) {
       letterPairs.add(LetterActivePair(letter, true));

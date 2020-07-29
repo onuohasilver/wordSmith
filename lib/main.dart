@@ -3,8 +3,6 @@ import 'package:wordsmith/screens/friendsScreen.dart';
 import 'package:wordsmith/screens/levelSelectScreen.dart';
 import 'package:wordsmith/screens/playerScreen.dart';
 import 'package:wordsmith/screens/registerScreen.dart';
-import 'package:wordsmith/screens/singlePlayerLevels/singleLevelThree.dart';
-import 'package:wordsmith/screens/singlePlayerLevels/singleLevelTwo.dart';
 import 'package:wordsmith/screens/singlePlayerLevels/singleLevelOne.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
 import 'package:wordsmith/screens/loadingScreen.dart';
@@ -26,8 +24,6 @@ void main() {
         'LevelSelect': (context) => SelectScreen(),
         'LoadingScreen': (context) => LoadingScreen(),
         'SingleLevelOne': (context) => SingleLevelOne(),
-        'SingleLevelTwo': (context) => SingleLevelTwo(),
-        'SingleLevelThree': (context) => SingleLevelThree(),
         'MultiLevelOne': (context) => MultiLevelOne(),
 
         'SignInPage': (context) => SignInPage(),

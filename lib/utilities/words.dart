@@ -19,7 +19,7 @@ class Words {
   List<String> getRandom() {
     return wordCollection[index];
   }
-
+  
   String allAlphabets() {
     String collectAlphabet = '';
     wordCollection[index].forEach((alphabet) {
