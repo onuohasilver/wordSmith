@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:wordsmith/components/displayComponents/popUps/waitingForOpponent.dart';
-import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/utilities/constants.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
+import 'package:wordsmith/screens/popUps/dialogs/waitingForOpponent.dart';
+
 
 class UserCard extends StatelessWidget {
   ///display User Information with

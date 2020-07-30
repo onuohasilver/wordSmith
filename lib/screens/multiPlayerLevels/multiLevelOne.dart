@@ -2,20 +2,18 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wordsmith/components/displayComponents/card/displayCurrent.dart';
-import 'package:wordsmith/components/streamLogic/currentUserStream.dart';
-import 'package:wordsmith/components/streamLogic/opponentUserStream.dart';
-import 'package:wordsmith/userProvider/themeData.dart';
-import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/utilities/entryHandler.dart';
-import 'package:wordsmith/components/displayComponents/buttons/alphabets.dart';
-import 'package:wordsmith/utilities/alphabetTile.dart';
-import 'package:wordsmith/utilities/constants.dart';
-import 'package:wordsmith/components/displayComponents/card/cards.dart';
-import 'package:wordsmith/components/displayComponents/popUps/dialogBox.dart';
-import 'package:wordsmith/utilities/dictionaryActivity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:wordsmith/utilities/words.dart';
+import 'package:wordsmith/components/cardComponents/cards.dart';
+import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
+import 'package:wordsmith/core/alphabetState.dart';
+import 'package:wordsmith/core/utilities/alphabetTile.dart';
+import 'package:wordsmith/core/utilities/constants.dart';
+import 'package:wordsmith/core/utilities/entryHandler.dart';
+import 'package:wordsmith/core/utilities/words.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
+import 'package:wordsmith/handlers/stateHandlers/streamLogic/currentUserStream.dart';
+import 'package:wordsmith/handlers/stateHandlers/streamLogic/opponentUserStream.dart';
 
 class MultiLevelOne extends StatefulWidget {
   final String opponentName;
@@ -34,7 +32,6 @@ class MultiLevelOne extends StatefulWidget {
 class _MultiLevelOneState extends State<MultiLevelOne> {
   final _firestore = Firestore.instance;
   final _auth = FirebaseAuth.instance;
-
   final Set<String> streamEntriesCurrentUser = Set();
   final Set<String> streamEntriesOpponent = Set();
   int opponentScore = 0;

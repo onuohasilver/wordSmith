@@ -3,12 +3,9 @@ import 'dart:math' show pi;
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:provider/provider.dart';
-import 'package:wordsmith/components/displayComponents/card/levelSelectCard.dart';
-import 'package:wordsmith/components/displayComponents/logo.dart';
-import 'package:wordsmith/userProvider/themeData.dart';
-import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/utilities/constants.dart';
-import 'package:wordsmith/components/displayComponents/card/cards.dart';
+import 'package:wordsmith/components/cardComponents/levelSelectCard.dart';
+import 'package:wordsmith/core/logo.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 
 class SelectScreen extends StatefulWidget {
   @override

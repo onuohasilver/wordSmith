@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/utilities/alphabetTile.dart';
-import 'package:wordsmith/utilities/dictionaryActivity.dart';
-import 'package:wordsmith/utilities/entryHandler.dart';
+import 'package:wordsmith/core/utilities/alphabetTile.dart';
+import 'package:wordsmith/core/utilities/dictionaryActivity.dart';
+import 'package:wordsmith/core/utilities/entryHandler.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
+
 
 class DisplayCurrentEntry extends StatefulWidget {
   const DisplayCurrentEntry({
@@ -93,8 +94,8 @@ class _DisplayCurrentEntryState extends State<DisplayCurrentEntry> {
                         currentUserValidList
                             .addAll(activeGamesMap['currentUserValidList']);
                         activeGamesMap['currentUserWords'] = currentUserWords;
-                        // activeGamesMap['currentUserScore'] =
-                        //     widget.entryHandler.scoreKeeper;
+                        activeGamesMap['currentUserScore'] =
+                            widget.entryHandler.scoreKeeper.scoreValue();
                         activeGamesMap['currentUserValidList'] =
                             currentUserValidList;
 

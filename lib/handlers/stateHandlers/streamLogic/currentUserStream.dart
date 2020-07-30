@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:wordsmith/components/displayComponents/card/entryCard.dart';
-import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/utilities/entryHandler.dart';
+import 'package:wordsmith/components/cardComponents/entryCard.dart';
+import 'package:wordsmith/core/utilities/entryHandler.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
+
+
 
 class CurrentUserStream extends StatelessWidget {
   /// A StreamBuilder that listens to the changes

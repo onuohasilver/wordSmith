@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wordsmith/components/displayComponents/card/entryCard.dart';
-import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/utilities/entryHandler.dart';
+import 'package:wordsmith/components/cardComponents/entryCard.dart';
+import 'package:wordsmith/core/utilities/entryHandler.dart';
+
 
 class OpponentUserStream extends StatelessWidget {
   /// A StreamBuilder that listens to the changes
@@ -35,11 +35,10 @@ class OpponentUserStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Data userData = Provider.of<Data>(context);
     return StreamBuilder<DocumentSnapshot>(
         stream: _firestore
             .collection('users')
-            .document('FqvaoKC4vHTLuTGHc3bwe51etfa2')
+            .document(opponentUserID)
             .snapshots(),
         builder: (context, snapshot) {
           List<Widget> entryWidgets = [];

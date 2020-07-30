@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
 
-import 'package:wordsmith/userProvider/userData.dart';
 
 class InputText extends StatelessWidget {
   ///Creates the common text field used app-wide
@@ -44,7 +44,7 @@ class InputText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Transform(
-      transform: Matrix4.translationValues(animation.value*width, 0, 0),
+      transform: Matrix4.translationValues(animation.value * width, 0, 0),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(35.0, 8.0, 35.0, 8.0),
         child: TextField(

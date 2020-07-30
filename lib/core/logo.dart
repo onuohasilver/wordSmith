@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:wordsmith/utilities/constants.dart';
+import 'package:wordsmith/core/utilities/constants.dart';
 
 class WordCraftLogo extends StatelessWidget {
   ///Creates the App Logo Widget

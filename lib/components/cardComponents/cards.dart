@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:wordsmith/components/displayComponents/card/entryCard.dart';
-import 'dart:math' show pi;
-import 'package:wordsmith/utilities/entryHandler.dart';
+
 
 class LittleCard extends StatelessWidget {
   ///A widget that wraps its child in a background with white opacity and a padding of 5px

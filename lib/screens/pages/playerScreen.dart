@@ -5,13 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:wordsmith/components/displayComponents/card/cards.dart';
-import 'package:wordsmith/components/displayComponents/card/scoreCard.dart';
-import 'package:wordsmith/userProvider/themeData.dart';
-import 'package:wordsmith/userProvider/userData.dart';
+import 'package:wordsmith/components/cardComponents/scoreCard.dart';
+import 'package:wordsmith/core/utilities/constants.dart';
+import 'package:wordsmith/core/utilities/localData.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
 
-import 'package:wordsmith/utilities/constants.dart';
-import 'package:wordsmith/utilities/localData.dart';
+
 
 class PlayerScreen extends StatefulWidget {
   @override

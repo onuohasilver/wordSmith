@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wordsmith/utilities/constants.dart';
+import 'package:wordsmith/core/utilities/constants.dart';
 
 class SlimButton extends StatelessWidget {
   ///returns a Material Button that takes a

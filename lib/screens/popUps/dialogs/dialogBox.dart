@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wordsmith/components/displayComponents/card/cards.dart';
+import 'package:wordsmith/components/cardComponents/cards.dart';
 dialogBox(context, String score, String level) {
   showDialog(
       context: context,

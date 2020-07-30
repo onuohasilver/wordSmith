@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:wordsmith/screens/levelSelectScreen.dart';
-import 'package:wordsmith/utilities/entryHandler.dart';
+import 'package:wordsmith/core/utilities/entryHandler.dart';
+import 'package:wordsmith/core/utilities/words.dart';
 
 import 'dart:async';
 
-import 'package:wordsmith/utilities/words.dart';
-
+import 'package:wordsmith/screens/pages/levelSelectScreen.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -18,7 +17,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     var _duration = new Duration(seconds: 4);
     return new Timer(_duration, navigationPage);
   }
- 
+
   void navigationPage() {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -32,7 +31,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    EntryHandler(wordGenerator: Words(index:2)).insert('    ');
+    EntryHandler(wordGenerator: Words(index: 2)).insert('    ');
     startTime();
   }
 
@@ -45,8 +44,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text('WORD',style:TextStyle(color: Colors.white,fontSize: 55),textAlign:TextAlign.center),
-              Text('SMITH',style:TextStyle(color: Colors.lightBlue,fontSize: 55),textAlign:TextAlign.center),
+              Text('WORD',
+                  style: TextStyle(color: Colors.white, fontSize: 55),
+                  textAlign: TextAlign.center),
+              Text('SMITH',
+                  style: TextStyle(color: Colors.lightBlue, fontSize: 55),
+                  textAlign: TextAlign.center),
               SpinKitChasingDots(
                 itemBuilder: (_, int index) {
                   return DecoratedBox(

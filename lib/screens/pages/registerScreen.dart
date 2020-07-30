@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wordsmith/components/displayComponents/logo.dart';
-import 'package:wordsmith/userProvider/themeData.dart';
+import 'package:wordsmith/components/inputComponents/buttons/slimButtons.dart';
+import 'package:wordsmith/components/inputComponents/textFields/inputField.dart';
+import 'package:wordsmith/core/logo.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/components/displayComponents/buttons/slimButtons.dart';
-import 'package:wordsmith/components/displayComponents/inputFields/inputField.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -124,7 +124,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                               String loggedInUserId = loggedInUser.uid;
                               userData.updateUserID(loggedInUserId);
                               userData.updateProgress();
-                              
 
                               _firestore
                                   .collection('users')
@@ -135,8 +134,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                                 'friends': ['computer'],
                                 'challenges': [''],
                                 'activeGames': [''],
-                                'email':userData.email,
-                                'password':userData.password
+                                'email': userData.email,
+                                'password': userData.password
                               });
                               Navigator.pushReplacementNamed(
                                   context, 'PlayerScreen');
