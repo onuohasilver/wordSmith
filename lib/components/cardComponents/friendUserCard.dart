@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
 import 'package:wordsmith/screens/popUps/dialogs/waitingForOpponent.dart';
 
-class UserCard extends StatelessWidget {
+class FriendUserCard extends StatelessWidget {
   ///display User Information with
   ///an option to either follow the user or
   ///send a game challenge.
   ///it defaults to a [Colors.lime] background container
-  const UserCard(
+  const FriendUserCard(
       {Key key,
       @required this.width,
       @required this.userName,

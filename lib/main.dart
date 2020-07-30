@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
+import 'package:wordsmith/screens/pages/allUsersScreen.dart';
 import 'package:wordsmith/screens/pages/friendsScreen.dart';
 import 'package:wordsmith/screens/pages/levelSelectScreen.dart';
 import 'package:wordsmith/screens/pages/loadingScreen.dart';
@@ -18,6 +19,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => Data()),
       ChangeNotifierProvider(create: (context) => AppThemeData())
     ],
+    ///TODO: Use resoCoders routeGenerator pattern
     child: MaterialApp(
       initialRoute: 'LoadingScreen',
       debugShowCheckedModeBanner: false,
@@ -29,7 +31,8 @@ void main() {
         'SignInPage': (context) => SignInPage(),
         'RegisterPage': (context) => RegisterScreen(),
         'PlayerScreen': (context) => PlayerScreen(),
-        'FriendScreen': (context) => FriendScreen()
+        'FriendScreen': (context) => FriendScreen(),
+        'AllUsersScreen': (context) => AllUsersScreen()
       },
     ),
   ));

@@ -1,23 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
-import 'package:wordsmith/components/cardComponents/friendUserCard.dart';
-
+import 'package:wordsmith/components/cardComponents/opponentUserCard.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
 
-class FriendScreen extends StatefulWidget {
+class AllUsersScreen extends StatefulWidget {
   @override
-  _FriendScreenState createState() => _FriendScreenState();
+  _AllUsersScreenState createState() => _AllUsersScreenState();
 }
 
-class _FriendScreenState extends State<FriendScreen> {
+class _AllUsersScreenState extends State<AllUsersScreen> {
   final _firestore = Firestore.instance;
   List<String> friendList = [];
   List<dynamic> friends = [];
-  List<String> friendUserNames;
-  List<String> friendUserIDs;
+  List<String> userNames;
+  List<String> userIDs;
 
   @override
   void initState() {
@@ -42,23 +41,14 @@ class _FriendScreenState extends State<FriendScreen> {
                 );
               } else {
                 final users = snapshot.data.documents;
-                friendUserNames = [];
-                friendUserIDs = [];
-
-                for (var user in users) {
-                  final String userID = user.data['userid'];
-                  if (userData.currentUserID == userID) {
-                    friends = user.data['friends'];
-                  }
-                }
-
+                userNames = [];
+                userIDs = [];
                 for (var user in users) {
                   final String userID = user.data['userid'];
                   final String userName = user.data['username'];
-                  if (friends.contains(userID)) {
-                    friendUserNames.add(userName);
-                    friendUserIDs.add(userID);
-                  }
+
+                  userNames.add(userName);
+                  userIDs.add(userID);
                 }
               }
 
@@ -74,18 +64,19 @@ class _FriendScreenState extends State<FriendScreen> {
                       blurBox,
                       Expanded(
                         child: GridView.builder(
-                          itemCount: friendUserNames.length,
+                          itemCount: userNames.length,
                           gridDelegate:
                               SliverGridDelegateWithMaxCrossAxisExtent(
                                   maxCrossAxisExtent: width * .3,
+                                  
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 10),
                           itemBuilder: (context, index) {
-                            return FriendUserCard(
+                            return OpponentUserCard(
                               width: width,
                               height: height,
-                              userName: friendUserNames[index],
-                              userID: friendUserIDs[index],
+                              userName: userNames[index],
+                              userID: userIDs[index],
                             );
                           },
                         ),
