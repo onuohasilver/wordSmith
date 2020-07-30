@@ -67,6 +67,22 @@ class OpponentUserCard extends StatelessWidget {
                     color: Colors.lime[600],
                   ),
                   onPressed: () async {
+                    ///Display snackbar to notify user that
+                    ///addition was successfully done.
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.black,
+                        duration: Duration(milliseconds: 160),
+                        content: Center(
+                          heightFactor: 1,
+                          child: Text(
+                            '$userName has been added as Friend',
+                            style: GoogleFonts.poppins(color: Colors.lime[600]),
+                          ),
+                        ),
+                      ),
+                    );
+
                     List previousChallenges = await firestore
                         .collection('users')
                         .document(userData.currentUserID)
