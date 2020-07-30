@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
 
 class SlimButton extends StatelessWidget {
@@ -91,7 +92,7 @@ class SignUp extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             label,
-            style: TextStyle(
+            style: GoogleFonts.poppins(
                 fontWeight: FontWeight.bold,
                 fontSize: 13,
                 color: Colors.white,

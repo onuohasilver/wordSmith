@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui' as ui;
 
 import 'package:wordsmith/components/inputComponents/buttons/slimButtons.dart';
@@ -90,14 +91,14 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                       ),
                       Text(
                         'MULTIPLAYER',
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           color: Colors.white,
                           shadows: kTextShadow,
                         ),
                       ),
                       Text(
                         'Log In to Play with Friends!',
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           color: Colors.white,
                           shadows: kTextShadow,
                         ),
@@ -161,7 +162,7 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                         children: <Widget>[
                           Text(
                             'Need a new account?',
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white),
                           ),

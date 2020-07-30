@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
 import 'package:wordsmith/screens/popUps/dialogs/waitingForOpponent.dart';
 
-
 class UserCard extends StatelessWidget {
   ///display User Information with
   ///an option to either follow the user or
@@ -101,6 +100,19 @@ class UserCard extends StatelessWidget {
                       userID,
                     )
                     .setData({'challenges': challenges}, merge: true);
+
+                ///Reset the current content of the activeGames
+                ///document on firestore
+                firestore
+                    .collection('users')
+                    .document(userData.currentUserID)
+                    .setData({
+                  'activeGames': {
+                    'currentUserScore': 0,
+                    'currentUserValidList': [],
+                    'currentUserWords': []
+                  }
+                }, merge: true);
               },
               child: Text(
                 'Challenge',

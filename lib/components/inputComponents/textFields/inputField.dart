@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
 
 
@@ -48,13 +49,14 @@ class InputText extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(35.0, 8.0, 35.0, 8.0),
         child: TextField(
+          style: GoogleFonts.poppins(),
           textAlign: TextAlign.center,
           keyboardType: keyboardType,
           maxLength: enforceLength,
           obscureText: obscure,
           decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: TextStyle(),
+              hintStyle: GoogleFonts.poppins(),
               filled: true,
               fillColor: Colors.white.withOpacity(.3),
               border: OutlineInputBorder(
