@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:wordsmith/screens/levelSelectScreen.dart';
-import 'package:wordsmith/screens/playerScreen.dart';
-import 'package:wordsmith/screens/registerScreen.dart';
-import 'package:wordsmith/screens/singlePlayerLevels/singleLevelThree.dart';
-import 'package:wordsmith/screens/singlePlayerLevels/singleLevelTwo.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
+import 'package:wordsmith/screens/pages/friendsScreen.dart';
+import 'package:wordsmith/screens/pages/levelSelectScreen.dart';
+import 'package:wordsmith/screens/pages/loadingScreen.dart';
+import 'package:wordsmith/screens/pages/playerScreen.dart';
+import 'package:wordsmith/screens/pages/registerScreen.dart';
+import 'package:wordsmith/screens/pages/signInScreen.dart';
 import 'package:wordsmith/screens/singlePlayerLevels/singleLevelOne.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
-import 'package:wordsmith/screens/multiPlayerLevels/multiLevelThree.dart';
-import 'package:wordsmith/screens/multiPlayerLevels/multiLevelTwo.dart';
-import 'package:wordsmith/screens/loadingScreen.dart';
-import 'package:wordsmith/screens/chooseOpponent.dart';
-import 'package:wordsmith/screens/signInScreen.dart';
 import 'package:provider/provider.dart';
-import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/userProvider/themeData.dart';
+
 
 void main() {
   runApp(MultiProvider(
@@ -22,21 +19,17 @@ void main() {
       ChangeNotifierProvider(create: (context) => AppThemeData())
     ],
     child: MaterialApp(
-      initialRoute: 'LevelSelect',
+      initialRoute: 'LoadingScreen',
       debugShowCheckedModeBanner: false,
       routes: {
         'LevelSelect': (context) => SelectScreen(),
         'LoadingScreen': (context) => LoadingScreen(),
         'SingleLevelOne': (context) => SingleLevelOne(),
-        'SingleLevelTwo': (context) => SingleLevelTwo(),
-        'SingleLevelThree': (context) => SingleLevelThree(),
         'MultiLevelOne': (context) => MultiLevelOne(),
-        'MultiLevelTwo': (context) => MultiLevelTwo(),
-        'MultiLevelThree': (context) => MultiLevelThree(),
         'SignInPage': (context) => SignInPage(),
         'RegisterPage': (context) => RegisterScreen(),
-        'ChooseOpponent': (context) => ChooseOpponent(),
-        'PlayerScreen': (context) => PlayerScreen()
+        'PlayerScreen': (context) => PlayerScreen(),
+        'FriendScreen': (context) => FriendScreen()
       },
     ),
   ));

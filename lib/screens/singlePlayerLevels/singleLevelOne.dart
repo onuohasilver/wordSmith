@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wordsmith/userProvider/userData.dart';
-import 'package:wordsmith/utilities/entryHandler.dart';
-import 'package:wordsmith/components/displayComponents/buttons/alphabets.dart';
+import 'package:wordsmith/components/cardComponents/cards.dart';
+import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
+import 'package:wordsmith/core/alphabetState.dart';
+import 'package:wordsmith/core/utilities/alphabetTile.dart';
 import 'dart:collection';
-import 'package:wordsmith/utilities/alphabetTile.dart';
-import 'package:wordsmith/components/displayComponents/card/cards.dart';
-import 'package:wordsmith/components/displayComponents/popUps/dialogBox.dart';
-import 'package:wordsmith/utilities/localData.dart';
-import 'package:wordsmith/utilities/words.dart';
+import 'package:wordsmith/core/utilities/entryHandler.dart';
+import 'package:wordsmith/core/utilities/localData.dart';
+import 'package:wordsmith/core/utilities/words.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
+import 'package:wordsmith/screens/popUps/dialogs/dialogBox.dart';
 
 class SingleLevelOne extends StatefulWidget {
   @override
@@ -70,7 +71,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
-    final appData = Provider.of<Data>(context);
+    Data appData = Provider.of<Data>(context);
 
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {

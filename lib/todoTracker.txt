@@ -1,4 +1,0 @@
-//TODO Add highscore tracker. Done
-//TODO Add Autoconnect Loader for MultiPlayer User.
-//TODO Add Levels Mode and also add endless track.
-//TODO Add User Profile.
