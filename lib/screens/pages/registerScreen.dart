@@ -134,8 +134,10 @@ class _RegisterScreenState extends State<RegisterScreen>
                                 'friends': ['computer'],
                                 'challenges': [''],
                                 'activeGames': [''],
+                                'activeChallenges':[],
                                 'email': userData.email,
-                                'password': userData.password
+                                'password': userData.password,
+                                'online':true
                               });
                               Navigator.pushReplacementNamed(
                                   context, 'PlayerScreen');

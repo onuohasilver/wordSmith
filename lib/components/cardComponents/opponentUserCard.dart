@@ -114,6 +114,25 @@ class OpponentUserCard extends StatelessWidget {
             ),
           ),
           Align(
+            alignment: Alignment.topLeft,
+            child: StreamBuilder<DocumentSnapshot>(
+              stream:
+                  firestore.collection('users').document(userID).snapshots(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                bool online = snapshot.data['online'];
+                return Container(
+                  height: height*.04,
+                  width: width*.05,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Material(
+                          type: MaterialType.circle,
+                          color: online ? Colors.lime[600] : Colors.grey),
+                    ));
+              },
+            ),
+          ),
+          Align(
             alignment: Alignment.bottomCenter,
             child: RaisedButton(
               elevation: 3,
