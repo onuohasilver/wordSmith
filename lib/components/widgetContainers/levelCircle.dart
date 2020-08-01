@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wordsmith/screens/singlePlayerLevels/singleLevelOne.dart';
 
 class LevelCircle extends StatelessWidget {
   const LevelCircle({
@@ -9,12 +11,14 @@ class LevelCircle extends StatelessWidget {
     @required this.displace,
     this.color,
     @required this.label,
+    this.index,
   }) : super(key: key);
 
   final double height;
   final double width;
   final double displace;
   final Color color;
+  final int index;
   final String label;
 
   @override
@@ -34,7 +38,12 @@ class LevelCircle extends StatelessWidget {
             color: color ?? Colors.brown[700],
             child: InkWell(
               customBorder: CircleBorder(),
-              onTap: () => Navigator.pushNamed(context,'SingleLevelOne'),
+              onTap: () => Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => SingleLevelOne(wordIndex: index),
+                ),
+              ),
             ),
           ),
         ),

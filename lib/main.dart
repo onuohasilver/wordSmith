@@ -9,7 +9,7 @@ import 'package:wordsmith/screens/pages/loadingScreen.dart';
 import 'package:wordsmith/screens/pages/playerScreen.dart';
 import 'package:wordsmith/screens/pages/registerScreen.dart';
 import 'package:wordsmith/screens/pages/signInScreen.dart';
-import 'package:wordsmith/screens/singlePlayerLevels/singleLevelOne.dart';
+// import 'package:wordsmith/screens/singlePlayerLevels/singleLevelOne.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +30,7 @@ void main() {
       routes: {
         'LevelSelect': (context) => SelectScreen(),
         'LoadingScreen': (context) => LoadingScreen(),
-        'SingleLevelOne': (context) => SingleLevelOne(),
+       
         'MultiLevelOne': (context) => MultiLevelOne(),
         'SignInPage': (context) => SignInPage(),
         'RegisterPage': (context) => RegisterScreen(),

@@ -91,6 +91,7 @@ class _AdventureScreenState extends State<AdventureScreen>
                         return LevelCircle(
                             height: height,
                             width: width,
+                            index:index,
                             displace: levelMap['displace'][index],
                             label: 'Level $index');
                       }),

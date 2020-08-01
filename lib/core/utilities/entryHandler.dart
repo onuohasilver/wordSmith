@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/utilities/words.dart';
 import 'dictionaryActivity.dart';
@@ -70,12 +71,12 @@ class EntryHandler {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(6.0),
+                padding: const EdgeInsets.all(26.0),
                 child: Text(
                   entry.toUpperCase(),
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold),
                 ),
               ),
