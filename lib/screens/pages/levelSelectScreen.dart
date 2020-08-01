@@ -67,7 +67,7 @@ class _SelectScreenState extends State<SelectScreen>
     // AudioPlayer player = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
     // AudioCache cache = AudioCache();
     animationController.repeat(reverse: true);
-    gameSound.playFile();
+    // gameSound.playFile();
     return Scaffold(
       body: AnimatedBuilder(
         animation: animationController,
@@ -134,7 +134,6 @@ class _SelectScreenState extends State<SelectScreen>
                             child: IconButton(
                                 icon: Icon(Icons.mic, color: Colors.white),
                                 onPressed: () {
-                               
                                   gameSound.stopFile();
                                 }),
                           )),

@@ -4,9 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui' as ui;
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/levelSelectCard.dart';
+import 'package:wordsmith/components/widgetContainers/levelCircle.dart';
 import 'package:wordsmith/core/logo.dart';
 import 'package:wordsmith/core/sound.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataModels/levelModel.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/soundHandler.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 
@@ -82,135 +84,22 @@ class _AdventureScreenState extends State<AdventureScreen>
               children: [
                 blurBox,
                 Expanded(
-                  child: ListView(
-                    children: <Widget>[
-                      LevelCircle(
-                        height: height,
-                        width: width,
-                        displace: .1,
-                      ),
-                      LevelCircle(
-                          height: height,
-                          width: width,
-                          displace: .12,
-                          color: Colors.lime[700]),
-                      LevelCircle(
-                        height: height,
-                        width: width,
-                        displace: .14,
-                        color: Colors.yellow[600],
-                      ),
-                      LevelCircle(
-                          height: height,
-                          width: width,
-                          displace: .2,
-                          color: Colors.lime[700]),
-                      LevelCircle(
-                        height: height,
-                        width: width,
-                        displace: .22,
-                        color: Colors.lime[800],
-                      ),
-                      LevelCircle(
-                        height: height,
-                        width: width,
-                        displace: .24,
-                      ),
-                      LevelCircle(
-                        height: height,
-                        width: width,
-                        displace: .26,
-                      ),
-                      LevelCircle(
-                          height: height,
-                          width: width,
-                          displace: .3,
-                          color: Colors.lime[700]),
-                      LevelCircle(
-                        height: height,
-                        width: width,
-                        displace: .32,
-                        color: Colors.yellow[600],
-                      ),
-                      LevelCircle(
-                          height: height,
-                          width: width,
-                          displace: .3,
-                          color: Colors.lime[700]),
-                      LevelCircle(
-                        height: height,
-                        width: width,
-                        displace: .2,
-                        color: Colors.lime[800],
-                      ),
-                      LevelCircle(
-                        height: height,
-                        width: width,
-                        displace: .1,
-                      )
-                    ],
-                  ),
+                  child: ListView.builder(
+                      reverse: true,
+                      itemCount: levelMap['displace'].length,
+                      itemBuilder: (context, index) {
+                        return LevelCircle(
+                            height: height,
+                            width: width,
+                            displace: levelMap['displace'][index],
+                            label: 'Level $index');
+                      }),
                 ),
               ],
             ),
           );
         },
       ),
-    );
-  }
-}
-
-class LevelCircle extends StatelessWidget {
-  const LevelCircle({
-    Key key,
-    @required this.height,
-    @required this.width,
-    @required this.displace,
-    this.color,
-  }) : super(key: key);
-
-  final double height;
-  final double width;
-  final double displace;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Row(children: [
-        SizedBox(
-          width: width * displace,
-        ),
-        Container(
-          height: height * .12,
-          width: width * .16,
-          child: Material(
-            elevation: 10,
-            type: MaterialType.circle,
-            color: color ?? Colors.brown[700],
-            child: InkWell(customBorder:CircleBorder(),onTap:(){}),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 18.0),
-          child: Column(children: [
-            Row(children: <Widget>[
-              Icon(Icons.star,color: Colors.yellow[800],),
-              Icon(Icons.star,color:Colors.grey[600]),
-              Icon(Icons.star,color: Colors.grey[600],)
-            ]),
-            Material(
-                color: color ?? Colors.brown[700],
-                borderRadius: BorderRadius.circular(10),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(' Level 2',
-                      style: GoogleFonts.poppins(color: Colors.black)),
-                )),
-          ]),
-        )
-      ]),
     );
   }
 }

@@ -25,10 +25,8 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
 
   void initState() {
     super.initState();
-
     entryHandler = EntryHandler(wordGenerator: Words(index: 2));
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
-
     startTimer();
     letterMap.getMapping();
   }
@@ -45,7 +43,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
   }
 
   void startTimer() {
-    counter = 20;
+    counter = 50;
 
     if (timer != null) {
       timer.cancel();
