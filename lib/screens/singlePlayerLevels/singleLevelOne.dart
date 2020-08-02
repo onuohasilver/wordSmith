@@ -32,7 +32,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
     super.initState();
     entryHandler = EntryHandler(wordGenerator: Words(index: widget.wordIndex));
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
-    startTimer();
+    // startTimer();
     letterMap.getMapping();
   }
 
@@ -47,29 +47,29 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
     });
   }
 
-  void startTimer() {
-    counter = 50;
+  // void startTimer() {
+  //   counter = 50;
 
-    if (timer != null) {
-      timer.cancel();
-    }
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (counter > 0) {
-          counter--;
-        } else {
-          timer.cancel();
-          final currentScore = entryHandler.scoreKeeper.scoreValue();
-          getHighScore();
-          if (highScore < currentScore) {
-            localData.setHighScore(currentScore);
-          }
+  //   if (timer != null) {
+  //     timer.cancel();
+  //   }
+  //   timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     setState(() {
+  //       if (counter > 0) {
+  //         counter--;
+  //       } else {
+  //         timer.cancel();
+  //         final currentScore = entryHandler.scoreKeeper.scoreValue();
+  //         getHighScore();
+  //         if (highScore < currentScore) {
+  //           localData.setHighScore(currentScore);
+  //         }
 
-          dialogBox(context, currentScore.toString(), 'SingleLevelTwo');
-        }
-      });
-    });
-  }
+  //         dialogBox(context, currentScore.toString(), 'SingleLevelTwo');
+  //       }
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +160,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
               ),
               Expanded(
                 child: Card(
-                  color: Colors.white.withOpacity(.3),
+                  color: Colors.white.withOpacity(.1),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[

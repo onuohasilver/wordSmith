@@ -124,7 +124,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                               String loggedInUserId = loggedInUser.uid;
                               userData.updateUserID(loggedInUserId);
                               userData.updateProgress();
-
                               _firestore
                                   .collection('users')
                                   .document(loggedInUser.uid)

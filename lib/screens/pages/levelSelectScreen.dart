@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/levelSelectCard.dart';
 import 'package:wordsmith/core/logo.dart';
 import 'package:wordsmith/core/sound.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataSources/networkRequest.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/soundHandler.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 
@@ -134,7 +135,7 @@ class _SelectScreenState extends State<SelectScreen>
                             child: IconButton(
                                 icon: Icon(Icons.mic, color: Colors.white),
                                 onPressed: () {
-                                  gameSound.stopFile();
+                                GetDefinition('Contain').getData();
                                 }),
                           )),
                     )
