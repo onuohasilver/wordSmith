@@ -32,7 +32,8 @@ class DefinitionPopUp extends StatelessWidget {
                       fontSize: width * .055, fontWeight: FontWeight.w800),
                 ),
                 Text(
-                  definition,
+                  
+                  definition,textAlign:TextAlign.justify,
                   style: GoogleFonts.poppins(fontSize: width * .035),
                 ),
               ],
