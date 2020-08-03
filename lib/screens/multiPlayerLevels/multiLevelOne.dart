@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wordsmith/components/cardComponents/cards.dart';
 import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
+import 'package:wordsmith/components/widgetContainers/progressBar.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/utilities/alphabetTile.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
@@ -43,6 +44,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   EntryHandler entryHandler;
   Firestore firestore = Firestore.instance;
   FirebaseUser loggedInUser;
+  String gameWord;
+  double progress = 0;
 
   int counter = 100;
   Timer timer;
@@ -55,6 +58,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
 
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
     letterMap.getMapping();
+    gameWord = entryHandler.wordGenerator.allAlphabets();
   }
 
   // void startTimer() {
@@ -166,16 +170,20 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                         ),
                       ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text('${userData.userName.toUpperCase()} 😎',
-                            style: TextStyle(color: Colors.white)),
-                        LittleCard(
-                            child: Text(entryHandler.scoreKeeper
-                                .scoreValue()
-                                .toString())),
-                      ],
-                    ),
+                    Stack(children: [
+                      ProgressBar(
+                          height: height, width: width, progress: progress),
+                      Row(
+                        children: <Widget>[
+                          Text('${userData.userName.toUpperCase()} 😎',
+                              style: TextStyle(color: Colors.white)),
+                          LittleCard(
+                              child: Text(entryHandler.scoreKeeper
+                                  .scoreValue()
+                                  .toString())),
+                        ],
+                      ),
+                    ]),
                     Expanded(
                       child: Card(
                         color: Colors.green.withOpacity(.1),
@@ -291,6 +299,9 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                           allAlphabets.trimLeft(),
                                         )
                                       : print('');
+                                  verifyWord(gameWord, allAlphabets)
+                                      ? progress = progress + 0.05
+                                      : progress = progress + 0;
                                 }
                               },
                             );

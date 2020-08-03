@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/cards.dart';
 import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
+import 'package:wordsmith/components/widgetContainers/progressBar.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/utilities/alphabetTile.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
@@ -129,66 +130,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                 height: height * .04,
               ),
               Text(progress.toString()),
-              Container(
-                height: height * .044,
-                width: width,
-                child: Stack(children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white12,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      height: height * .014,
-                      width: width,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: AnimatedContainer(
-                      duration: Duration(seconds: 1),
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(10)),
-                      height: height * .014,
-                      width: width * progress,
-                    ),
-                  ),
-                  Positioned.fill(
-                      child: Align(
-                          alignment: Alignment.topRight,
-                          child: AnimatedContainer(
-                            duration: Duration(seconds: 1),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.star,
-                                  size: width * .09,
-                                  color: progress > .66
-                                      ? Colors.orange[800]
-                                      : Colors.grey,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  size: width * .09,
-                                  color: progress > .76
-                                      ? Colors.orange[800]
-                                      : Colors.grey,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  size: width * .09,
-                                  color: progress > .9
-                                      ? Colors.orange[800]
-                                      : Colors.grey,
-                                ),
-                              ],
-                            ),
-                          )))
-                ]),
-              ),
+              ProgressBar(height: height, width: width, progress: progress),
               SizedBox(
                 height: height * .02,
               ),
@@ -330,3 +272,4 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     super.dispose();
   }
 }
+
