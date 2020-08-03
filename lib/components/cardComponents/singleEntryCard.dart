@@ -35,16 +35,16 @@ class SinglePlayerEntryCard extends StatelessWidget {
                       width: width));
             },
             child: ClipRRect(
-               borderRadius:BorderRadius.circular(10),
+               borderRadius:BorderRadius.circular(5),
                           child: Container(
                 decoration:BoxDecoration(
                   borderRadius:BorderRadius.circular(5),
                    image: DecorationImage(
-              image: AssetImage('assets/pngwave(2).png'), fit: BoxFit.cover)),
+              image: AssetImage('assets/pngwave(1).png'), fit: BoxFit.cover)),
                 // color: Colors.primaries[entry.length + 1 % Colors.primaries.length]
                 //     .withOpacity(0.4),
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -53,7 +53,7 @@ class SinglePlayerEntryCard extends StatelessWidget {
                         child: Text(
                           entry.toUpperCase(),
                           style: GoogleFonts.poppins(
-                              color: Colors.white,
+                              color: Colors.brown[800],
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),

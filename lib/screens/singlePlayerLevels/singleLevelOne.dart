@@ -6,6 +6,7 @@ import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/utilities/alphabetTile.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
+import 'package:wordsmith/core/utilities/dictionaryActivity.dart';
 import 'dart:collection';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 import 'package:wordsmith/core/utilities/localData.dart';
@@ -22,8 +23,10 @@ class SingleLevelOne extends StatefulWidget {
   _SingleLevelOneState createState() => _SingleLevelOneState();
 }
 
-class _SingleLevelOneState extends State<SingleLevelOne> {
+class _SingleLevelOneState extends State<SingleLevelOne>
+    with SingleTickerProviderStateMixin {
   EntryHandler entryHandler;
+  String gameWord;
 
   final alphabetHandler = Alphabet().createState();
   MappedLetters letterMap;
@@ -32,11 +35,13 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
     super.initState();
     entryHandler = EntryHandler(wordGenerator: Words(index: widget.wordIndex));
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
+    gameWord = entryHandler.wordGenerator.allAlphabets();
     // startTimer();
     letterMap.getMapping();
   }
 
   int counter = 10;
+  double progress = 0;
   Timer timer;
   LocalData localData = LocalData();
   int highScore = 0;
@@ -74,9 +79,10 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
-    double height=MediaQuery.of(context).size.height;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     // Data appData = Provider.of<Data>(context);
-    AppThemeData theme=Provider.of<AppThemeData>(context);
+    AppThemeData theme = Provider.of<AppThemeData>(context);
 
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
@@ -119,7 +125,62 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               blurBox,
-              SizedBox(height: height*.04,),
+              SizedBox(
+                height: height * .04,
+              ),
+              Container(
+                height: height * .044,
+                width: width,
+                child: Stack(children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      height: height * .014,
+                      width: width,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: AnimatedContainer(
+                      duration: Duration(seconds: 1),
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(10)),
+                      height: height * .014,
+                      width: width * progress,
+                    ),
+                  ),
+                  Positioned.fill(
+                      child: Align(
+                          alignment: Alignment.topRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Icon(
+                                Icons.star,
+                                size: width * .09,
+                                color: Colors.grey,
+                              ),
+                              Icon(
+                                Icons.star,
+                                size: width * .09,
+                                color: Colors.grey,
+                              ),
+                              Icon(
+                                Icons.star,
+                                size: width * .09,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          )))
+                ]),
+              ),
+              SizedBox(
+                height: height * .02,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -168,8 +229,8 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
                           child: ListView(
                               reverse: false,
                               shrinkWrap: true,
-                              children: UnmodifiableListView(
-                                  entryHandler.entryList)))
+                              children:
+                                  UnmodifiableListView(entryHandler.entryList)))
                     ],
                   ),
                 ),
@@ -198,11 +259,10 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
                         padding: const EdgeInsets.all(10.0),
                         child: Center(
                           child: Text(
-                              entryHandler.alphabetHandler.newAlpha
-                                  .toString(),
+                              entryHandler.alphabetHandler.newAlpha.toString(),
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20, color: Colors.white)),
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
                         ),
                       ),
                       Padding(
@@ -213,9 +273,9 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
                           onTap: () {
                             setState(
                               () {
-                                String allAlphabets = entryHandler
-                                    .alphabetHandler
-                                    .allAlphabets();
+                                String allAlphabets =
+                                    entryHandler.alphabetHandler.allAlphabets();
+                                verifyWord(gameWord, allAlphabets)?progress=progress+0.05:progress=progress+0;
                                 bool criteria = allAlphabets.length > 3;
                                 entryHandler.alphabetHandler.reset();
                                 criteria
@@ -223,6 +283,7 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
                                         .insert(allAlphabets.trimLeft())
                                     : print('');
                                 letterMap.reset();
+                                
                               },
                             );
                           },
