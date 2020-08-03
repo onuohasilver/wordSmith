@@ -128,6 +128,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
               SizedBox(
                 height: height * .04,
               ),
+              Text(progress.toString()),
               Container(
                 height: height * .044,
                 width: width,
@@ -136,8 +137,9 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                     alignment: Alignment.center,
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
+                        color: Colors.white12,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       height: height * .014,
                       width: width,
                     ),
@@ -156,25 +158,34 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                   Positioned.fill(
                       child: Align(
                           alignment: Alignment.topRight,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Icon(
-                                Icons.star,
-                                size: width * .09,
-                                color: Colors.grey,
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: width * .09,
-                                color: Colors.grey,
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: width * .09,
-                                color: Colors.grey,
-                              ),
-                            ],
+                          child: AnimatedContainer(
+                            duration: Duration(seconds: 1),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.star,
+                                  size: width * .09,
+                                  color: progress > .66
+                                      ? Colors.orange[800]
+                                      : Colors.grey,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  size: width * .09,
+                                  color: progress > .76
+                                      ? Colors.orange[800]
+                                      : Colors.grey,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  size: width * .09,
+                                  color: progress > .9
+                                      ? Colors.orange[800]
+                                      : Colors.grey,
+                                ),
+                              ],
+                            ),
                           )))
                 ]),
               ),
@@ -235,62 +246,72 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                   ),
                 ),
               ),
-              Card(
-                  color: Colors.lightBlue.withOpacity(.4),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: GestureDetector(
-                          child: Icon(Icons.delete_forever,
-                              color: Colors.lightBlue, size: 30.0),
-                          onTap: () {
-                            setState(
-                              () {
-                                entryHandler.alphabetHandler.reset();
-                                letterMap.reset();
-                              },
-                            );
-                          },
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                    // decoration: BoxDecoration(
+                    //     image: DecorationImage(
+                    //         image: AssetImage('assets/pngwave.png'),
+                    //         fit: BoxFit.fitWidth)),
+                    color: Colors.white.withOpacity(.4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: GestureDetector(
+                            child: Icon(Icons.delete_forever,
+                                color: Colors.red[800], size: 30.0),
+                            onTap: () {
+                              setState(
+                                () {
+                                  entryHandler.alphabetHandler.reset();
+                                  letterMap.reset();
+                                },
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Center(
-                          child: Text(
-                              entryHandler.alphabetHandler.newAlpha.toString(),
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white)),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Text(
+                                entryHandler.alphabetHandler.newAlpha
+                                    .toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white)),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: GestureDetector(
-                          child: Icon(Icons.send,
-                              color: Colors.lightBlue, size: 30.0),
-                          onTap: () {
-                            setState(
-                              () {
-                                String allAlphabets =
-                                    entryHandler.alphabetHandler.allAlphabets();
-                                verifyWord(gameWord, allAlphabets)?progress=progress+0.05:progress=progress+0;
-                                bool criteria = allAlphabets.length > 3;
-                                entryHandler.alphabetHandler.reset();
-                                criteria
-                                    ? entryHandler
-                                        .insert(allAlphabets.trimLeft())
-                                    : print('');
-                                letterMap.reset();
-                                
-                              },
-                            );
-                          },
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: GestureDetector(
+                            child: Icon(Icons.send,
+                                color: Colors.brown[800], size: 30.0),
+                            onTap: () {
+                              setState(
+                                () {
+                                  String allAlphabets = entryHandler
+                                      .alphabetHandler
+                                      .allAlphabets();
+                                  verifyWord(gameWord, allAlphabets)
+                                      ? progress = progress + 0.05
+                                      : progress = progress + 0;
+                                  bool criteria = allAlphabets.length > 3;
+                                  entryHandler.alphabetHandler.reset();
+                                  criteria
+                                      ? entryHandler
+                                          .insert(allAlphabets.trimLeft())
+                                      : print('');
+                                  letterMap.reset();
+                                },
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    ],
-                  )),
+                      ],
+                    )),
+              ),
               Wrap(
                 direction: Axis.horizontal,
                 alignment: WrapAlignment.center,

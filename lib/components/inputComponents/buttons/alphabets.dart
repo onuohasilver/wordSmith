@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 ///a [GestureDetector] it is usually used in conjunction with a [LetterMap]
 ///and an [Alphabet] state handler
 class AlphabetButton extends StatelessWidget {
-  AlphabetButton({this.alphabet, this.active, this.onPressed});
+  AlphabetButton({this.alphabet, this.active, this.onPressed,this.sizeRatio});
 
   /// [bool] active manages the state of the UI of the button
   /// if the button has been triggered the button color is transformed
@@ -18,25 +18,39 @@ class AlphabetButton extends StatelessWidget {
 
   /// [Function] a function to be triggered on the button press detected.
   final Function onPressed;
+  ///sizeRatio to determinge the proportion to the queried device size
+final double sizeRatio;
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: onPressed,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(6),
-                  child: Container(
-            decoration: BoxDecoration(image:DecorationImage(   image: AssetImage('assets/pngwave.png'), fit: BoxFit.cover)),
-              child: Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: Text(alphabet,
-                    style: GoogleFonts.poppins(
-                      color: active?Colors.white:Colors.white12,
-                        fontWeight: FontWeight.bold, fontSize: 23,)),
+        child: Card(
+          margin: EdgeInsets.all(0),
+          color: Colors.black,
+          elevation: 10,
+                  child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: Container(
+                decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/pngwave(1).png'),
+              fit: BoxFit.cover)),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+            vertical: width*.03*(sizeRatio??1), horizontal: width * .05*(sizeRatio??1)),
+                  child: Text(alphabet,
+            style: GoogleFonts.poppins(
+              color: active ? Colors.brown[800] : Colors.black26,
+              fontWeight: FontWeight.w800,
+              fontSize: width*.09*(sizeRatio??1),
+            )),
+                ),
               ),
-             ),
+            ),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataSources/networkRequest.dart';
 import 'package:wordsmith/screens/popUps/dialogs/wordDefinition.dart';
 
@@ -17,6 +18,15 @@ class SinglePlayerEntryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    List<Widget> alphabetWidgets = List.generate(
+      entry.length,
+      (index) => AlphabetButton(
+        alphabet: entry[index],
+        active: true,
+        onPressed: null,
+        sizeRatio: .5,
+      ),
+    );
     return Align(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -25,7 +35,7 @@ class SinglePlayerEntryCard extends StatelessWidget {
           child: InkWell(
             onTap: () async {
               String definition = await GetDefinition(entry).getData();
-             
+
               showDialog(
                   context: context,
                   child: DefinitionPopUp(
@@ -35,12 +45,11 @@ class SinglePlayerEntryCard extends StatelessWidget {
                       width: width));
             },
             child: ClipRRect(
-               borderRadius:BorderRadius.circular(5),
-                          child: Container(
-                decoration:BoxDecoration(
-                  borderRadius:BorderRadius.circular(5),
-                   image: DecorationImage(
-              image: AssetImage('assets/pngwave(1).png'), fit: BoxFit.cover)),
+              borderRadius: BorderRadius.circular(5),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 // color: Colors.primaries[entry.length + 1 % Colors.primaries.length]
                 //     .withOpacity(0.4),
                 child: Padding(
@@ -48,18 +57,15 @@ class SinglePlayerEntryCard extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(
-                          entry.toUpperCase(),
-                          style: GoogleFonts.poppins(
-                              color: Colors.brown[800],
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
+                      Row(
+                        children: alphabetWidgets,
                       ),
-                      Icon(correct ? Icons.mood : Icons.mood_bad,
-                          color: correct ? Colors.green : Colors.red),
+                      Material(
+                        type: MaterialType.circle,
+                        color: Colors.white,
+                        child: Icon(correct ? Icons.mood : Icons.mood_bad,
+                            color: correct ? Colors.green : Colors.red),
+                      ),
                     ],
                   ),
                 ),
