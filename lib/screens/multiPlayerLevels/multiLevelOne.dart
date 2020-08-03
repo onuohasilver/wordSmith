@@ -129,11 +129,6 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Text('${userData.userName.toUpperCase()} 😎',
-                      style: TextStyle(color: Colors.white)),
-                  LittleCard(
-                      child: Text(
-                          entryHandler.scoreKeeper.scoreValue().toString())),
                   Text('${widget.opponentName.toUpperCase()} 😎',
                       style: TextStyle(color: Colors.white)),
                   StreamBuilder<DocumentSnapshot>(
@@ -154,27 +149,11 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                 ],
               ),
               Expanded(
-                child: Row(
+                child: Column(
                   children: <Widget>[
                     Expanded(
                       child: Card(
-                        color: Colors.white.withOpacity(.1),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            CurrentUserStream(
-                                firestore: _firestore,
-                                userData: userData,
-                                streamEntriesCurrentUser:
-                                    streamEntriesCurrentUser,
-                                entryHandler: entryHandler)
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Card(
-                        color: Colors.white.withOpacity(.1),
+                        color: Colors.red.withOpacity(.1),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
@@ -182,6 +161,33 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                 opponentUserID: widget.opponentID,
                                 firestore: _firestore,
                                 streamEntriesOpponent: streamEntriesOpponent,
+                                entryHandler: entryHandler)
+                          ],
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text('${userData.userName.toUpperCase()} 😎',
+                            style: TextStyle(color: Colors.white)),
+                        LittleCard(
+                            child: Text(entryHandler.scoreKeeper
+                                .scoreValue()
+                                .toString())),
+                      ],
+                    ),
+                    Expanded(
+                      child: Card(
+                        color: Colors.green.withOpacity(.1),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            CurrentUserStream(
+                                firestore: _firestore,
+                                userData: userData,
+                                streamEntriesCurrentUser:
+                                    streamEntriesCurrentUser,
                                 entryHandler: entryHandler)
                           ],
                         ),

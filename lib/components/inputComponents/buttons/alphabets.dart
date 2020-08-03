@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 ///a [GestureDetector] it is usually used in conjunction with a [LetterMap]
 ///and an [Alphabet] state handler
 class AlphabetButton extends StatelessWidget {
-  AlphabetButton({this.alphabet, this.active, this.onPressed,this.sizeRatio, this.bgTile});
+  AlphabetButton({this.alphabet, this.active, this.onPressed,this.sizeRatio, this.bgTile, this.noPadding});
 
   /// [bool] active manages the state of the UI of the button
   /// if the button has been triggered the button color is transformed
@@ -22,6 +22,8 @@ class AlphabetButton extends StatelessWidget {
 final double sizeRatio;
 ///Background tile image location
 final String bgTile;
+///no padding [null]removes all forms of padding if set to true
+final double noPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +45,12 @@ final String bgTile;
               fit: BoxFit.cover)),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-            vertical: width*.03*(sizeRatio??1), horizontal: width * .05*(sizeRatio??1)),
+            vertical:noPadding?? width*.03*(sizeRatio??1), horizontal: noPadding??width * .05*(sizeRatio??1)),
                   child: Text(alphabet,
             style: GoogleFonts.poppins(
               color: active ? Colors.brown[800] : Colors.black26,
               fontWeight: FontWeight.w800,
-              fontSize: width*.09*(sizeRatio??1),
+              fontSize: width*.085*(sizeRatio??1),
             )),
                 ),
               ),

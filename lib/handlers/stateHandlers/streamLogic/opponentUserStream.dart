@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/entryCard.dart';
+import 'package:wordsmith/components/cardComponents/multiPlayerEntryCard.dart';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 
 
@@ -50,11 +51,14 @@ class OpponentUserStream extends StatelessWidget {
                 snapshot.data['activeGames']['currentUserValidList'];
             for (int index = 0; index < activeGamesWord.length; index++) {
               entryWidgets.add(
-                RowEntryCard(
+               Center(
+                 child: MultiEntryCard(
+                  correct: activeValidList[index],
                   entry: activeGamesWord[index],
-                  entryCard: EntryCard(entry: activeGamesWord[index]),
-                  validator: activeValidList[index],
-                ),
+                  
+                  
+              ),
+               )
               );
             }
           }
