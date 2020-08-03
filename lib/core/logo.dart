@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
 
 class WordCraftLogo extends StatelessWidget {
@@ -28,28 +29,31 @@ class WordCraftLogo extends StatelessWidget {
       child: Container(
         width: width,
         height: height * .3,
-        child: Stack(
+        child: Column(
           children: [
-            Center(
-              child: Text(
-                'WORD',
-                textAlign: TextAlign.center,
-                style: kTitleSelectText.copyWith(
-                    color: Colors.brown[900], fontSize: height * .18),
-              ),
-            ),
-            Positioned.fill(
-              top: height * .18,
-              child: Transform(
+            Transform(
                 transform: Matrix4.rotationX(pi / 5 * (animation?.value ?? 0)),
-                child: Text(
-                  'CRAFT',
-                  textAlign: TextAlign.center,
-                  style: kTitleSelectText.copyWith(
-                    color: Colors.green[900],
-                  ),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                AlphabetButton(
+                  active: true,
+                  alphabet: 'W',
                 ),
-              ),
+                AlphabetButton(active: true, alphabet: 'O'),
+                AlphabetButton(active: true, alphabet: 'R'),
+                AlphabetButton(active: true, alphabet: 'D'),
+              ]),
+            ),
+            Transform(
+              transform: Matrix4.rotationX(pi / 5 * (animation?.value ?? 0)),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                AlphabetButton(active: true, alphabet: 'c'),
+                AlphabetButton(active: true, alphabet: 'R'),
+                AlphabetButton(active: true, alphabet: 'A'),
+                AlphabetButton(active: true, alphabet: 'F'),
+                AlphabetButton(active: true, alphabet: 'T'),
+              ]),
             ),
           ],
         ),

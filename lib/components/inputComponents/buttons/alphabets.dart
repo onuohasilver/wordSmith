@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 ///a [GestureDetector] it is usually used in conjunction with a [LetterMap]
 ///and an [Alphabet] state handler
 class AlphabetButton extends StatelessWidget {
-  AlphabetButton({this.alphabet, this.active, this.onPressed,this.sizeRatio});
+  AlphabetButton({this.alphabet, this.active, this.onPressed,this.sizeRatio, this.bgTile});
 
   /// [bool] active manages the state of the UI of the button
   /// if the button has been triggered the button color is transformed
@@ -20,6 +20,8 @@ class AlphabetButton extends StatelessWidget {
   final Function onPressed;
   ///sizeRatio to determinge the proportion to the queried device size
 final double sizeRatio;
+///Background tile image location
+final String bgTile;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ final double sizeRatio;
               child: Container(
                 decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/pngwave(1).png'),
+              image: AssetImage(bgTile??'assets/pngwave(1).png'),
               fit: BoxFit.cover)),
                 child: Padding(
                   padding: EdgeInsets.symmetric(

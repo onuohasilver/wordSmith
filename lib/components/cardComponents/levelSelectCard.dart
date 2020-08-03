@@ -39,7 +39,7 @@ class LevelCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     GameSound gameSound=GameSound();
+    GameSound gameSound = GameSound();
     return Padding(
       padding: const EdgeInsets.fromLTRB(80.0, 13.0, 88.0, 3.0),
       child: Stack(
@@ -64,8 +64,10 @@ class LevelCard extends StatelessWidget {
                         child: Center(
                           child: Text(
                             label,
-                            style: GoogleFonts.creepster(
-                                fontSize: height * .03, color: Colors.white),
+                            style: GoogleFonts.poppins(
+                                fontSize: height * .03,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700),
                             textAlign: TextAlign.center,
                           ),
                         ),
