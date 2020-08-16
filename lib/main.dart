@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
 import 'package:wordsmith/screens/pages/adventureScreen.dart';
@@ -15,14 +16,15 @@ import 'package:provider/provider.dart';
 
 import 'handlers/stateHandlers/providerHandlers/soundHandler.dart';
 
-
 void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => Data()),
+      ChangeNotifierProvider(create: (context) => GamePlayData()),
       ChangeNotifierProvider(create: (context) => AppThemeData()),
       ChangeNotifierProvider(create: (context) => SoundData()),
     ],
+
     ///TODO: Use resoCoders routeGenerator pattern
     child: MaterialApp(
       initialRoute: 'LoadingScreen',
@@ -30,14 +32,13 @@ void main() {
       routes: {
         'LevelSelect': (context) => SelectScreen(),
         'LoadingScreen': (context) => LoadingScreen(),
-       
         'MultiLevelOne': (context) => MultiLevelOne(),
         'SignInPage': (context) => SignInPage(),
         'RegisterPage': (context) => RegisterScreen(),
         'PlayerScreen': (context) => PlayerScreen(),
         'FriendScreen': (context) => FriendScreen(),
         'AllUsersScreen': (context) => AllUsersScreen(),
-        'AdventureScreen':(context)=>AdventureScreen()
+        'AdventureScreen': (context) => AdventureScreen()
       },
     ),
   ));

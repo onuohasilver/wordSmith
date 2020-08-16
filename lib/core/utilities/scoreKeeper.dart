@@ -14,6 +14,11 @@ class ScoreKeeper {
     scoresTruthList.add(validated);
     scoresLengthList.add(entry.length);
   }
+  void zero() {
+    scoresTruthList.add(false);
+    scoresLengthList.add(0);
+  }
+
 
   ///use scoreValue to get the score as an [int]
   int scoreValue() {

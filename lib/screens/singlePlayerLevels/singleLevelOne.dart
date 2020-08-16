@@ -12,6 +12,7 @@ import 'dart:collection';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 import 'package:wordsmith/core/utilities/localData.dart';
 import 'package:wordsmith/core/utilities/words.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
 import 'package:wordsmith/screens/popUps/dialogs/dialogBox.dart';
@@ -84,6 +85,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     double width = MediaQuery.of(context).size.width;
     AppThemeData theme = Provider.of<AppThemeData>(context);
 
+    GamePlayData gamePlay = Provider.of<GamePlayData>(context);
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
         alphabetWidget.add(AlphabetButton(
@@ -128,12 +130,14 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                 children: <Widget>[
                   blurBox,
                   SizedBox(height: height * .01),
-                  // Text(progress.toString()),
+                  Text(gamePlay.straightThree.toString()),
+                  Text(entryHandler.scoreKeeper.scoresTruthList.toString()),
+                   Text(gamePlay.straightFive.toString()),
+                    Text(gamePlay.straightSeven.toString()),
                   ProgressBar(height: height, width: width, progress: progress),
                   SizedBox(
                     height: height * .01,
                   ),
-
                   SizedBox(
                     height: 12,
                   ),
@@ -186,30 +190,35 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                                         fontSize: 20, color: Colors.white)),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: GestureDetector(
-                                child: Icon(Icons.send,
-                                    color: Colors.brown[800], size: 30.0),
-                                onTap: () {
-                                  setState(
-                                    () {
-                                      String allAlphabets = entryHandler
-                                          .alphabetHandler
-                                          .allAlphabets();
-                                      verifyWord(gameWord, allAlphabets)
-                                          ? progress = progress + 0.05
-                                          : progress = progress + 0;
-                                      bool criteria = allAlphabets.length > 3;
-                                      entryHandler.alphabetHandler.reset();
-                                      criteria
-                                          ? entryHandler
-                                              .insert(allAlphabets.trimLeft())
-                                          : print('');
-                                      letterMap.reset();
-                                    },
-                                  );
-                                },
+                            Material(
+                              color: Colors.transparent,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: IconButton(
+                                  icon: Icon(Icons.send,
+                                      color: Colors.brown[800], size: 30.0),
+                                  onPressed: () {
+                                    setState(
+                                      () {
+                                        String allAlphabets = entryHandler
+                                            .alphabetHandler
+                                            .allAlphabets();
+                                        entryHandler.alphabetHandler.reset();
+                                        letterMap.reset();
+                                        verifyWord(gameWord, allAlphabets)
+                                            ? progress = progress + 0.05
+                                            : progress = progress + 0;
+                                        bool criteria = allAlphabets.length > 3;
+
+                                        criteria
+                                            ? entryHandler
+                                                .insert(allAlphabets.trimLeft())
+                                            : print('');
+                                        gamePlay.straightWins(entryHandler);
+                                      },
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ],
@@ -224,7 +233,13 @@ class _SingleLevelOneState extends State<SingleLevelOne>
               ),
             ),
           ),
-          Container(height: height, width: width, color: Colors.blue)
+          gamePlay.straightThree
+              ? Center(
+                  child: Container(
+                      height: height * .1,
+                      width: width * .3,
+                      color: Colors.blue))
+              : Container()
         ],
       ),
     );

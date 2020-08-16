@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 
@@ -35,6 +37,14 @@ class GamePlayData extends ChangeNotifier {
       List _tSubList = truthList.sublist(tLength - 7, tLength);
       straightFive = _tSubList.every((element) => element == true);
     }
+    Timer(
+      Duration(milliseconds: 20),
+      () {
+        straightThree = false;
+        straightFive = false;
+        straightSeven= false;
+      },
+    );
     notifyListeners();
   }
 }

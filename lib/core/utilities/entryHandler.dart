@@ -51,6 +51,9 @@ class EntryHandler {
       if (validated) {
         scoreKeeper.getScores(validated, entry);
       }
+      if(!validated){
+        scoreKeeper.zero();
+      }
     }
     return validated;
   }
