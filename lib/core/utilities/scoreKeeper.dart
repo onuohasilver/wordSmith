@@ -14,6 +14,8 @@ class ScoreKeeper {
     scoresTruthList.add(validated);
     scoresLengthList.add(entry.length);
   }
+  ///adds a value of the 0 to the scoreKeeper
+  ///and adds a bool of false to the truth list
   void zero() {
     scoresTruthList.add(false);
     scoresLengthList.add(0);

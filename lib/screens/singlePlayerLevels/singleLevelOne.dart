@@ -38,10 +38,15 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     entryHandler = EntryHandler(wordGenerator: Words(index: widget.wordIndex));
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
     gameWord = entryHandler.wordGenerator.allAlphabets();
+    animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
+    animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
     // startTimer();
     letterMap.getMapping();
   }
 
+  Animation animation;
+  AnimationController animationController;
   int counter = 10;
   double progress = 0;
   Timer timer;
@@ -132,8 +137,8 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                   SizedBox(height: height * .01),
                   Text(gamePlay.straightThree.toString()),
                   Text(entryHandler.scoreKeeper.scoresTruthList.toString()),
-                   Text(gamePlay.straightFive.toString()),
-                    Text(gamePlay.straightSeven.toString()),
+                  Text(gamePlay.straightFive.toString()),
+                  Text(gamePlay.straightSeven.toString()),
                   ProgressBar(height: height, width: width, progress: progress),
                   SizedBox(
                     height: height * .01,
@@ -215,6 +220,9 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                                                 .insert(allAlphabets.trimLeft())
                                             : print('');
                                         gamePlay.straightWins(entryHandler);
+                                        gamePlay.straightThree
+                                            ? animationController.repeat()
+                                            : animationController.stop();
                                       },
                                     );
                                   },
@@ -233,13 +241,26 @@ class _SingleLevelOneState extends State<SingleLevelOne>
               ),
             ),
           ),
-          gamePlay.straightThree
-              ? Center(
-                  child: Container(
-                      height: height * .1,
-                      width: width * .3,
-                      color: Colors.blue))
-              : Container()
+          Center(
+            child: AnimatedBuilder(
+                animation: animation,
+                builder: (context, widget) {
+                  return Stack(
+                    children: <Widget>[
+                      Container(
+                        height: height * .7 * animation.value,
+                        width: width * .7 * animation.value,
+                        child: Image.asset('assets/stars.gif'),
+                      ),
+                      Container(
+                        height: height * .7 * animation.value,
+                        width: width * .8 * animation.value,
+                        child: Image.asset('assets/magnificient.gif'),
+                      ),
+                    ],
+                  );
+                }),
+          )
         ],
       ),
     );
