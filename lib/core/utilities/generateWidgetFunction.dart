@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 class WidgetCreator {
   List<Widget> xWidget=[];
   List<Widget> getWidgets(){
-    // print(xWidget);
+    
     return xWidget;
   }
   generateWidgets(
@@ -36,7 +36,7 @@ class WidgetCreator {
             setState(() {
               letterMap.map2[alphabet]
                   ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
-                  : print('inactive');
+                  : Container();
               letterMap.map2[alphabet] = false;
             });
           },

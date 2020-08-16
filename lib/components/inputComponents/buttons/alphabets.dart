@@ -31,7 +31,7 @@ final double noPadding;
     return GestureDetector(
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(1.0),
         child: Card(
           margin: EdgeInsets.all(0),
           color: Colors.black,

@@ -9,7 +9,7 @@ import 'package:wordsmith/core/utilities/entryHandler.dart';
 class OpponentUserStream extends StatelessWidget {
   /// A StreamBuilder that listens to the changes
   /// in the firestore [activeGames] of the opponent user
-  /// and returns a list view containing [RowEntryCard] widgets
+  /// and returns a list view containing [MultiEntryCard] widgets
   /// showing the contents of the users game session
   const OpponentUserStream({
     Key key,

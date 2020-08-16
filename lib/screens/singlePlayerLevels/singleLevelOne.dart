@@ -82,7 +82,6 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     List<Widget> alphabetWidget = [];
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    // Data appData = Provider.of<Data>(context);
     AppThemeData theme = Provider.of<AppThemeData>(context);
 
     generateWidgets() {
@@ -127,48 +126,48 @@ class _SingleLevelOneState extends State<SingleLevelOne>
             children: <Widget>[
               blurBox,
               SizedBox(
-                height: height * .04,
+                height: height * .01
               ),
-              Text(progress.toString()),
+              // Text(progress.toString()),
               ProgressBar(height: height, width: width, progress: progress),
               SizedBox(
-                height: height * .02,
+                height: height * .01,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  GestureDetector(
-                    child: LittleCard(
-                        child: Icon(Icons.arrow_back, color: Colors.white)),
-                    onTap: () {
-                      Navigator.popAndPushNamed(context, 'LevelSelect');
-                    },
-                  ),
-                  LittleCard(
-                    child: Text(
-                      entryHandler.scoreKeeper.scoreValue().toString(),
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
-                  ),
-                  LittleCard(
-                    child: (counter > 7)
-                        ? Text(
-                            '$counter',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.white),
-                          )
-                        : Text(
-                            "$counter",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                                fontSize: 20),
-                          ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: <Widget>[
+              //     GestureDetector(
+              //       child: LittleCard(
+              //           child: Icon(Icons.arrow_back, color: Colors.white)),
+              //       onTap: () {
+              //         Navigator.popAndPushNamed(context, 'LevelSelect');
+              //       },
+              //     ),
+              //     LittleCard(
+              //       child: Text(
+              //         entryHandler.scoreKeeper.scoreValue().toString(),
+              //         style: TextStyle(fontSize: 20, color: Colors.white),
+              //       ),
+              //     ),
+              //     LittleCard(
+              //       child: (counter > 7)
+              //           ? Text(
+              //               '$counter',
+              //               style: TextStyle(
+              //                   fontWeight: FontWeight.bold,
+              //                   fontSize: 20,
+              //                   color: Colors.white),
+              //             )
+              //           : Text(
+              //               "$counter",
+              //               style: TextStyle(
+              //                   fontWeight: FontWeight.bold,
+              //                   color: Colors.red,
+              //                   fontSize: 20),
+              //             ),
+              //     ),
+              //   ],
+              // ),
               SizedBox(
                 height: 12,
               ),
