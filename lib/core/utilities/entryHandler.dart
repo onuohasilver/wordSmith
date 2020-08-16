@@ -10,10 +10,10 @@ import 'scoreKeeper.dart';
 
 class EntryHandler {
   ///The entryHandler acts as a binder for many gameplay relating functions
-  ///The entryHandler handles thw word creation by calling the [WordGenerator]
+  ///The entryHandler handles the word creation by calling the [WordGenerator]
   ///It handles the Alphabet Widgets across both single and multiplayer gameplays
   /// it also combines with an alphabetHandler [Alphabet]to control the state of alphabet
-  /// widgets
+  /// widgets it also combines with the [dictionary] to [verifyWord]
   EntryHandler({this.wordGenerator});
 
   ///User Game Entries
@@ -69,4 +69,3 @@ class EntryHandler {
     );
   }
 }
-
