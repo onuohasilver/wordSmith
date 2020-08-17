@@ -66,8 +66,10 @@ class LevelCircle extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(label,
-                      style: GoogleFonts.poppins(color: Colors.black)),
+                  child: Text(
+                    label,
+                    style: GoogleFonts.poppins(color: Colors.white60),
+                  ),
                 )),
           ]),
         )

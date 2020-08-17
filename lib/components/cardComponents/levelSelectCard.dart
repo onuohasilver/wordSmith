@@ -66,7 +66,7 @@ class LevelCard extends StatelessWidget {
                             label,
                             style: GoogleFonts.poppins(
                                 fontSize: height * .03,
-                                color: Colors.white,
+                                color: Colors.white54,
                                 fontWeight: FontWeight.w700),
                             textAlign: TextAlign.center,
                           ),

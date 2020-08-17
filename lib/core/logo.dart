@@ -31,30 +31,22 @@ class WordCraftLogo extends StatelessWidget {
         height: height * .3,
         child: Column(
           children: [
-            Transform(
-                transform: Matrix4.rotationX(pi / 5 * (animation?.value ?? 0)),
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 AlphabetButton(
-                  active: true,
-                  alphabet: 'W',
+            active: true,
+            alphabet: 'W',
                 ),
                 AlphabetButton(active: true, alphabet: 'O'),
                 AlphabetButton(active: true, alphabet: 'R'),
                 AlphabetButton(active: true, alphabet: 'D'),
               ]),
-            ),
-            Transform(
-              transform: Matrix4.rotationX(pi / 5 * (animation?.value ?? 0)),
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                AlphabetButton(active: true, alphabet: 'c'),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                AlphabetButton(active: true, alphabet: 'C'),
                 AlphabetButton(active: true, alphabet: 'R'),
                 AlphabetButton(active: true, alphabet: 'A'),
                 AlphabetButton(active: true, alphabet: 'F'),
                 AlphabetButton(active: true, alphabet: 'T'),
               ]),
-            ),
           ],
         ),
       ),

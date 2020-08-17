@@ -93,7 +93,7 @@ class _AdventureScreenState extends State<AdventureScreen>
                             width: width,
                             index:index,
                             displace: levelMap['displace'][index],
-                            label: 'Level $index');
+                            label: 'Level ${index+1}');
                       }),
                 ),
               ],

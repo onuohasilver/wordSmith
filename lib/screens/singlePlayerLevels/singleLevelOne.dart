@@ -59,37 +59,12 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     });
   }
 
-  // void startTimer() {
-  //   counter = 50;
-
-  //   if (timer != null) {
-  //     timer.cancel();
-  //   }
-  //   timer = Timer.periodic(Duration(seconds: 1), (timer) {
-  //     setState(() {
-  //       if (counter > 0) {
-  //         counter--;
-  //       } else {
-  //         timer.cancel();
-  //         final currentScore = entryHandler.scoreKeeper.scoreValue();
-  //         getHighScore();
-  //         if (highScore < currentScore) {
-  //           localData.setHighScore(currentScore);
-  //         }
-
-  //         dialogBox(context, currentScore.toString(), 'SingleLevelTwo');
-  //       }
-  //     });
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     List<Widget> alphabetWidget = [];
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     AppThemeData theme = Provider.of<AppThemeData>(context);
-
     GamePlayData gamePlay = Provider.of<GamePlayData>(context);
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
@@ -135,10 +110,6 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                 children: <Widget>[
                   blurBox,
                   SizedBox(height: height * .01),
-                  Text(gamePlay.straightThree.toString()),
-                  Text(entryHandler.scoreKeeper.scoresTruthList.toString()),
-                  Text(gamePlay.straightFive.toString()),
-                  Text(gamePlay.straightSeven.toString()),
                   ProgressBar(height: height, width: width, progress: progress),
                   SizedBox(
                     height: height * .01,
@@ -222,7 +193,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                                         gamePlay.straightWins(entryHandler);
                                         gamePlay.straightThree
                                             ? animationController.repeat()
-                                            : animationController.stop();
+                                            : animationController.reset();
                                       },
                                     );
                                   },
@@ -255,7 +226,9 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                       Container(
                         height: height * .7 * animation.value,
                         width: width * .8 * animation.value,
-                        child: Image.asset('assets/magnificient.gif'),
+                        child: Image.asset(gamePlay.straightFive
+                            ? 'assets/magnificient.gif'
+                            : 'assets/outstanding.gif'),
                       ),
                     ],
                   );
@@ -269,6 +242,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
   @override
   void dispose() {
     entryHandler = EntryHandler();
+    animationController.dispose();
     super.dispose();
   }
 }

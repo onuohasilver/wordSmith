@@ -35,7 +35,7 @@ class GamePlayData extends ChangeNotifier {
     }
     if (tLength > 6) {
       List _tSubList = truthList.sublist(tLength - 7, tLength);
-      straightFive = _tSubList.every((element) => element == true);
+      straightSeven = _tSubList.every((element) => element == true);
     }
     Timer(
       Duration(milliseconds: 20),
