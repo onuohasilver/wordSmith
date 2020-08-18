@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/cards.dart';
+import 'package:wordsmith/components/cardComponents/singleEntryCard.dart';
 import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
 import 'package:wordsmith/components/widgetContainers/progressBar.dart';
 import 'package:wordsmith/core/alphabetState.dart';
@@ -45,6 +46,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     letterMap.getMapping();
   }
 
+  final GlobalKey<AnimatedListState> listKey = GlobalKey();
   Animation animation;
   AnimationController animationController;
   int counter = 10;
@@ -110,6 +112,10 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                 children: <Widget>[
                   blurBox,
                   SizedBox(height: height * .01),
+                  // Text(gamePlay.controller.toString()),
+                  // Text(gamePlay.straightThree.toString()),
+                  // Text(gamePlay.straightSeven.toString()),
+                  // Text(gamePlay.straightFive.toString()),
                   ProgressBar(height: height, width: width, progress: progress),
                   SizedBox(
                     height: height * .01,
@@ -124,11 +130,36 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                              child: ListView(
-                                  reverse: false,
-                                  shrinkWrap: true,
-                                  children: UnmodifiableListView(
-                                      entryHandler.entryList)))
+                              child: AnimatedList(
+                            key: listKey,
+                            // reverse:true,
+                            initialItemCount: entryHandler.entryList.length,
+                            itemBuilder: (BuildContext context, int index,
+                                Animation animation) {
+                              List listItems = entryHandler.entryList;
+                              return FadeTransition(
+                                opacity: CurvedAnimation(
+                                    parent: animation,
+                                    curve: Interval(0.5, 1.0)),
+                                child: SizeTransition(
+                                  sizeFactor: CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.bounceInOut),
+                                  child: ScaleTransition(
+                                    scale: CurvedAnimation(
+                                        parent: animation,
+                                        curve: Interval(0.2, 1.0)),
+                                    child: SinglePlayerEntryCard(
+                                        key: ValueKey(listItems[index][1]),
+                                        correct: listItems[index][0],
+                                        entry: listItems[index][1]),
+                                  ),
+                                ),
+                              );
+                            },
+                            reverse: true,
+                            shrinkWrap: true,
+                          ))
                         ],
                       ),
                     ),
@@ -184,12 +215,17 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                                         verifyWord(gameWord, allAlphabets)
                                             ? progress = progress + 0.05
                                             : progress = progress + 0;
-                                        bool criteria = allAlphabets.length > 3;
+                                        bool criteria =
+                                            allAlphabets.length >= 3;
 
                                         criteria
                                             ? entryHandler
                                                 .insert(allAlphabets.trimLeft())
-                                            : print('');
+                                            : Container();
+                                        criteria
+                                            ? listKey.currentState.insertItem(0,
+                                                duration: Duration(seconds: 2))
+                                            : Container();
                                         gamePlay.straightWins(entryHandler);
                                         gamePlay.straightThree
                                             ? animationController.repeat()

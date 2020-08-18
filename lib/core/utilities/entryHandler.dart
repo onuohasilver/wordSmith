@@ -23,7 +23,7 @@ class EntryHandler {
   String gameWord;
 
   /// An EntryList formed from the entries converted to renderable widgets
-  List<Widget> entryList = [];
+  List entryList = [];
 
   /// Alphabet Widgets
   final List<Widget> alphaWidgets = [];
@@ -51,7 +51,7 @@ class EntryHandler {
       if (validated) {
         scoreKeeper.getScores(validated, entry);
       }
-      if(!validated){
+      if (!validated) {
         scoreKeeper.zero();
       }
     }
@@ -66,9 +66,6 @@ class EntryHandler {
   insert(String entry) {
     bool correct = validate(entry: entry, returnScore: true);
 
-    entryList.insert(
-      0,
-      SinglePlayerEntryCard(correct: correct, entry: entry),
-    );
+    entryList.insert(0, [correct, entry]);
   }
 }
