@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/cards.dart';
 import 'package:wordsmith/components/cardComponents/singleEntryCard.dart';
 import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
+import 'package:wordsmith/components/inputComponents/buttons/draggableAlphabets.dart';
 import 'package:wordsmith/components/widgetContainers/progressBar.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/utilities/alphabetTile.dart';
@@ -70,7 +71,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     GamePlayData gamePlay = Provider.of<GamePlayData>(context);
     generateWidgets() {
       for (var alphabet in letterMap.map1.keys) {
-        alphabetWidget.add(AlphabetButton(
+        alphabetWidget.add(DraggableAlphabet(
           alphabet: alphabet,
           active: letterMap.map1[alphabet],
           onPressed: () {
@@ -84,7 +85,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
         ));
       }
       for (var alphabet in letterMap.map2.keys) {
-        alphabetWidget.add(AlphabetButton(
+        alphabetWidget.add(DraggableAlphabet(
           alphabet: alphabet,
           active: letterMap.map2[alphabet],
           onPressed: () {
