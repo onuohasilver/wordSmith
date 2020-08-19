@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:wordsmith/core/utilities/alphabetTile.dart';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 
 /// State management for actual gameplay
 /// tracks the number of player fails/wins to trigger
@@ -94,14 +95,32 @@ class GamePlayData extends ChangeNotifier {
 
     notifyListeners();
   }
+
   /// update game progress bar
   void updateProgress() {
     progress = progress + .05;
   }
-  void setupLetterMap(entryHandler){
+
+  void setupLetterMap(EntryHandler entryHandler) {
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
     letterMap.getMapping();
     notifyListeners();
   }
 
+  void updateLetterState(AlphabetDetail alphabetDetail,EntryHandler entryHandler) {
+    if (letterMap.map1.keys.contains(alphabetDetail.alphabet) &
+        letterMap.map1[alphabetDetail.alphabet]) {
+      letterMap.map1[alphabetDetail.alphabet]
+          ? entryHandler.alphabetHandler.newAlpha.add(alphabetDetail.alphabet)
+          : print('inactive');
+       letterMap.map1[alphabetDetail.alphabet] = false;
+    } else {
+      letterMap.map2[alphabetDetail.alphabet]
+          ? entryHandler.alphabetHandler.newAlpha.add(alphabetDetail.alphabet)
+          : print('inactive');
+       letterMap.map2[alphabetDetail.alphabet] = false;
+    }
+    letterMap.map1[alphabetDetail.alphabet] = false;
+    notifyListeners();
+  }
 }

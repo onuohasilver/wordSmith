@@ -10,10 +10,8 @@ import 'package:wordsmith/screens/pages/loadingScreen.dart';
 import 'package:wordsmith/screens/pages/playerScreen.dart';
 import 'package:wordsmith/screens/pages/registerScreen.dart';
 import 'package:wordsmith/screens/pages/signInScreen.dart';
-// import 'package:wordsmith/screens/singlePlayerLevels/singleLevelOne.dart';
 import 'package:wordsmith/screens/multiPlayerLevels/multiLevelOne.dart';
 import 'package:provider/provider.dart';
-
 import 'handlers/stateHandlers/providerHandlers/soundHandler.dart';
 
 void main() {

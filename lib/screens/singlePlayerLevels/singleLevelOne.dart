@@ -36,20 +36,15 @@ class _SingleLevelOneState extends State<SingleLevelOne>
   String gameWord;
   List<Widget> alphabetWidget = [];
   final alphabetHandler = Alphabet().createState();
-  // MappedLetters letterMap;
-  // GamePlayData gamePlay;
+
   @override
   void initState() {
     super.initState();
     entryHandler = EntryHandler(wordGenerator: Words(index: widget.wordIndex));
-
     gameWord = entryHandler.wordGenerator.allAlphabets();
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 2));
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
-
-    GamePlayData gamePlay = Provider.of<GamePlayData>(context, listen: false);
-    gamePlay.setupLetterMap(entryHandler);
   }
 
   @override
@@ -78,12 +73,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     double width = MediaQuery.of(context).size.width;
     AppThemeData theme = Provider.of<AppThemeData>(context);
     GamePlayData gamePlay = Provider.of<GamePlayData>(context);
-    List<Widget> alphabetWidget = [];
-    generateWidgets(
-      alphabetWidget: alphabetWidget,
-      entryHandler: entryHandler,
-      gamePlay: gamePlay,
-    );
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -97,6 +87,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                   blurBox,
                   SizedBox(height: height * .01),
                   ProgressBar(height: height, width: width, progress: progress),
+                  // Text(gamePlay.letterMap.map1.toString()),
                   SizedBox(
                     height: height * .01,
                   ),
@@ -152,25 +143,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                     gamePlay: gamePlay,
                     animationController: animationController,
                     dragTargetTrigger: (alphabetDetail) {
-                      setState(() {
-                        if (gamePlay.letterMap.map1.keys
-                                .contains(alphabetDetail.alphabet) &
-                            gamePlay.letterMap.map1[alphabetDetail.alphabet]) {
-                          gamePlay.letterMap.map1[alphabetDetail.alphabet]
-                              ? entryHandler.alphabetHandler.newAlpha
-                                  .add(alphabetDetail.alphabet)
-                              : print('inactive');
-                          gamePlay.letterMap.map1[alphabetDetail.alphabet] =
-                              false;
-                        } else {
-                          gamePlay.letterMap.map2[alphabetDetail.alphabet]
-                              ? entryHandler.alphabetHandler.newAlpha
-                                  .add(alphabetDetail.alphabet)
-                              : print('inactive');
-                          gamePlay.letterMap.map2[alphabetDetail.alphabet] =
-                              false;
-                        }
-                      });
+                      gamePlay.updateLetterState(alphabetDetail, entryHandler);
                     },
                     leftButtonTap: () {
                       entryHandler.alphabetHandler.reset();
@@ -203,11 +176,9 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                       );
                     },
                   ),
-                  Wrap(
-                    direction: Axis.horizontal,
-                    alignment: WrapAlignment.center,
-                    children: alphabetWidget,
-                  ),
+                  AlphabetWidgetDisplay(
+                    entryHandler: entryHandler,
+                  )
                 ],
               ),
             ),
