@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
+import 'package:wordsmith/core/alphabetState.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 
 class DraggableAlphabet extends StatefulWidget {
   DraggableAlphabet(
@@ -38,6 +40,7 @@ class _DraggableAlphabetState extends State<DraggableAlphabet> {
   @override
   Widget build(BuildContext context) {
     return Draggable(
+      data: AlphabetDetail(alphabet: widget.alphabet),
       feedback: AlphabetButton(
         alphabet: widget.alphabet,
         active: widget.active,

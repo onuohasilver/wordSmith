@@ -14,6 +14,7 @@ import 'dart:collection';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 import 'package:wordsmith/core/utilities/localData.dart';
 import 'package:wordsmith/core/utilities/words.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
@@ -113,10 +114,6 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                 children: <Widget>[
                   blurBox,
                   SizedBox(height: height * .01),
-                  // Text(gamePlay.controller.toString()),
-                  // Text(gamePlay.straightThree.toString()),
-                  // Text(gamePlay.straightSeven.toString()),
-                  // Text(gamePlay.straightFive.toString()),
                   ProgressBar(height: height, width: width, progress: progress),
                   SizedBox(
                     height: height * .01,
@@ -172,6 +169,16 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                     listKey: listKey,
                     gamePlay: gamePlay,
                     animationController: animationController,
+                    dragTargetTrigger: (alphabetDetail) {
+                      print('object has been accepteds');
+                      setState(() {
+                        letterMap.map1[alphabetDetail.alphabet]
+                            ? entryHandler.alphabetHandler.newAlpha
+                                .add(alphabetDetail.alphabet)
+                            : print('inactive');
+                        letterMap.map1[alphabetDetail.alphabet] = false;
+                      });
+                    },
                     leftButtonTap: () {
                       setState(
                         () {
@@ -262,54 +269,65 @@ class PlaceHolder extends StatelessWidget {
     @required this.animationController,
     @required this.leftButtonTap,
     @required this.rightButtonTap,
+    this.dragTargetTrigger,
   }) : super(key: key);
 
   final EntryHandler entryHandler;
   final MappedLetters letterMap;
   final String gameWord;
-
   final GlobalKey<AnimatedListState> listKey;
   final GamePlayData gamePlay;
   final AnimationController animationController;
   final Function leftButtonTap;
   final Function rightButtonTap;
 
+  final Function(AlphabetDetail) dragTargetTrigger;
+
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-          color: Colors.white.withOpacity(.4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: GestureDetector(
-                    child: Icon(Icons.delete_forever,
-                        color: Colors.red[800], size: 30.0),
-                    onTap: leftButtonTap),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Center(
-                  child: Text(entryHandler.alphabetHandler.newAlpha.toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
+    return DragTarget(
+      onWillAccept: (AlphabetDetail alphabetDetail) {
+        print('Entering the chamber');
+        // return alphabetButton.active == false;
+        return true;
+      },
+      onAccept: dragTargetTrigger,
+      builder: (context, x, y) => ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+            color: Colors.white.withOpacity(.4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: GestureDetector(
+                      child: Icon(Icons.delete_forever,
+                          color: Colors.red[800], size: 30.0),
+                      onTap: leftButtonTap),
                 ),
-              ),
-              Material(
-                color: Colors.transparent,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                      icon: Icon(Icons.send,
-                          color: Colors.brown[800], size: 30.0),
-                      onPressed: rightButtonTap),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: Text(
+                        entryHandler.alphabetHandler.newAlpha.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 20, color: Colors.white)),
+                  ),
                 ),
-              ),
-            ],
-          )),
+                Material(
+                  color: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                        icon: Icon(Icons.send,
+                            color: Colors.brown[800], size: 30.0),
+                        onPressed: rightButtonTap),
+                  ),
+                ),
+              ],
+            )),
+      ),
     );
   }
 }
