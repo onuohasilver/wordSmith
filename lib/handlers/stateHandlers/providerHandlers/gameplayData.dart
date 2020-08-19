@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:wordsmith/core/utilities/alphabetTile.dart';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 
 /// State management for actual gameplay
@@ -27,6 +28,9 @@ class GamePlayData extends ChangeNotifier {
     'straightFive': [0, true],
     'straightSeven': [0, true]
   };
+
+  ///letterMaps
+  MappedLetters letterMap;
 
   ///increase the controller count states
   void controllerUpdate({bool counter = false}) {
@@ -90,8 +94,14 @@ class GamePlayData extends ChangeNotifier {
 
     notifyListeners();
   }
-
+  /// update game progress bar
   void updateProgress() {
     progress = progress + .05;
   }
+  void setupLetterMap(entryHandler){
+    letterMap = MappedLetters(alphabets: entryHandler.getWord());
+    letterMap.getMapping();
+    notifyListeners();
+  }
+
 }
