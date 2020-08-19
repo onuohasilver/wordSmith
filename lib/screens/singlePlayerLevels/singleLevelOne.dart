@@ -239,7 +239,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                         width: width * .8 * animation.value,
                         child: Image.asset(gamePlay.straightFive
                             ? 'assets/magnificient.gif'
-                            : 'assets/outstanding.gif'),
+                            : 'assets/magnificient.gif'),
                       ),
                     ],
                   );
@@ -288,8 +288,8 @@ class PlaceHolder extends StatelessWidget {
     return DragTarget(
       onWillAccept: (AlphabetDetail alphabetDetail) {
         print('Entering the chamber');
-        // return alphabetButton.active == false;
-        return true;
+        return alphabetDetail.active == true;
+        // return true;
       },
       onAccept: dragTargetTrigger,
       builder: (context, x, y) => ClipRRect(

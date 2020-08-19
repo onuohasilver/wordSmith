@@ -40,7 +40,7 @@ class _DraggableAlphabetState extends State<DraggableAlphabet> {
   @override
   Widget build(BuildContext context) {
     return Draggable(
-      data: AlphabetDetail(alphabet: widget.alphabet),
+      data: AlphabetDetail(alphabet: widget.alphabet,active:widget.active),
       feedback: AlphabetButton(
         alphabet: widget.alphabet,
         active: widget.active,
