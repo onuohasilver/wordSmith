@@ -7,6 +7,8 @@ import 'package:wordsmith/core/utilities/entryHandler.dart';
 /// tracks the number of player fails/wins to trigger
 /// a UI update
 class GamePlayData extends ChangeNotifier {
+  double progress = 0;
+
   ///identifier that the user has made five straight entries
   bool straightFive = false;
 
@@ -85,7 +87,11 @@ class GamePlayData extends ChangeNotifier {
         straightSeven = false;
       },
     );
-    
+
     notifyListeners();
+  }
+
+  void updateProgress() {
+    progress = progress + .05;
   }
 }

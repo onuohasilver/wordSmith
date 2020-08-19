@@ -165,80 +165,47 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                       ),
                     ),
                   ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                        color: Colors.white.withOpacity(.4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: GestureDetector(
-                                child: Icon(Icons.delete_forever,
-                                    color: Colors.red[800], size: 30.0),
-                                onTap: () {
-                                  setState(
-                                    () {
-                                      entryHandler.alphabetHandler.reset();
-                                      letterMap.reset();
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Center(
-                                child: Text(
-                                    entryHandler.alphabetHandler.newAlpha
-                                        .toString(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.white)),
-                              ),
-                            ),
-                            Material(
-                              color: Colors.transparent,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: IconButton(
-                                  icon: Icon(Icons.send,
-                                      color: Colors.brown[800], size: 30.0),
-                                  onPressed: () {
-                                    setState(
-                                      () {
-                                        String allAlphabets = entryHandler
-                                            .alphabetHandler
-                                            .allAlphabets();
-                                        entryHandler.alphabetHandler.reset();
-                                        letterMap.reset();
-                                        verifyWord(gameWord, allAlphabets)
-                                            ? progress = progress + 0.05
-                                            : progress = progress + 0;
-                                        bool criteria =
-                                            allAlphabets.length >= 3;
+                  PlaceHolder(
+                    entryHandler: entryHandler,
+                    letterMap: letterMap,
+                    gameWord: gameWord,
+                    listKey: listKey,
+                    gamePlay: gamePlay,
+                    animationController: animationController,
+                    leftButtonTap: () {
+                      setState(
+                        () {
+                          entryHandler.alphabetHandler.reset();
+                          letterMap.reset();
+                        },
+                      );
+                    },
+                    rightButtonTap: () {
+                      setState(
+                        () {
+                          String allAlphabets =
+                              entryHandler.alphabetHandler.allAlphabets();
+                          entryHandler.alphabetHandler.reset();
+                          letterMap.reset();
+                          verifyWord(gameWord, allAlphabets)
+                              ? progress = progress + 0.05
+                              : progress = progress + 0;
+                          bool criteria = allAlphabets.length >= 3;
 
-                                        criteria
-                                            ? entryHandler
-                                                .insert(allAlphabets.trimLeft())
-                                            : Container();
-                                        criteria
-                                            ? listKey.currentState.insertItem(0,
-                                                duration: Duration(seconds: 2))
-                                            : Container();
-                                        gamePlay.straightWins(entryHandler);
-                                        gamePlay.straightThree
-                                            ? animationController.repeat()
-                                            : animationController.reset();
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        )),
+                          criteria
+                              ? entryHandler.insert(allAlphabets.trimLeft())
+                              : Container();
+                          criteria
+                              ? listKey.currentState
+                                  .insertItem(0, duration: Duration(seconds: 2))
+                              : Container();
+                          gamePlay.straightWins(entryHandler);
+                          gamePlay.straightThree
+                              ? animationController.repeat()
+                              : animationController.reset();
+                        },
+                      );
+                    },
                   ),
                   Wrap(
                     direction: Axis.horizontal,
@@ -281,5 +248,68 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     entryHandler = EntryHandler();
     animationController.dispose();
     super.dispose();
+  }
+}
+
+class PlaceHolder extends StatelessWidget {
+  const PlaceHolder({
+    Key key,
+    @required this.entryHandler,
+    @required this.letterMap,
+    @required this.gameWord,
+    @required this.listKey,
+    @required this.gamePlay,
+    @required this.animationController,
+    @required this.leftButtonTap,
+    @required this.rightButtonTap,
+  }) : super(key: key);
+
+  final EntryHandler entryHandler;
+  final MappedLetters letterMap;
+  final String gameWord;
+
+  final GlobalKey<AnimatedListState> listKey;
+  final GamePlayData gamePlay;
+  final AnimationController animationController;
+  final Function leftButtonTap;
+  final Function rightButtonTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+          color: Colors.white.withOpacity(.4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: GestureDetector(
+                    child: Icon(Icons.delete_forever,
+                        color: Colors.red[800], size: 30.0),
+                    onTap: leftButtonTap),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Center(
+                  child: Text(entryHandler.alphabetHandler.newAlpha.toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                ),
+              ),
+              Material(
+                color: Colors.transparent,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                      icon: Icon(Icons.send,
+                          color: Colors.brown[800], size: 30.0),
+                      onPressed: rightButtonTap),
+                ),
+              ),
+            ],
+          )),
+    );
   }
 }
