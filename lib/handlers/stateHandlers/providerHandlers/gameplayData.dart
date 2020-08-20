@@ -11,6 +11,9 @@ import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 class GamePlayData extends ChangeNotifier {
   double progress = 0;
 
+  ///check if entryHandler newAlpha is empty
+  bool deckEngaged= false;
+
   ///identifier that the user has made five straight entries
   bool straightFive = false;
 
@@ -114,6 +117,7 @@ class GamePlayData extends ChangeNotifier {
           ? entryHandler.alphabetHandler.newAlpha.add(alphabetDetail.alphabet)
           : print('inactive');
        letterMap.map1[alphabetDetail.alphabet] = false;
+       updateDeck(entryHandler);
     } else {
       letterMap.map2[alphabetDetail.alphabet]
           ? entryHandler.alphabetHandler.newAlpha.add(alphabetDetail.alphabet)
@@ -121,6 +125,12 @@ class GamePlayData extends ChangeNotifier {
        letterMap.map2[alphabetDetail.alphabet] = false;
     }
     letterMap.map1[alphabetDetail.alphabet] = false;
+    updateDeck(entryHandler);
     notifyListeners();
   }
+
+void updateDeck(EntryHandler entryHandler){
+  deckEngaged=entryHandler.alphabetHandler.newAlpha.isNotEmpty;
+  notifyListeners();
+}
 }

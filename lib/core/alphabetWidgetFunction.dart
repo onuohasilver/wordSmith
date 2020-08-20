@@ -60,14 +60,19 @@ class _AlphabetWidgetDisplayState extends State<AlphabetWidgetDisplay> {
   Widget build(BuildContext context) {
     GamePlayData gamePlay = Provider.of<GamePlayData>(context);
     List<Widget> alphabetWidget = [];
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     generateWidgets(
         alphabetWidget: alphabetWidget,
         gamePlay: gamePlay,
         entryHandler: widget.entryHandler);
-    return Wrap(
-      direction: Axis.horizontal,
-      alignment: WrapAlignment.center,
-      children: alphabetWidget,
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth:width*.6),
+      child: Wrap(
+        direction: Axis.horizontal,
+        alignment: WrapAlignment.center,
+        children: alphabetWidget,
+      ),
     );
   }
 }

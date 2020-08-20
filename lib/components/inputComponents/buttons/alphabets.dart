@@ -11,7 +11,7 @@ class AlphabetButton extends StatelessWidget {
       this.onPressed,
       this.sizeRatio,
       this.bgTile,
-      this.noPadding});
+      this.noPadding, this.textColor});
 
   /// [bool] active manages the state of the UI of the button
   /// if the button has been triggered the button color is transformed
@@ -31,6 +31,9 @@ class AlphabetButton extends StatelessWidget {
   ///Background tile image location
   final String bgTile;
 
+  ///optional textColor
+  final Color textColor;
+
   ///no padding [null]removes all forms of padding if set to true
   final double noPadding;
 
@@ -47,7 +50,7 @@ class AlphabetButton extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(6),
             child: AnimatedOpacity(
-              duration: Duration(milliseconds: 600),
+              duration: Duration(milliseconds: 200),
               opacity: active ? 1 : .5,
               child: Container(
                 decoration: BoxDecoration(
@@ -60,7 +63,7 @@ class AlphabetButton extends StatelessWidget {
                       horizontal: noPadding ?? width * .05 * (sizeRatio ?? 1)),
                   child: Text(alphabet,
                       style: GoogleFonts.poppins(
-                        color: active ? Colors.brown[800] : Colors.black26,
+                        color: textColor??(active ? Colors.brown[800] : Colors.black26),
                         fontWeight: FontWeight.w800,
                         fontSize: width * .085 * (sizeRatio ?? 1),
                       )),
@@ -74,4 +77,3 @@ class AlphabetButton extends StatelessWidget {
   }
 }
 
-//  color: active ? Colors.white.withOpacity(.6) : Colors.transparent

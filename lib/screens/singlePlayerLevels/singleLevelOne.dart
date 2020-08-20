@@ -87,7 +87,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                   blurBox,
                   SizedBox(height: height * .01),
                   ProgressBar(height: height, width: width, progress: progress),
-                  // Text(gamePlay.letterMap.map1.toString()),
+                  Text(gamePlay.deckEngaged.toString()),
                   SizedBox(
                     height: height * .01,
                   ),
@@ -101,35 +101,39 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                              child: AnimatedList(
-                            key: listKey,
-                            // reverse:true,
-                            initialItemCount: entryHandler.entryList.length,
-                            itemBuilder: (BuildContext context, int index,
-                                Animation animation) {
-                              List listItems = entryHandler.entryList;
-                              return FadeTransition(
-                                opacity: CurvedAnimation(
-                                    parent: animation,
-                                    curve: Interval(0.5, 1.0)),
-                                child: SizeTransition(
-                                  sizeFactor: CurvedAnimation(
+                              child: GlowingOverscrollIndicator(
+                            color: Colors.limeAccent,
+                            axisDirection: AxisDirection.up,
+                            child: AnimatedList(
+                              key: listKey,
+                              physics: BouncingScrollPhysics(),
+                              initialItemCount: entryHandler.entryList.length,
+                              itemBuilder: (BuildContext context, int index,
+                                  Animation animation) {
+                                List listItems = entryHandler.entryList;
+                                return FadeTransition(
+                                  opacity: CurvedAnimation(
                                       parent: animation,
-                                      curve: Curves.bounceInOut),
-                                  child: ScaleTransition(
-                                    scale: CurvedAnimation(
+                                      curve: Interval(0.5, 1.0)),
+                                  child: SizeTransition(
+                                    sizeFactor: CurvedAnimation(
                                         parent: animation,
-                                        curve: Interval(0.2, 1.0)),
-                                    child: SinglePlayerEntryCard(
-                                        key: ValueKey(listItems[index][1]),
-                                        correct: listItems[index][0],
-                                        entry: listItems[index][1]),
+                                        curve: Curves.bounceInOut),
+                                    child: ScaleTransition(
+                                      scale: CurvedAnimation(
+                                          parent: animation,
+                                          curve: Interval(0.2, 1.0)),
+                                      child: SinglePlayerEntryCard(
+                                          key: ValueKey(listItems[index][1]),
+                                          correct: listItems[index][0],
+                                          entry: listItems[index][1]),
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                            reverse: true,
-                            shrinkWrap: true,
+                                );
+                              },
+                              reverse: true,
+                              shrinkWrap: true,
+                            ),
                           ))
                         ],
                       ),
@@ -146,35 +150,12 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                       gamePlay.updateLetterState(alphabetDetail, entryHandler);
                     },
                     leftButtonTap: () {
-                      entryHandler.alphabetHandler.reset();
-                      gamePlay.letterMap.reset();
+                      setState(() {
+                        entryHandler.alphabetHandler.reset();
+                        gamePlay.letterMap.reset();
+                      });
                     },
-                    rightButtonTap: () {
-                      setState(
-                        () {
-                          String allAlphabets =
-                              entryHandler.alphabetHandler.allAlphabets();
-                          entryHandler.alphabetHandler.reset();
-                          gamePlay.letterMap.reset();
-                          verifyWord(gameWord, allAlphabets)
-                              ? progress = progress + 0.05
-                              : progress = progress + 0;
-                          bool criteria = allAlphabets.length >= 3;
-
-                          criteria
-                              ? entryHandler.insert(allAlphabets.trimLeft())
-                              : Container();
-                          criteria
-                              ? listKey.currentState
-                                  .insertItem(0, duration: Duration(seconds: 2))
-                              : Container();
-                          gamePlay.straightWins(entryHandler);
-                          gamePlay.straightThree
-                              ? animationController.repeat()
-                              : animationController.reset();
-                        },
-                      );
-                    },
+                    rightButtonTap: () {},
                   ),
                   AlphabetWidgetDisplay(
                     entryHandler: entryHandler,
@@ -204,6 +185,51 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                     ],
                   );
                 }),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: GestureDetector(
+                onVerticalDragEnd: (vertical) {
+                  setState(
+                    () {
+                      String allAlphabets =
+                          entryHandler.alphabetHandler.allAlphabets();
+                      entryHandler.alphabetHandler.reset();
+                      gamePlay.letterMap.reset();
+                      verifyWord(gameWord, allAlphabets)
+                          ? progress = progress + 0.05
+                          : progress = progress + 0;
+                      bool criteria = allAlphabets.length >= 3;
+
+                      criteria
+                          ? entryHandler.insert(allAlphabets.trimLeft())
+                          : Container();
+                      criteria
+                          ? listKey.currentState
+                              .insertItem(0, duration: Duration(seconds: 2))
+                          : Container();
+                      gamePlay.straightWins(entryHandler);
+                      gamePlay.straightThree
+                          ? animationController.repeat()
+                          : animationController.reset();
+                    },
+                  );
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  height: height * .23,
+                  decoration: BoxDecoration(
+                    color: gamePlay.deckEngaged?Colors.greenAccent.withOpacity(.8):Colors.redAccent,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  width: width * .08,
+                ),
+              ),
+            ),
           )
         ],
       ),

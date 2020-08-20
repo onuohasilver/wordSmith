@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
 import 'package:wordsmith/core/utilities/alphabetTile.dart';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
@@ -31,6 +32,8 @@ class PlaceHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return DragTarget(
       onWillAccept: (AlphabetDetail alphabetDetail) {
         print('Entering the chamber');
@@ -41,9 +44,10 @@ class PlaceHolder extends StatelessWidget {
       builder: (context, x, y) => ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Container(
+            height: height * .08,
+            width: width * .9,
             color: Colors.white.withOpacity(.4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Stack(
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -52,13 +56,23 @@ class PlaceHolder extends StatelessWidget {
                           color: Colors.red[800], size: 30.0),
                       onTap: leftButtonTap),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Center(
-                    child: Text(
-                        entryHandler.alphabetHandler.newAlpha.toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20, color: Colors.white)),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: entryHandler.alphabetHandler.newAlpha.length,
+                        itemBuilder: (context, index) {
+                          List textObject =
+                              entryHandler.alphabetHandler.newAlpha;
+                          return AlphabetButton(
+                            alphabet: textObject[index],
+                            active: true,
+                            sizeRatio: .6,
+                            textColor: Colors.white,
+                            bgTile: 'assets/pngwave(2).png',
+                          );
+                        }),
                   ),
                 ),
                 Material(
