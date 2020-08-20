@@ -100,8 +100,8 @@ class GamePlayData extends ChangeNotifier {
   }
 
   /// update game progress bar
-  void updateProgress() {
-    progress = progress + .05;
+  void updateProgress({double increment=0.05}) {
+    progress = progress + increment;
   }
 
   void setupLetterMap(EntryHandler entryHandler) {

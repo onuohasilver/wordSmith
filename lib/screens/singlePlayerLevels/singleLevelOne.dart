@@ -1,16 +1,16 @@
 import 'dart:async';
-import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/singleEntryCard.dart';
+import 'package:wordsmith/components/inputComponents/buttons/swipeButton.dart';
 import 'package:wordsmith/components/widgetContainers/placeholder.dart';
 import 'package:wordsmith/components/widgetContainers/progressBar.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/alphabetWidgetFunction.dart';
 
 import 'package:wordsmith/core/utilities/constants.dart';
-import 'package:wordsmith/core/utilities/dictionaryActivity.dart';
 
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 import 'package:wordsmith/core/utilities/localData.dart';
@@ -53,7 +53,6 @@ class _SingleLevelOneState extends State<SingleLevelOne>
   Animation animation;
   AnimationController animationController;
   int counter = 10;
-  double progress = 0;
   Timer timer;
   LocalData localData = LocalData();
   int highScore = 0;
@@ -83,8 +82,11 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                 children: <Widget>[
                   blurBox,
                   SizedBox(height: height * .01),
-                  ProgressBar(height: height, width: width, progress: progress),
-                  Text(gamePlay.deckEngaged.toString()),
+                  ProgressBar(
+                      height: height,
+                      width: width,
+                      progress: gamePlay.progress),
+                  Text(gamePlay.progress.toString()),
                   SizedBox(
                     height: height * .01,
                   ),
@@ -161,20 +163,21 @@ class _SingleLevelOneState extends State<SingleLevelOne>
               ),
             ),
           ),
-          Center(
+          Align(
+            alignment: Alignment.topCenter,
             child: AnimatedBuilder(
                 animation: animation,
                 builder: (context, widget) {
                   return Stack(
                     children: <Widget>[
                       Container(
-                        height: height * .7 * animation.value,
-                        width: width * .7 * animation.value,
+                        height: height * .3 * animation.value,
+                        width: width * .3 * animation.value,
                         child: Image.asset('assets/stars.gif'),
                       ),
                       Container(
-                        height: height * .7 * animation.value,
-                        width: width * .8 * animation.value,
+                        height: height * .3 * animation.value,
+                        width: width * .3 * animation.value,
                         child: Image.asset(gamePlay.straightFive
                             ? 'assets/magnificient.gif'
                             : 'assets/magnificient.gif'),
@@ -186,62 +189,14 @@ class _SingleLevelOneState extends State<SingleLevelOne>
           Positioned.fill(
             child: Align(
               alignment: Alignment.bottomRight,
-              child: GestureDetector(
-                onVerticalDragEnd: (vertical) {
-                  setState(
-                    () {
-                      String allAlphabets =
-                          entryHandler.alphabetHandler.allAlphabets();
-                      entryHandler.alphabetHandler.reset();
-                      gamePlay.letterMap.reset();
-                      verifyWord(gameWord, allAlphabets)
-                          ? progress = progress + 0.05
-                          : progress = progress + 0;
-                      bool criteria = allAlphabets.length >= 3;
-
-                      criteria
-                          ? entryHandler.insert(allAlphabets.trimLeft())
-                          : Container();
-                      criteria
-                          ? listKey.currentState
-                              .insertItem(0, duration: Duration(seconds: 2))
-                          : Container();
-                      gamePlay.straightWins(entryHandler);
-                      gamePlay.straightThree
-                          ? animationController.repeat()
-                          : animationController.reset();
-                      gamePlay.updateDeck(entryHandler);
-                    },
-                  );
-                },
-                child: AnimatedContainer(
-                  duration: Duration(seconds: 2),
-                  curve: Curves.bounceInOut,
-                  height: gamePlay.deckEngaged ? height * .23 : height * .05,
-                  decoration: BoxDecoration(
-                    color: gamePlay.deckEngaged
-                        ? Colors.green
-                        : Colors.black.withOpacity(.4),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  width: width * .08,
-                  child: gamePlay.deckEngaged
-                      ? Center(
-                          child: Text(
-                            ' S \n W \n I\n P\n E',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white,
-                                fontSize: width * .04),
-                          ),
-                        )
-                      : Container(),
-                ),
-              ),
+              child: SwipeButton(
+                  entryHandler: entryHandler,
+                  gamePlay: gamePlay,
+                  gameWord: gameWord,
+                  listKey: listKey,
+                  animationController: animationController,
+                  height: height,
+                  width: width),
             ),
           )
         ],
@@ -253,6 +208,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
   void dispose() {
     entryHandler = EntryHandler();
     animationController.dispose();
+   
     super.dispose();
   }
 }

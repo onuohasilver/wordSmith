@@ -53,7 +53,6 @@ class PlaceHolder extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: ListView.builder(
-                   
                         scrollDirection: Axis.horizontal,
                         itemCount: entryHandler.alphabetHandler.newAlpha.length,
                         itemBuilder: (context, index) {
