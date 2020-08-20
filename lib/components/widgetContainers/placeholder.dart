@@ -49,17 +49,11 @@ class PlaceHolder extends StatelessWidget {
             color: Colors.white.withOpacity(.4),
             child: Stack(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: GestureDetector(
-                      child: Icon(Icons.delete_forever,
-                          color: Colors.red[800], size: 30.0),
-                      onTap: leftButtonTap),
-                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: ListView.builder(
+                   
                         scrollDirection: Axis.horizontal,
                         itemCount: entryHandler.alphabetHandler.newAlpha.length,
                         itemBuilder: (context, index) {
@@ -73,16 +67,6 @@ class PlaceHolder extends StatelessWidget {
                             bgTile: 'assets/pngwave(2).png',
                           );
                         }),
-                  ),
-                ),
-                Material(
-                  color: Colors.transparent,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                        icon: Icon(Icons.send,
-                            color: Colors.brown[800], size: 30.0),
-                        onPressed: rightButtonTap),
                   ),
                 ),
               ],

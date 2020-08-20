@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/singleEntryCard.dart';
 import 'package:wordsmith/components/widgetContainers/placeholder.dart';
@@ -213,18 +215,31 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                   );
                 },
                 child: AnimatedContainer(
-                  duration: Duration(milliseconds: 200),
-                  height: height * .23,
+                  duration: Duration(seconds: 2),
+                  curve: Curves.bounceInOut,
+                  height: gamePlay.deckEngaged ? height * .23 : height * .05,
                   decoration: BoxDecoration(
                     color: gamePlay.deckEngaged
-                        ? Colors.greenAccent.withOpacity(.8)
-                        : Colors.redAccent,
+                        ? Colors.green
+                        : Colors.black.withOpacity(.4),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
                   ),
                   width: width * .08,
+                  child: gamePlay.deckEngaged
+                      ? Center(
+                          child: Text(
+                            ' S \n W \n I\n P\n E',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                                fontSize: width * .04),
+                          ),
+                        )
+                      : Container(),
                 ),
               ),
             ),
