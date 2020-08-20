@@ -11,7 +11,8 @@ class LevelCircle extends StatelessWidget {
     @required this.displace,
     this.color,
     @required this.label,
-    this.index,
+    @required this.index,
+    @required this.active,
   }) : super(key: key);
 
   final double height;
@@ -20,6 +21,7 @@ class LevelCircle extends StatelessWidget {
   final Color color;
   final int index;
   final String label;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +35,23 @@ class LevelCircle extends StatelessWidget {
           height: height * .12,
           width: width * .16,
           child: Material(
-            elevation: 10,
+            color: Colors.white,
             type: MaterialType.circle,
-            color: color ?? Colors.brown[700],
-            child: InkWell(
-              customBorder: CircleBorder(),
-              onTap: () => Navigator.push(
-                context,
-                CupertinoPageRoute(
-                  builder: (context) => SingleLevelOne(wordIndex: index),
+            elevation: 10,
+            child: Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Material(
+                elevation: 10,
+                type: MaterialType.circle,
+                color: color ?? Colors.brown[700],
+                child: InkWell(
+                  customBorder: CircleBorder(),
+                  onTap: () => Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => SingleLevelOne(wordIndex: index),
+                    ),
+                  ),
                 ),
               ),
             ),

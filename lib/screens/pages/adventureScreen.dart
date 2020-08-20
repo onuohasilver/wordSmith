@@ -1,4 +1,4 @@
-import 'dart:math' show pi;
+import 'dart:math' show Random, pi;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui' as ui;
@@ -16,7 +16,6 @@ class AdventureScreen extends StatefulWidget {
   @override
   _AdventureScreenState createState() => _AdventureScreenState();
 }
-
 class _AdventureScreenState extends State<AdventureScreen>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   Animation animation;
@@ -55,8 +54,8 @@ class _AdventureScreenState extends State<AdventureScreen>
   void dispose() {
     super.dispose();
     animationController.dispose();
-    gameSound.quit();
-    gameSound.stopFile();
+    // gameSound.quit();
+    // gameSound.stopFile();
   }
 
   @override
@@ -64,9 +63,9 @@ class _AdventureScreenState extends State<AdventureScreen>
     // gameSound.playFile();
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    gameSound = GameSound();
+    // gameSound = GameSound();
     AppThemeData theme = Provider.of<AppThemeData>(context);
-    SoundData sound = Provider.of<SoundData>(context);
+    // SoundData sound = Provider.of<SoundData>(context);
     // AudioPlayer player = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
     // AudioCache cache = AudioCache();
     animationController.repeat(reverse: true);
@@ -88,11 +87,13 @@ class _AdventureScreenState extends State<AdventureScreen>
                       reverse: true,
                       itemCount: levelMap['displace'].length,
                       itemBuilder: (context, index) {
+                        // int colorCode=Random().nextInt(8);
                         return LevelCircle(
                             height: height,
                             width: width,
                             index:index,
                             displace: levelMap['displace'][index],
+                            color: Colors.green.shade800,
                             label: 'Level ${index+1}');
                       }),
                 ),
