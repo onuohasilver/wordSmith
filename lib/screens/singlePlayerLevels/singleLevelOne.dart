@@ -1,26 +1,21 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wordsmith/components/cardComponents/cards.dart';
 import 'package:wordsmith/components/cardComponents/singleEntryCard.dart';
-import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
-import 'package:wordsmith/components/inputComponents/buttons/draggableAlphabets.dart';
 import 'package:wordsmith/components/widgetContainers/placeholder.dart';
 import 'package:wordsmith/components/widgetContainers/progressBar.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/alphabetWidgetFunction.dart';
-import 'package:wordsmith/core/utilities/alphabetTile.dart';
+
 import 'package:wordsmith/core/utilities/constants.dart';
 import 'package:wordsmith/core/utilities/dictionaryActivity.dart';
-import 'dart:collection';
+
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 import 'package:wordsmith/core/utilities/localData.dart';
 import 'package:wordsmith/core/utilities/words.dart';
-import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
+
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
-import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
-import 'package:wordsmith/screens/popUps/dialogs/dialogBox.dart';
 
 class SingleLevelOne extends StatefulWidget {
   final int wordIndex;
@@ -213,6 +208,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                       gamePlay.straightThree
                           ? animationController.repeat()
                           : animationController.reset();
+                      gamePlay.updateDeck(entryHandler);
                     },
                   );
                 },
@@ -220,7 +216,9 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                   duration: Duration(milliseconds: 200),
                   height: height * .23,
                   decoration: BoxDecoration(
-                    color: gamePlay.deckEngaged?Colors.greenAccent.withOpacity(.8):Colors.redAccent,
+                    color: gamePlay.deckEngaged
+                        ? Colors.greenAccent.withOpacity(.8)
+                        : Colors.redAccent,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),

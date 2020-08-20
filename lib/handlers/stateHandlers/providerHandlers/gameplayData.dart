@@ -130,7 +130,7 @@ class GamePlayData extends ChangeNotifier {
   }
 
 void updateDeck(EntryHandler entryHandler){
-  deckEngaged=entryHandler.alphabetHandler.newAlpha.isNotEmpty;
+  deckEngaged=entryHandler.alphabetHandler.newAlpha.length>2;
   notifyListeners();
 }
 }

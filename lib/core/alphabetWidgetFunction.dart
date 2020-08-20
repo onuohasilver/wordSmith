@@ -13,23 +13,29 @@ generateWidgets(
   for (var alphabet in gamePlay.letterMap.map1.keys) {
     AlphabetDetail alphabetDetail = AlphabetDetail(
         alphabet: alphabet, active: gamePlay.letterMap.map1[alphabet]);
-    alphabetWidget.add(DraggableAlphabet(
-      alphabet: alphabet,
-      active: gamePlay.letterMap.map1[alphabet],
-      onPressed: () {
-        gamePlay.updateLetterState(alphabetDetail, entryHandler);
-      },
+    alphabetWidget.add(Padding(
+      padding: const EdgeInsets.symmetric(horizontal:2.0),
+      child: DraggableAlphabet(
+        alphabet: alphabet,
+        active: gamePlay.letterMap.map1[alphabet],
+        onPressed: () {
+          gamePlay.updateLetterState(alphabetDetail, entryHandler);
+        },
+      ),
     ));
   }
   for (var alphabet in gamePlay.letterMap.map2.keys) {
     AlphabetDetail alphabetDetail = AlphabetDetail(
         alphabet: alphabet, active: gamePlay.letterMap.map2[alphabet]);
-    alphabetWidget.add(DraggableAlphabet(
-      alphabet: alphabet,
-      active: gamePlay.letterMap.map2[alphabet],
-      onPressed: () {
-        gamePlay.updateLetterState(alphabetDetail, entryHandler);
-      },
+    alphabetWidget.add(Padding(
+      padding: const EdgeInsets.symmetric(horizontal:2.0),
+      child: DraggableAlphabet(
+        alphabet: alphabet,
+        active: gamePlay.letterMap.map2[alphabet],
+        onPressed: () {
+          gamePlay.updateLetterState(alphabetDetail, entryHandler);
+        },
+      ),
     ));
   }
 }
@@ -60,14 +66,14 @@ class _AlphabetWidgetDisplayState extends State<AlphabetWidgetDisplay> {
   Widget build(BuildContext context) {
     GamePlayData gamePlay = Provider.of<GamePlayData>(context);
     List<Widget> alphabetWidget = [];
-    double height = MediaQuery.of(context).size.height;
+    
     double width = MediaQuery.of(context).size.width;
     generateWidgets(
         alphabetWidget: alphabetWidget,
         gamePlay: gamePlay,
         entryHandler: widget.entryHandler);
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth:width*.6),
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
       child: Wrap(
         direction: Axis.horizontal,
         alignment: WrapAlignment.center,
