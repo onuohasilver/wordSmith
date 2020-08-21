@@ -35,7 +35,7 @@ class GameStream extends StatelessWidget {
                       return MultiLevelOne(
                           opponentName: opponentName,
                           opponentID: userID,
-                          randomIndex: 1);
+                          randomIndex: 0);
                     }),
                   );
                 },

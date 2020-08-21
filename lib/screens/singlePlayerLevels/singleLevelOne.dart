@@ -40,7 +40,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     entryHandler = EntryHandler(wordGenerator: Words(index: widget.wordIndex));
     gameWord = entryHandler.wordGenerator.allAlphabets();
     animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 2));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
   }
 
@@ -86,7 +86,6 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                       height: height,
                       width: width,
                       progress: gamePlay.progress),
-                 
                   SizedBox(
                     height: height * .01,
                   ),
@@ -110,23 +109,18 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                               itemBuilder: (BuildContext context, int index,
                                   Animation animation) {
                                 List listItems = entryHandler.entryList;
-                                return FadeTransition(
-                                  opacity: CurvedAnimation(
+                                return SizeTransition(
+                                  sizeFactor: CurvedAnimation(
                                       parent: animation,
-                                      curve: Interval(0.5, 1.0)),
-                                  child: SizeTransition(
-                                    sizeFactor: CurvedAnimation(
+                                      curve: Curves.bounceInOut),
+                                  child: ScaleTransition(
+                                    scale: CurvedAnimation(
                                         parent: animation,
-                                        curve: Curves.bounceInOut),
-                                    child: ScaleTransition(
-                                      scale: CurvedAnimation(
-                                          parent: animation,
-                                          curve: Interval(0.2, 1.0)),
-                                      child: SinglePlayerEntryCard(
-                                          key: ValueKey(listItems[index][1]),
-                                          correct: listItems[index][0],
-                                          entry: listItems[index][1]),
-                                    ),
+                                        curve: Interval(0.2, 1.0)),
+                                    child: SinglePlayerEntryCard(
+                                        key: ValueKey(listItems[index][1]),
+                                        correct: listItems[index][0],
+                                        entry: listItems[index][1]),
                                   ),
                                 );
                               },
@@ -148,13 +142,6 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                     dragTargetTrigger: (alphabetDetail) {
                       gamePlay.updateLetterState(alphabetDetail, entryHandler);
                     },
-                    leftButtonTap: () {
-                      setState(() {
-                        entryHandler.alphabetHandler.reset();
-                        gamePlay.letterMap.reset();
-                      });
-                    },
-                    rightButtonTap: () {},
                   ),
                   AlphabetWidgetDisplay(
                     entryHandler: entryHandler,

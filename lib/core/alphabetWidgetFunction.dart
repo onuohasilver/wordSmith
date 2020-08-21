@@ -70,7 +70,6 @@ class _AlphabetWidgetDisplayState extends State<AlphabetWidgetDisplay> {
     GamePlayData gamePlay = Provider.of<GamePlayData>(context);
     List<Widget> alphabetWidget = [];
 
-    double width = MediaQuery.of(context).size.width;
     generateWidgets(
         alphabetWidget: alphabetWidget,
         gamePlay: gamePlay,
