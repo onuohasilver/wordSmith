@@ -10,7 +10,7 @@ generateWidgets(
     {@required List<Widget> alphabetWidget,
     @required GamePlayData gamePlay,
     @required EntryHandler entryHandler}) {
-  for (var alphabet in gamePlay.letterMap.map1.keys) {
+  for (String alphabet in gamePlay.letterMap.map1.keys) {
     AlphabetDetail alphabetDetail = AlphabetDetail(
         alphabet: alphabet,
         active: gamePlay.letterMap.map1[alphabet],
@@ -27,7 +27,7 @@ generateWidgets(
       ),
     ));
   }
-  for (var alphabet in gamePlay.letterMap.map2.keys) {
+  for (String alphabet in gamePlay.letterMap.map2.keys) {
     AlphabetDetail alphabetDetail = AlphabetDetail(
         alphabet: alphabet,
         active: gamePlay.letterMap.map2[alphabet],

@@ -114,39 +114,29 @@ class GamePlayData extends ChangeNotifier {
       AlphabetDetail alphabetDetail, EntryHandler entryHandler) {
     if ((alphabetDetail.mapNumber == 1) &
         letterMap.map1[alphabetDetail.alphabet]) {
-      letterMap.map1[alphabetDetail.alphabet]
-          ? entryHandler.alphabetHandler.newAlpha.add(alphabetDetail.alphabet)
-          : print('inactive');
+      entryHandler.alphabetHandler.newAlpha.add(alphabetDetail.alphabet);
+
       letterMap.map1[alphabetDetail.alphabet] = false;
       updateDeck(entryHandler);
     } else {
-      letterMap.map2[alphabetDetail.alphabet]
-          ? entryHandler.alphabetHandler.newAlpha.add(alphabetDetail.alphabet)
-          : print('inactive');
+      entryHandler.alphabetHandler.newAlpha.add(alphabetDetail.alphabet);
+
       letterMap.map2[alphabetDetail.alphabet] = false;
     }
-
     updateDeck(entryHandler);
     notifyListeners();
   }
 
   void removeLetter(AlphabetDetail alphabetDetail, EntryHandler entryHandler) {
-    if ((alphabetDetail.mapNumber == 1) &
-        letterMap.map1[alphabetDetail.alphabet]) {
-      letterMap.map1[alphabetDetail.alphabet]
-          ? entryHandler.alphabetHandler.newAlpha
-              .remove(alphabetDetail.alphabet)
-          : print('inactive');
+    if ((alphabetDetail.mapNumber == 1)) {
+      entryHandler.alphabetHandler.newAlpha.remove(alphabetDetail.alphabet);
       letterMap.map1[alphabetDetail.alphabet] = true;
       updateDeck(entryHandler);
     } else {
-      letterMap.map2[alphabetDetail.alphabet]
-          ? entryHandler.alphabetHandler.newAlpha
-              .remove(alphabetDetail.alphabet)
-          : print('inactive');
+      entryHandler.alphabetHandler.newAlpha.remove(alphabetDetail.alphabet);
+
       letterMap.map2[alphabetDetail.alphabet] = true;
     }
-
     updateDeck(entryHandler);
     notifyListeners();
   }

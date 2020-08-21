@@ -86,7 +86,12 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                       height: height,
                       width: width,
                       progress: gamePlay.progress),
-                  Text(gamePlay.progress.toString()),
+                  Text(
+                    gamePlay.letterMap.map1.toString(),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Text(gamePlay.letterMap.map2.toString(),
+                      style: TextStyle(color: Colors.white)),
                   SizedBox(
                     height: height * .01,
                   ),
@@ -208,7 +213,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
   void dispose() {
     entryHandler = EntryHandler();
     animationController.dispose();
-   
+
     super.dispose();
   }
 }

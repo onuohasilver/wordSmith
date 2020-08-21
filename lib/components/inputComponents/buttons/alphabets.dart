@@ -60,15 +60,23 @@ class AlphabetButton extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                       vertical: noPadding ?? width * .03 * (sizeRatio ?? 1),
                       horizontal: noPadding ?? width * .05 * (sizeRatio ?? 1)),
-                  child: Text(alphabetDetail.alphabet,
-                      style: GoogleFonts.poppins(
-                        color: textColor ??
-                            (alphabetDetail.active
-                                ? Colors.brown[800]
-                                : Colors.black26),
-                        fontWeight: FontWeight.w800,
-                        fontSize: width * .085 * (sizeRatio ?? 1),
-                      )),
+                  child: Stack(
+                    children: <Widget>[
+                      Text(alphabetDetail.alphabet,
+                          style: GoogleFonts.poppins(
+                            color: textColor ??
+                                (alphabetDetail.active
+                                    ? Colors.brown[800]
+                                    : Colors.black26),
+                            fontWeight: FontWeight.w800,
+                            fontSize: width * .085 * (sizeRatio ?? 1),
+                          )),
+                      Text(
+                        alphabetDetail.mapNumber.toString(),
+                        style: TextStyle(color: Colors.red),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
