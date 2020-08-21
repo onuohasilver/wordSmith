@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wordsmith/components/cardComponents/cards.dart';
 import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
+import 'package:wordsmith/components/widgetContainers/progressBar.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/utilities/alphabetTile.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
@@ -43,6 +44,8 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
   EntryHandler entryHandler;
   Firestore firestore = Firestore.instance;
   FirebaseUser loggedInUser;
+  String gameWord;
+  double progress = 0;
 
   int counter = 100;
   Timer timer;
@@ -55,6 +58,7 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
 
     letterMap = MappedLetters(alphabets: entryHandler.getWord());
     letterMap.getMapping();
+    gameWord = entryHandler.wordGenerator.allAlphabets();
   }
 
   // void startTimer() {
@@ -84,38 +88,38 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    generateWidgets() {
-      for (var alphabet in letterMap.map1.keys) {
-        alphabetWidget.add(AlphabetButton(
-          alphabet: alphabet,
-          active: letterMap.map1[alphabet],
-          onPressed: () {
-            setState(() {
-              letterMap.map1[alphabet]
-                  ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
-                  : print('inactive');
-              letterMap.map1[alphabet] = false;
-            });
-          },
-        ));
-      }
-      for (var alphabet in letterMap.map2.keys) {
-        alphabetWidget.add(AlphabetButton(
-          alphabet: alphabet,
-          active: letterMap.map2[alphabet],
-          onPressed: () {
-            setState(() {
-              letterMap.map2[alphabet]
-                  ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
-                  : print('inactive');
-              letterMap.map2[alphabet] = false;
-            });
-          },
-        ));
-      }
-    }
+    // generateWidgets() {
+    //   for (var alphabet in letterMap.map1.keys) {
+    //     alphabetWidget.add(AlphabetButton(
+    //       alphabet: alphabet,
+    //       active: letterMap.map1[alphabet],
+    //       onPressed: () {
+    //         setState(() {
+    //           letterMap.map1[alphabet]
+    //               ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
+    //               : print('inactive');
+    //           letterMap.map1[alphabet] = false;
+    //         });
+    //       },
+    //     ));
+    //   }
+    //   for (var alphabet in letterMap.map2.keys) {
+    //     alphabetWidget.add(AlphabetButton(
+    //       alphabet: alphabet,
+    //       active: letterMap.map2[alphabet],
+    //       onPressed: () {
+    //         setState(() {
+    //           letterMap.map2[alphabet]
+    //               ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
+    //               : print('inactive');
+    //           letterMap.map2[alphabet] = false;
+    //         });
+    //       },
+    //     ));
+    //   }
+    // }
 
-    generateWidgets();
+    // generateWidgets();
     return Scaffold(
       body: Container(
         decoration: theme.background,
@@ -129,11 +133,6 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Text('${userData.userName.toUpperCase()} 😎',
-                      style: TextStyle(color: Colors.white)),
-                  LittleCard(
-                      child: Text(
-                          entryHandler.scoreKeeper.scoreValue().toString())),
                   Text('${widget.opponentName.toUpperCase()} 😎',
                       style: TextStyle(color: Colors.white)),
                   StreamBuilder<DocumentSnapshot>(
@@ -154,27 +153,11 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                 ],
               ),
               Expanded(
-                child: Row(
+                child: Column(
                   children: <Widget>[
                     Expanded(
                       child: Card(
-                        color: Colors.white.withOpacity(.1),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            CurrentUserStream(
-                                firestore: _firestore,
-                                userData: userData,
-                                streamEntriesCurrentUser:
-                                    streamEntriesCurrentUser,
-                                entryHandler: entryHandler)
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Card(
-                        color: Colors.white.withOpacity(.1),
+                        color: Colors.red.withOpacity(.1),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
@@ -182,6 +165,37 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                 opponentUserID: widget.opponentID,
                                 firestore: _firestore,
                                 streamEntriesOpponent: streamEntriesOpponent,
+                                entryHandler: entryHandler)
+                          ],
+                        ),
+                      ),
+                    ),
+                    Stack(children: [
+                      ProgressBar(
+                          height: height, width: width, progress: progress),
+                      Row(
+                        children: <Widget>[
+                          Text('${userData.userName.toUpperCase()} 😎',
+                              style: TextStyle(color: Colors.white)),
+                          LittleCard(
+                              child: Text(entryHandler.scoreKeeper
+                                  .scoreValue()
+                                  .toString())),
+                        ],
+                      ),
+                    ]),
+                    Expanded(
+                      child: Card(
+                        color: Colors.green.withOpacity(.1),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            CurrentUserStream(
+                                firestore: _firestore,
+                                userData: userData,
+                                streamEntriesCurrentUser:
+                                    streamEntriesCurrentUser,
                                 entryHandler: entryHandler)
                           ],
                         ),
@@ -285,6 +299,9 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
                                           allAlphabets.trimLeft(),
                                         )
                                       : print('');
+                                  verifyWord(gameWord, allAlphabets)
+                                      ? progress = progress + 0.05
+                                      : progress = progress + 0;
                                 }
                               },
                             );

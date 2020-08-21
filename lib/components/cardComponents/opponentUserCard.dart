@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
 import 'package:wordsmith/screens/popUps/dialogs/waitingForOpponent.dart';
 
-class UserCard extends StatelessWidget {
+class OpponentUserCard extends StatelessWidget {
   ///display User Information with
   ///an option to either follow the user or
   ///send a game challenge.
   ///it defaults to a [Colors.lime] background container
-  const UserCard(
+  const OpponentUserCard(
       {Key key,
       @required this.width,
       @required this.userName,
@@ -57,6 +57,50 @@ class UserCard extends StatelessWidget {
             ),
           ),
           Align(
+            alignment: Alignment.topRight,
+            child: Material(
+              type: MaterialType.circle,
+              color: Colors.black,
+              child: IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: Colors.lime[600],
+                  ),
+                  onPressed: () async {
+                    ///Display snackbar to notify user that
+                    ///addition was successfully done.
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.black,
+                        duration: Duration(milliseconds: 160),
+                        content: Center(
+                          heightFactor: 1,
+                          child: Text(
+                            '$userName has been added as Friend',
+                            style: GoogleFonts.poppins(color: Colors.lime[600]),
+                          ),
+                        ),
+                      ),
+                    );
+
+                    List previousChallenges = await firestore
+                        .collection('users')
+                        .document(userData.currentUserID)
+                        .get()
+                        .then((value) => value['friends']);
+                    List friends = [];
+                    friends.addAll(previousChallenges);
+                    friends.add(userID);
+                    firestore
+                        .collection('users')
+                        .document(
+                          userData.currentUserID,
+                        )
+                        .setData({'friends': friends}, merge: true);
+                  }),
+            ),
+          ),
+          Align(
             alignment: Alignment.center,
             child: Card(
               color: Colors.black,
@@ -67,6 +111,25 @@ class UserCard extends StatelessWidget {
                   style: GoogleFonts.poppins(color: Colors.lime[600]),
                 ),
               ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: StreamBuilder<DocumentSnapshot>(
+              stream:
+                  firestore.collection('users').document(userID).snapshots(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                bool online = snapshot.data['online'];
+                return Container(
+                  height: height*.04,
+                  width: width*.05,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Material(
+                          type: MaterialType.circle,
+                          color: online ? Colors.lime[600] : Colors.grey),
+                    ));
+              },
             ),
           ),
           Align(

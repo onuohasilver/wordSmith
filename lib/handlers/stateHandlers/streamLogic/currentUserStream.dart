@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wordsmith/components/cardComponents/entryCard.dart';
+import 'package:wordsmith/components/cardComponents/multiPlayerEntryCard.dart';
+import 'package:wordsmith/components/cardComponents/singleEntryCard.dart';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
-
-
 
 class CurrentUserStream extends StatelessWidget {
   /// A StreamBuilder that listens to the changes
@@ -51,13 +51,14 @@ class CurrentUserStream extends StatelessWidget {
             dynamic activeValidList =
                 snapshot.data['activeGames']['currentUserValidList'];
             for (int index = 0; index < activeGamesWord.length; index++) {
-              entryWidgets.add(
-                RowEntryCard(
+              entryWidgets.add(Center(
+                child: MultiEntryCard(
+                  correct: activeValidList[index],
                   entry: activeGamesWord[index],
-                  entryCard: EntryCard(entry: activeGamesWord[index]),
-                  validator: activeValidList[index],
+                  
+                  
                 ),
-              );
+              ));
             }
           }
           return Expanded(

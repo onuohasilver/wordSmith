@@ -1,38 +1,57 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
-import 'package:wordsmith/components/cardComponents/cards.dart';
-import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
+import 'package:wordsmith/components/cardComponents/singleEntryCard.dart';
+import 'package:wordsmith/components/inputComponents/buttons/swipeButton.dart';
+import 'package:wordsmith/components/widgetContainers/placeholder.dart';
+import 'package:wordsmith/components/widgetContainers/progressBar.dart';
 import 'package:wordsmith/core/alphabetState.dart';
-import 'package:wordsmith/core/utilities/alphabetTile.dart';
-import 'dart:collection';
+import 'package:wordsmith/core/alphabetWidgetFunction.dart';
+
+import 'package:wordsmith/core/utilities/constants.dart';
+
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 import 'package:wordsmith/core/utilities/localData.dart';
 import 'package:wordsmith/core/utilities/words.dart';
-import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
-import 'package:wordsmith/screens/popUps/dialogs/dialogBox.dart';
+
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 
 class SingleLevelOne extends StatefulWidget {
+  final int wordIndex;
+
+  const SingleLevelOne({Key key, @required this.wordIndex}) : super(key: key);
   @override
   _SingleLevelOneState createState() => _SingleLevelOneState();
 }
 
-class _SingleLevelOneState extends State<SingleLevelOne> {
+class _SingleLevelOneState extends State<SingleLevelOne>
+    with SingleTickerProviderStateMixin {
   EntryHandler entryHandler;
-
+  String gameWord;
+  List<Widget> alphabetWidget = [];
   final alphabetHandler = Alphabet().createState();
-  MappedLetters letterMap;
 
+  @override
   void initState() {
     super.initState();
-
-    entryHandler = EntryHandler(wordGenerator: Words(index: 2));
-    letterMap = MappedLetters(alphabets: entryHandler.getWord());
-
-    startTimer();
-    letterMap.getMapping();
+    entryHandler = EntryHandler(wordGenerator: Words(index: widget.wordIndex));
+    gameWord = entryHandler.wordGenerator.allAlphabets();
+    animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
+    animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  final GlobalKey<AnimatedListState> listKey = GlobalKey();
+  Animation animation;
+  AnimationController animationController;
   int counter = 10;
   Timer timer;
   LocalData localData = LocalData();
@@ -44,195 +63,156 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
     });
   }
 
-  void startTimer() {
-    counter = 20;
-
-    if (timer != null) {
-      timer.cancel();
-    }
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (counter > 0) {
-          counter--;
-        } else {
-          timer.cancel();
-          final currentScore = entryHandler.scoreKeeper.scoreValue();
-          getHighScore();
-          if (highScore < currentScore) {
-            localData.setHighScore(currentScore);
-          }
-
-          dialogBox(context, currentScore.toString(), 'SingleLevelTwo');
-        }
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    List<Widget> alphabetWidget = [];
-    Data appData = Provider.of<Data>(context);
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    AppThemeData theme = Provider.of<AppThemeData>(context);
+    GamePlayData gamePlay = Provider.of<GamePlayData>(context);
 
-    generateWidgets() {
-      for (var alphabet in letterMap.map1.keys) {
-        alphabetWidget.add(AlphabetButton(
-          alphabet: alphabet,
-          active: letterMap.map1[alphabet],
-          onPressed: () {
-            setState(() {
-              letterMap.map1[alphabet]
-                  ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
-                  : print('inactive');
-              letterMap.map1[alphabet] = false;
-            });
-          },
-        ));
-      }
-      for (var alphabet in letterMap.map2.keys) {
-        alphabetWidget.add(AlphabetButton(
-          alphabet: alphabet,
-          active: letterMap.map2[alphabet],
-          onPressed: () {
-            setState(() {
-              letterMap.map2[alphabet]
-                  ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
-                  : print('inactive');
-              letterMap.map2[alphabet] = false;
-            });
-          },
-        ));
-      }
-    }
-
-    generateWidgets();
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          decoration: appData.theme,
-          child: Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    GestureDetector(
-                      child: LittleCard(
-                          child: Icon(Icons.arrow_back, color: Colors.white)),
-                      onTap: () {
-                        Navigator.popAndPushNamed(context, 'LevelSelect');
-                      },
-                    ),
-                    LittleCard(
-                      child: Text(
-                        entryHandler.scoreKeeper.scoreValue().toString(),
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Container(
+            decoration: theme.background,
+            child: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  blurBox,
+                  SizedBox(height: height * .01),
+                  ProgressBar(
+                      height: height,
+                      width: width,
+                      progress: gamePlay.progress),
+                 
+                  SizedBox(
+                    height: height * .01,
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Expanded(
+                    child: Card(
+                      color: Colors.white.withOpacity(.1),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                              child: GlowingOverscrollIndicator(
+                            color: Colors.limeAccent,
+                            axisDirection: AxisDirection.up,
+                            child: AnimatedList(
+                              key: listKey,
+                              physics: BouncingScrollPhysics(),
+                              initialItemCount: entryHandler.entryList.length,
+                              itemBuilder: (BuildContext context, int index,
+                                  Animation animation) {
+                                List listItems = entryHandler.entryList;
+                                return FadeTransition(
+                                  opacity: CurvedAnimation(
+                                      parent: animation,
+                                      curve: Interval(0.5, 1.0)),
+                                  child: SizeTransition(
+                                    sizeFactor: CurvedAnimation(
+                                        parent: animation,
+                                        curve: Curves.bounceInOut),
+                                    child: ScaleTransition(
+                                      scale: CurvedAnimation(
+                                          parent: animation,
+                                          curve: Interval(0.2, 1.0)),
+                                      child: SinglePlayerEntryCard(
+                                          key: ValueKey(listItems[index][1]),
+                                          correct: listItems[index][0],
+                                          entry: listItems[index][1]),
+                                    ),
+                                  ),
+                                );
+                              },
+                              reverse: true,
+                              shrinkWrap: true,
+                            ),
+                          ))
+                        ],
                       ),
                     ),
-                    LittleCard(
-                      child: (counter > 7)
-                          ? Text(
-                              '$counter',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Colors.white),
-                            )
-                          : Text(
-                              "$counter",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red,
-                                  fontSize: 20),
-                            ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Expanded(
-                  child: Card(
-                    color: Colors.white.withOpacity(.3),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                            child: ListView(
-                                reverse: false,
-                                shrinkWrap: true,
-                                children: UnmodifiableListView(
-                                    entryHandler.entryList)))
-                      ],
-                    ),
                   ),
-                ),
-                Card(
-                    color: Colors.lightBlue.withOpacity(.4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GestureDetector(
-                            child: Icon(Icons.delete_forever,
-                                color: Colors.lightBlue, size: 30.0),
-                            onTap: () {
-                              setState(
-                                () {
-                                  entryHandler.alphabetHandler.reset();
-                                  letterMap.reset();
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Center(
-                            child: Text(
-                                entryHandler.alphabetHandler.newAlpha
-                                    .toString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white)),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GestureDetector(
-                            child: Icon(Icons.send,
-                                color: Colors.lightBlue, size: 30.0),
-                            onTap: () {
-                              setState(
-                                () {
-                                  String allAlphabets = entryHandler
-                                      .alphabetHandler
-                                      .allAlphabets();
-                                  bool criteria = allAlphabets.length > 3;
-                                  entryHandler.alphabetHandler.reset();
-                                  criteria
-                                      ? entryHandler
-                                          .insert(allAlphabets.trimLeft())
-                                      : print('');
-                                  letterMap.reset();
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    )),
-                Wrap(
-                  direction: Axis.horizontal,
-                  alignment: WrapAlignment.center,
-                  children: alphabetWidget,
-                ),
-              ],
+                  PlaceHolder(
+                    entryHandler: entryHandler,
+                    letterMap: gamePlay.letterMap,
+                    gameWord: gameWord,
+                    listKey: listKey,
+                    gamePlay: gamePlay,
+                    animationController: animationController,
+                    dragTargetTrigger: (alphabetDetail) {
+                      gamePlay.updateLetterState(alphabetDetail, entryHandler);
+                    },
+                    leftButtonTap: () {
+                      setState(() {
+                        entryHandler.alphabetHandler.reset();
+                        gamePlay.letterMap.reset();
+                      });
+                    },
+                    rightButtonTap: () {},
+                  ),
+                  AlphabetWidgetDisplay(
+                    entryHandler: entryHandler,
+                  )
+                ],
+              ),
             ),
           ),
-        ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: AnimatedBuilder(
+                animation: animation,
+                builder: (context, widget) {
+                  return Stack(
+                    children: <Widget>[
+                      Container(
+                        height: height * .3 * animation.value,
+                        width: width * .3 * animation.value,
+                        child: Image.asset('assets/stars.gif'),
+                      ),
+                      Container(
+                        height: height * .3 * animation.value,
+                        width: width * .3 * animation.value,
+                        child: Image.asset(gamePlay.straightFive
+                            ? 'assets/magnificient.gif'
+                            : 'assets/magnificient.gif'),
+                      ),
+                    ],
+                  );
+                }),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: SwipeButton(
+                  entryHandler: entryHandler,
+                  gamePlay: gamePlay,
+                  gameWord: gameWord,
+                  listKey: listKey,
+                  animationController: animationController,
+                  height: height,
+                  width: width),
+            ),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: SwipeButton(
+                  entryHandler: entryHandler,
+                  gamePlay: gamePlay,
+                  gameWord: gameWord,
+                  listKey: listKey,
+                  animationController: animationController,
+                  height: height,
+                  width: width),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -240,6 +220,8 @@ class _SingleLevelOneState extends State<SingleLevelOne> {
   @override
   void dispose() {
     entryHandler = EntryHandler();
+    animationController.dispose();
+
     super.dispose();
   }
 }

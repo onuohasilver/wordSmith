@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wordsmith/core/sound.dart';
 
 class LevelCard extends StatelessWidget {
   ///Text displayed on Card Body [label] must be a non-null value
@@ -38,6 +39,7 @@ class LevelCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GameSound gameSound = GameSound();
     return Padding(
       padding: const EdgeInsets.fromLTRB(80.0, 13.0, 88.0, 3.0),
       child: Stack(
@@ -62,15 +64,15 @@ class LevelCard extends StatelessWidget {
                         child: Center(
                           child: Text(
                             label,
-                            style: GoogleFonts.creepster(
-                                fontSize: height * .03, color: Colors.white),
+                            style: GoogleFonts.poppins(
+                                fontSize: height * .03,
+                                color: Colors.white54,
+                                fontWeight: FontWeight.w700),
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
-                      onTap: () {
-                        Navigator.pushNamed((context), routeName);
-                      },
+                      onTap: () => Navigator.pushNamed((context), routeName),
                     ),
                   ),
                 ),

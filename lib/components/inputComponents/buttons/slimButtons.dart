@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wordsmith/core/sound.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
 
 class SlimButton extends StatelessWidget {
@@ -42,6 +43,7 @@ class SlimButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
     return Material(
         child: InkWell(
           borderRadius: BorderRadius.circular(20),
@@ -87,7 +89,10 @@ class SignUp extends StatelessWidget {
       color: Colors.white.withOpacity(.1),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
-        onTap: () => Navigator.pushReplacementNamed(context, routeName),
+        onTap: () {
+          Navigator.pushReplacementNamed(context, routeName);
+          // buttonSound();
+        },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(

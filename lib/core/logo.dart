@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 
 class WordCraftLogo extends StatelessWidget {
   ///Creates the App Logo Widget
@@ -28,29 +30,48 @@ class WordCraftLogo extends StatelessWidget {
       child: Container(
         width: width,
         height: height * .3,
-        child: Stack(
+        child: Column(
           children: [
-            Center(
-              child: Text(
-                'WORD',
-                textAlign: TextAlign.center,
-                style: kTitleSelectText.copyWith(
-                    color: Colors.brown[900], fontSize: height * .18),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'W', active: true, mapNumber: null),
               ),
-            ),
-            Positioned.fill(
-              top: height * .18,
-              child: Transform(
-                transform: Matrix4.rotationX(pi / 5 * (animation?.value ?? 0)),
-                child: Text(
-                  'CRAFT',
-                  textAlign: TextAlign.center,
-                  style: kTitleSelectText.copyWith(
-                    color: Colors.green[900],
-                  ),
-                ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'O', active: true, mapNumber: null),
               ),
-            ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'R', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'D', active: true, mapNumber: null),
+              ),
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'C', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'R', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'A', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'F', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'T', active: true, mapNumber: null),
+              ),
+            ]),
           ],
         ),
       ),

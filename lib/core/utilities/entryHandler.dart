@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:wordsmith/components/cardComponents/singleEntryCard.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/utilities/words.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataSources/networkRequest.dart';
+import 'package:wordsmith/screens/popUps/dialogs/wordDefinition.dart';
 import 'dictionaryActivity.dart';
 import 'scoreKeeper.dart';
 
 class EntryHandler {
   ///The entryHandler acts as a binder for many gameplay relating functions
-  ///The entryHandler handles thw word creation by calling the [WordGenerator]
+  ///The entryHandler handles the word creation by calling the [WordGenerator]
   ///It handles the Alphabet Widgets across both single and multiplayer gameplays
   /// it also combines with an alphabetHandler [Alphabet]to control the state of alphabet
-  /// widgets
+  /// widgets it also combines with the [dictionary] to [verifyWord]
   EntryHandler({this.wordGenerator});
 
   ///User Game Entries
@@ -19,7 +23,7 @@ class EntryHandler {
   String gameWord;
 
   /// An EntryList formed from the entries converted to renderable widgets
-  List<Widget> entryList = [];
+  List entryList = [];
 
   /// Alphabet Widgets
   final List<Widget> alphaWidgets = [];
@@ -47,6 +51,9 @@ class EntryHandler {
       if (validated) {
         scoreKeeper.getScores(validated, entry);
       }
+      if (!validated) {
+        scoreKeeper.zero();
+      }
     }
     return validated;
   }
@@ -59,32 +66,6 @@ class EntryHandler {
   insert(String entry) {
     bool correct = validate(entry: entry, returnScore: true);
 
-    entryList.insert(
-      0,
-      Align(
-        child: Card(
-          elevation: 24,
-          color: Colors.primaries[entry.length + 3 % Colors.primaries.length]
-              .withOpacity(0.4),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Text(
-                  entry.toUpperCase(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              Icon(correct ? Icons.mood : Icons.mood_bad,
-                  color: correct ? Colors.green : Colors.red),
-            ],
-          ),
-        ),
-      ),
-    );
+    entryList.insert(0, [correct, entry]);
   }
 }

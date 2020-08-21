@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:wordsmith/components/cardComponents/userCard.dart';
+import 'package:wordsmith/components/cardComponents/friendUserCard.dart';
+import 'package:wordsmith/components/cardComponents/requestUserCard.dart';
+
 import 'package:wordsmith/core/utilities/constants.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
@@ -16,8 +18,11 @@ class _FriendScreenState extends State<FriendScreen> {
   final _firestore = Firestore.instance;
   List<String> friendList = [];
   List<dynamic> friends = [];
+  List<dynamic> challengers = [];
   List<String> friendUserNames;
   List<String> friendUserIDs;
+  List<String> challengerNames;
+  List<String> challengerIDs;
 
   @override
   void initState() {
@@ -44,11 +49,14 @@ class _FriendScreenState extends State<FriendScreen> {
                 final users = snapshot.data.documents;
                 friendUserNames = [];
                 friendUserIDs = [];
+                challengerIDs = [];
+                challengerNames = [];
 
                 for (var user in users) {
                   final String userID = user.data['userid'];
                   if (userData.currentUserID == userID) {
                     friends = user.data['friends'];
+                    challengers = user.data['challenges'];
                   }
                 }
 
@@ -58,6 +66,10 @@ class _FriendScreenState extends State<FriendScreen> {
                   if (friends.contains(userID)) {
                     friendUserNames.add(userName);
                     friendUserIDs.add(userID);
+                  }
+                  if (challengers.contains(userID)) {
+                    challengerNames.add(userName);
+                    challengerIDs.add(userID);
                   }
                 }
               }
@@ -72,7 +84,44 @@ class _FriendScreenState extends State<FriendScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       blurBox,
+                      SizedBox(
+                        height: height * .04,
+                      ),
+                      Card(
+                        color: Colors.black,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Game Requests',
+                            style: GoogleFonts.poppins(fontSize: width * .05,color:Colors.lime[600]),
+                          ),
+                        ),
+                      ),
                       Expanded(
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: challengerNames.length,
+                          itemBuilder: (context, index) {
+                            return RequestUserCard(
+                              width: width,
+                              height: height,
+                              userName: challengerNames[index],
+                              userID: challengerIDs[index],
+                            );
+                          },
+                        ),
+                      ),
+                      Card(
+                          color: Colors.black,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Friends',
+                                style: GoogleFonts.poppins(
+                                    fontSize: width * .05,
+                                    color: Colors.lime[600])),
+                          )),
+                      Expanded(
+                        flex: 4,
                         child: GridView.builder(
                           itemCount: friendUserNames.length,
                           gridDelegate:
@@ -81,7 +130,7 @@ class _FriendScreenState extends State<FriendScreen> {
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 10),
                           itemBuilder: (context, index) {
-                            return UserCard(
+                            return FriendUserCard(
                               width: width,
                               height: height,
                               userName: friendUserNames[index],

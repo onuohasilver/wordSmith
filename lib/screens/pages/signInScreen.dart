@@ -8,7 +8,6 @@ import 'package:wordsmith/components/inputComponents/textFields/inputField.dart'
 import 'package:wordsmith/core/logo.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
 
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -146,6 +145,13 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                                   .get()
                                   .then((value) => userData
                                       .updateUserName(value['username']));
+                              firestore
+                                  .collection('users')
+                                  .document(loggedInUser.uid)
+                                  .setData(
+                                {'online': true},
+                                merge: true,
+                              );
                               Navigator.pushReplacementNamed(
                                   context, 'PlayerScreen');
                             }

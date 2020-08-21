@@ -142,6 +142,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                       child: ScoreCard(
                         toolTip: "All Users",
                         content: '',
+                        routeName: 'AllUsersScreen',
                         title: '',
                         iconPath: 'assets/people.png',
                         height: height * 1.3,

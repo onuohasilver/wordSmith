@@ -124,7 +124,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                               String loggedInUserId = loggedInUser.uid;
                               userData.updateUserID(loggedInUserId);
                               userData.updateProgress();
-
                               _firestore
                                   .collection('users')
                                   .document(loggedInUser.uid)
@@ -134,8 +133,10 @@ class _RegisterScreenState extends State<RegisterScreen>
                                 'friends': ['computer'],
                                 'challenges': [''],
                                 'activeGames': [''],
+                                'activeChallenges':[],
                                 'email': userData.email,
-                                'password': userData.password
+                                'password': userData.password,
+                                'online':true
                               });
                               Navigator.pushReplacementNamed(
                                   context, 'PlayerScreen');
