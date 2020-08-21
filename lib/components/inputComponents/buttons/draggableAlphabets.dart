@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
-import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 
 class DraggableAlphabet extends StatefulWidget {
@@ -44,24 +43,21 @@ class _DraggableAlphabetState extends State<DraggableAlphabet> {
       data: AlphabetDetail(
           alphabet: alphabet, active: active, mapNumber: mapNumber),
       feedback: AlphabetButton(
-        alphabet: alphabet,
-        active: active,
+        alphabetDetail: widget.alphabetDetail,
         onPressed: widget.onPressed,
         sizeRatio: .6,
         bgTile: widget.bgTile,
         noPadding: widget.noPadding,
       ),
       childWhenDragging: AlphabetButton(
-        alphabet: alphabet,
-        active: true,
+        alphabetDetail: widget.alphabetDetail,
         onPressed: widget.onPressed,
         sizeRatio: widget.sizeRatio,
         bgTile: widget.bgTile,
         noPadding: widget.noPadding,
       ),
       child: AlphabetButton(
-        alphabet: alphabet,
-        active: active,
+        alphabetDetail: widget.alphabetDetail,
         onPressed: widget.onPressed,
         sizeRatio: widget.sizeRatio,
         bgTile: widget.bgTile,

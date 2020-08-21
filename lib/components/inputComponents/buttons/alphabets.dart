@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 
 ///[AlphabetButton] creates a [Card] that is wrapped with
 ///a [GestureDetector] it is usually used in conjunction with a [LetterMap]
 ///and an [Alphabet] state handler
 class AlphabetButton extends StatelessWidget {
   AlphabetButton(
-      {this.alphabet,
-      this.active,
-      this.onPressed,
+      {this.onPressed,
       this.sizeRatio,
       this.bgTile,
-      this.noPadding, this.textColor});
+      this.noPadding,
+      this.textColor,
+      @required this.alphabetDetail});
 
   /// [bool] active manages the state of the UI of the button
   /// if the button has been triggered the button color is transformed
   /// to a completely [Colors.white12] text.
-  final bool active;
-
   /// [String] alphabet: is the child of the [AlphabetButton]
   /// the actual alphabet to be displayed
-  final String alphabet;
+  final AlphabetDetail alphabetDetail;
 
   /// [Function] a function to be triggered on the button press detected.
   final Function onPressed;
@@ -51,7 +50,7 @@ class AlphabetButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
             child: AnimatedOpacity(
               duration: Duration(milliseconds: 200),
-              opacity: active ? 1 : .5,
+              opacity: alphabetDetail.active ? 1 : .5,
               child: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
@@ -61,9 +60,12 @@ class AlphabetButton extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                       vertical: noPadding ?? width * .03 * (sizeRatio ?? 1),
                       horizontal: noPadding ?? width * .05 * (sizeRatio ?? 1)),
-                  child: Text(alphabet,
+                  child: Text(alphabetDetail.alphabet,
                       style: GoogleFonts.poppins(
-                        color: textColor??(active ? Colors.brown[800] : Colors.black26),
+                        color: textColor ??
+                            (alphabetDetail.active
+                                ? Colors.brown[800]
+                                : Colors.black26),
                         fontWeight: FontWeight.w800,
                         fontSize: width * .085 * (sizeRatio ?? 1),
                       )),
@@ -76,4 +78,3 @@ class AlphabetButton extends StatelessWidget {
     );
   }
 }
-

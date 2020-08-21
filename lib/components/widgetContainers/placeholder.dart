@@ -58,9 +58,12 @@ class PlaceHolder extends StatelessWidget {
                         itemBuilder: (context, index) {
                           List textObject =
                               entryHandler.alphabetHandler.newAlpha;
+                          AlphabetDetail alphabetDetail = AlphabetDetail(
+                              alphabet: textObject[index],
+                              active: true,
+                              mapNumber: null);
                           return AlphabetButton(
-                            alphabet: textObject[index],
-                            active: true,
+                            alphabetDetail: alphabetDetail,
                             sizeRatio: .6,
                             textColor: Colors.white,
                             bgTile: 'assets/pngwave(2).png',

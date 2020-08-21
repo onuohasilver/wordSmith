@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataSources/networkRequest.dart';
 import 'package:wordsmith/screens/popUps/dialogs/wordDefinition.dart';
 
@@ -20,12 +21,15 @@ class SinglePlayerEntryCard extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     List<Widget> alphabetWidgets = List.generate(
       entry.length,
-      (index) => AlphabetButton(
-        alphabet: entry[index],
-        active: true,
-        onPressed: null,
-        sizeRatio: .5,
-      ),
+      (index) {
+        AlphabetDetail alphabetDetail = AlphabetDetail(
+            alphabet: entry[index], active: true, mapNumber: null);
+        return AlphabetButton(
+          alphabetDetail: alphabetDetail,
+          onPressed: null,
+          sizeRatio: .5,
+        );
+      },
     );
     return Align(
       child: Padding(

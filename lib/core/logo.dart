@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 
 class WordCraftLogo extends StatelessWidget {
   ///Creates the App Logo Widget
@@ -32,21 +33,45 @@ class WordCraftLogo extends StatelessWidget {
         child: Column(
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                AlphabetButton(
-            active: true,
-            alphabet: 'W',
-                ),
-                AlphabetButton(active: true, alphabet: 'O'),
-                AlphabetButton(active: true, alphabet: 'R'),
-                AlphabetButton(active: true, alphabet: 'D'),
-              ]),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'W', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'O', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'R', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'D', active: true, mapNumber: null),
+              ),
+            ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                AlphabetButton(active: true, alphabet: 'C'),
-                AlphabetButton(active: true, alphabet: 'R'),
-                AlphabetButton(active: true, alphabet: 'A'),
-                AlphabetButton(active: true, alphabet: 'F'),
-                AlphabetButton(active: true, alphabet: 'T'),
-              ]),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'C', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'R', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'A', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'F', active: true, mapNumber: null),
+              ),
+              AlphabetButton(
+                alphabetDetail: AlphabetDetail(
+                    alphabet: 'T', active: true, mapNumber: null),
+              ),
+            ]),
           ],
         ),
       ),

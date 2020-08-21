@@ -88,38 +88,38 @@ class _MultiLevelOneState extends State<MultiLevelOne> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    generateWidgets() {
-      for (var alphabet in letterMap.map1.keys) {
-        alphabetWidget.add(AlphabetButton(
-          alphabet: alphabet,
-          active: letterMap.map1[alphabet],
-          onPressed: () {
-            setState(() {
-              letterMap.map1[alphabet]
-                  ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
-                  : print('inactive');
-              letterMap.map1[alphabet] = false;
-            });
-          },
-        ));
-      }
-      for (var alphabet in letterMap.map2.keys) {
-        alphabetWidget.add(AlphabetButton(
-          alphabet: alphabet,
-          active: letterMap.map2[alphabet],
-          onPressed: () {
-            setState(() {
-              letterMap.map2[alphabet]
-                  ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
-                  : print('inactive');
-              letterMap.map2[alphabet] = false;
-            });
-          },
-        ));
-      }
-    }
+    // generateWidgets() {
+    //   for (var alphabet in letterMap.map1.keys) {
+    //     alphabetWidget.add(AlphabetButton(
+    //       alphabet: alphabet,
+    //       active: letterMap.map1[alphabet],
+    //       onPressed: () {
+    //         setState(() {
+    //           letterMap.map1[alphabet]
+    //               ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
+    //               : print('inactive');
+    //           letterMap.map1[alphabet] = false;
+    //         });
+    //       },
+    //     ));
+    //   }
+    //   for (var alphabet in letterMap.map2.keys) {
+    //     alphabetWidget.add(AlphabetButton(
+    //       alphabet: alphabet,
+    //       active: letterMap.map2[alphabet],
+    //       onPressed: () {
+    //         setState(() {
+    //           letterMap.map2[alphabet]
+    //               ? entryHandler.alphabetHandler.newAlpha.add(alphabet)
+    //               : print('inactive');
+    //           letterMap.map2[alphabet] = false;
+    //         });
+    //       },
+    //     ));
+    //   }
+    // }
 
-    generateWidgets();
+    // generateWidgets();
     return Scaffold(
       body: Container(
         decoration: theme.background,
