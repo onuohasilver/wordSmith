@@ -46,7 +46,7 @@ class SwipeButton extends StatelessWidget {
         gamePlay.updateDeck(entryHandler);
       },
       child: AnimatedContainer(
-        duration: Duration(seconds: 2),
+        duration: Duration(milliseconds: 800),
         curve: Curves.bounceInOut,
         height: gamePlay.deckEngaged ? height * .23 : height * .05,
         decoration: BoxDecoration(
@@ -58,7 +58,7 @@ class SwipeButton extends StatelessWidget {
             topRight: Radius.circular(20),
           ),
         ),
-        width: width * .08,
+        width: width * .093,
         child: gamePlay.deckEngaged
             ? Center(
                 child: Text(

@@ -28,9 +28,9 @@ class LevelCircle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        SizedBox(
-          width: width * .4 * displace,
-        ),
+        // SizedBox(
+        //   width: width * .7* displace,
+        // ),
         Container(
           height: height * .12,
           width: width * .16,
@@ -90,9 +90,9 @@ class LevelCircle extends StatelessWidget {
                 )),
           ]),
         ),
-        SizedBox(
-          width: width * .1 * displace,
-        ),
+        // SizedBox(
+        //   width: width * .2 * displace,
+        // ),
       ]),
     );
   }

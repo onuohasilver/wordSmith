@@ -47,30 +47,37 @@ class PlaceHolder extends StatelessWidget {
             height: height * .08,
             width: width * .9,
             color: Colors.white.withOpacity(.4),
-            child: Stack(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: entryHandler.alphabetHandler.newAlpha.length,
-                        itemBuilder: (context, index) {
-                          List textObject =
-                              entryHandler.alphabetHandler.newAlpha;
-                          AlphabetDetail alphabetDetail = AlphabetDetail(
-                              alphabet: textObject[index],
-                              active: true,
-                              mapNumber: null);
-                          return AlphabetButton(
-                            alphabetDetail: alphabetDetail,
-                            sizeRatio: .6,
-                            textColor: Colors.white,
-                            bgTile: 'assets/pngwave(2).png',
-                          );
-                        }),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount:
+                              entryHandler.alphabetHandler.newAlpha.length,
+                          itemBuilder: (context, index) {
+                            List textObject =
+                                entryHandler.alphabetHandler.newAlpha;
+                            AlphabetDetail alphabetDetail = AlphabetDetail(
+                                alphabet: textObject[index],
+                                active: true,
+                                mapNumber: null);
+                            return AlphabetButton(
+                              alphabetDetail: alphabetDetail,
+                              sizeRatio: .6,
+                              textColor: Colors.white,
+                              bgTile: 'assets/pngwave(2).png',
+                            );
+                          }),
+                    ),
                   ),
                 ),
+              
               ],
             )),
       ),

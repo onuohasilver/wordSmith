@@ -86,12 +86,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                       height: height,
                       width: width,
                       progress: gamePlay.progress),
-                  Text(
-                    gamePlay.letterMap.map1.toString(),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Text(gamePlay.letterMap.map2.toString(),
-                      style: TextStyle(color: Colors.white)),
+                 
                   SizedBox(
                     height: height * .01,
                   ),
@@ -194,6 +189,19 @@ class _SingleLevelOneState extends State<SingleLevelOne>
           Positioned.fill(
             child: Align(
               alignment: Alignment.bottomRight,
+              child: SwipeButton(
+                  entryHandler: entryHandler,
+                  gamePlay: gamePlay,
+                  gameWord: gameWord,
+                  listKey: listKey,
+                  animationController: animationController,
+                  height: height,
+                  width: width),
+            ),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomLeft,
               child: SwipeButton(
                   entryHandler: entryHandler,
                   gamePlay: gamePlay,

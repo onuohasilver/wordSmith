@@ -134,7 +134,6 @@ class GamePlayData extends ChangeNotifier {
       updateDeck(entryHandler);
     } else {
       entryHandler.alphabetHandler.newAlpha.remove(alphabetDetail.alphabet);
-
       letterMap.map2[alphabetDetail.alphabet] = true;
     }
     updateDeck(entryHandler);

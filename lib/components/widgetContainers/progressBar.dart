@@ -34,8 +34,7 @@ class ProgressBar extends StatelessWidget {
           child: AnimatedContainer(
             duration: Duration(seconds: 1),
             decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(10)),
+                color: Colors.green, borderRadius: BorderRadius.circular(10)),
             height: height * .014,
             width: width * progress,
           ),
@@ -48,26 +47,35 @@ class ProgressBar extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      Icon(
-                        Icons.star,
-                        size: width * .09,
-                        color: progress > .66
-                            ? Colors.orange[800]
-                            : Colors.grey,
+                      Material(
+                        type: MaterialType.circle,
+                        color: Colors.white54,
+                        child: Icon(
+                          Icons.star,
+                          size: width * .09,
+                          color:
+                              progress > .66 ? Colors.orange[800] : Colors.grey,
+                        ),
                       ),
-                      Icon(
-                        Icons.star,
-                        size: width * .09,
-                        color: progress > .76
-                            ? Colors.orange[800]
-                            : Colors.grey,
+                      Material(
+                        type: MaterialType.circle,
+                        color: Colors.white54,
+                        child: Icon(
+                          Icons.star,
+                          size: width * .09,
+                          color:
+                              progress > .76 ? Colors.orange[800] : Colors.grey,
+                        ),
                       ),
-                      Icon(
-                        Icons.star,
-                        size: width * .09,
-                        color: progress > .9
-                            ? Colors.orange[800]
-                            : Colors.grey,
+                      Material(
+                        type: MaterialType.circle,
+                        color: Colors.white54,
+                        child: Icon(
+                          Icons.star,
+                          size: width * .09,
+                          color:
+                              progress > .9 ? Colors.orange[800] : Colors.grey,
+                        ),
                       ),
                     ],
                   ),
