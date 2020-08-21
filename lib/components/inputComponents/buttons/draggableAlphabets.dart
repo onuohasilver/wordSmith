@@ -4,22 +4,20 @@ import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 
 class DraggableAlphabet extends StatefulWidget {
-  DraggableAlphabet(
-      {this.alphabet,
-      this.active,
-      this.onPressed,
-      this.sizeRatio,
-      this.bgTile,
-      this.noPadding});
+  DraggableAlphabet({
+    this.onPressed,
+    this.sizeRatio,
+    this.bgTile,
+    this.noPadding,
+    @required this.alphabetDetail,
+  });
 
   /// [bool] active manages the state of the UI of the button
   /// if the button has been triggered the button color is transformed
   /// to a completely [Colors.white12] text.
-  final bool active;
-
   /// [String] alphabet: is the child of the [AlphabetButton]
   /// the actual alphabet to be displayed
-  final String alphabet;
+  final AlphabetDetail alphabetDetail;
 
   /// [Function] a function to be triggered on the button press detected.
   final Function onPressed;
@@ -39,18 +37,22 @@ class DraggableAlphabet extends StatefulWidget {
 class _DraggableAlphabetState extends State<DraggableAlphabet> {
   @override
   Widget build(BuildContext context) {
+    String alphabet = widget.alphabetDetail.alphabet;
+    bool active = widget.alphabetDetail.active;
+    int mapNumber = widget.alphabetDetail.mapNumber;
     return Draggable(
-      data: AlphabetDetail(alphabet: widget.alphabet,active:widget.active),
+      data: AlphabetDetail(
+          alphabet: alphabet, active: active, mapNumber: mapNumber),
       feedback: AlphabetButton(
-        alphabet: widget.alphabet,
-        active: widget.active,
+        alphabet: alphabet,
+        active: active,
         onPressed: widget.onPressed,
         sizeRatio: .6,
         bgTile: widget.bgTile,
         noPadding: widget.noPadding,
       ),
       childWhenDragging: AlphabetButton(
-        alphabet: widget.alphabet,
+        alphabet: alphabet,
         active: true,
         onPressed: widget.onPressed,
         sizeRatio: widget.sizeRatio,
@@ -58,8 +60,8 @@ class _DraggableAlphabetState extends State<DraggableAlphabet> {
         noPadding: widget.noPadding,
       ),
       child: AlphabetButton(
-        alphabet: widget.alphabet,
-        active: widget.active,
+        alphabet: alphabet,
+        active: active,
         onPressed: widget.onPressed,
         sizeRatio: widget.sizeRatio,
         bgTile: widget.bgTile,

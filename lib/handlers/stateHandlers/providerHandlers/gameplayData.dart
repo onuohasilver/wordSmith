@@ -12,7 +12,7 @@ class GamePlayData extends ChangeNotifier {
   double progress = 0;
 
   ///check if entryHandler newAlpha is empty
-  bool deckEngaged= false;
+  bool deckEngaged = false;
 
   ///identifier that the user has made five straight entries
   bool straightFive = false;
@@ -100,7 +100,7 @@ class GamePlayData extends ChangeNotifier {
   }
 
   /// update game progress bar
-  void updateProgress({double increment=0.05}) {
+  void updateProgress({double increment = 0.05}) {
     progress = progress + increment;
   }
 
@@ -110,27 +110,49 @@ class GamePlayData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateLetterState(AlphabetDetail alphabetDetail,EntryHandler entryHandler) {
-    if (letterMap.map1.keys.contains(alphabetDetail.alphabet) &
+  void updateLetterState(
+      AlphabetDetail alphabetDetail, EntryHandler entryHandler) {
+    if ((alphabetDetail.mapNumber == 1) &
         letterMap.map1[alphabetDetail.alphabet]) {
       letterMap.map1[alphabetDetail.alphabet]
           ? entryHandler.alphabetHandler.newAlpha.add(alphabetDetail.alphabet)
           : print('inactive');
-       letterMap.map1[alphabetDetail.alphabet] = false;
-       updateDeck(entryHandler);
+      letterMap.map1[alphabetDetail.alphabet] = false;
+      updateDeck(entryHandler);
     } else {
       letterMap.map2[alphabetDetail.alphabet]
           ? entryHandler.alphabetHandler.newAlpha.add(alphabetDetail.alphabet)
           : print('inactive');
-       letterMap.map2[alphabetDetail.alphabet] = false;
+      letterMap.map2[alphabetDetail.alphabet] = false;
     }
-    letterMap.map1[alphabetDetail.alphabet] = false;
+
     updateDeck(entryHandler);
     notifyListeners();
   }
 
-void updateDeck(EntryHandler entryHandler){
-  deckEngaged=entryHandler.alphabetHandler.newAlpha.length>2;
-  notifyListeners();
-}
+  void removeLetter(AlphabetDetail alphabetDetail, EntryHandler entryHandler) {
+    if ((alphabetDetail.mapNumber == 1) &
+        letterMap.map1[alphabetDetail.alphabet]) {
+      letterMap.map1[alphabetDetail.alphabet]
+          ? entryHandler.alphabetHandler.newAlpha
+              .remove(alphabetDetail.alphabet)
+          : print('inactive');
+      letterMap.map1[alphabetDetail.alphabet] = true;
+      updateDeck(entryHandler);
+    } else {
+      letterMap.map2[alphabetDetail.alphabet]
+          ? entryHandler.alphabetHandler.newAlpha
+              .remove(alphabetDetail.alphabet)
+          : print('inactive');
+      letterMap.map2[alphabetDetail.alphabet] = true;
+    }
+
+    updateDeck(entryHandler);
+    notifyListeners();
+  }
+
+  void updateDeck(EntryHandler entryHandler) {
+    deckEngaged = entryHandler.alphabetHandler.newAlpha.length > 2;
+    notifyListeners();
+  }
 }

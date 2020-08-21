@@ -27,15 +27,15 @@ class LevelCircle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
-      child: Row(children: [
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         SizedBox(
-          width: width * displace,
+          width: width * .4 * displace,
         ),
         Container(
           height: height * .12,
           width: width * .16,
           child: Material(
-            color: Colors.white,
+            color: active ? Colors.white : Colors.black54,
             type: MaterialType.circle,
             elevation: 10,
             child: Padding(
@@ -43,15 +43,21 @@ class LevelCircle extends StatelessWidget {
               child: Material(
                 elevation: 10,
                 type: MaterialType.circle,
-                color: color ?? Colors.brown[700],
+                color: active ? color : Colors.grey,
                 child: InkWell(
                   customBorder: CircleBorder(),
-                  onTap: () => Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => SingleLevelOne(wordIndex: index),
-                    ),
-                  ),
+                  child: active
+                      ? Icon(Icons.lock_open, color: Colors.yellow)
+                      : Icon(Icons.lock),
+                  onTap: active
+                      ? () => Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) =>
+                                  SingleLevelOne(wordIndex: index),
+                            ),
+                          )
+                      : () {},
                 ),
               ),
             ),
@@ -63,7 +69,7 @@ class LevelCircle extends StatelessWidget {
             Row(children: <Widget>[
               Icon(
                 Icons.star,
-                color: Colors.yellow[800],
+                color: active ? Colors.yellow[800] : Colors.grey,
               ),
               Icon(Icons.star, color: Colors.grey[600]),
               Icon(
@@ -72,17 +78,21 @@ class LevelCircle extends StatelessWidget {
               )
             ]),
             Material(
-                color: color ?? Colors.brown[700],
+                color: active ? color : Colors.grey,
                 borderRadius: BorderRadius.circular(10),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     label,
-                    style: GoogleFonts.poppins(color: Colors.white60),
+                    style: GoogleFonts.poppins(
+                        color: active ? Colors.white60 : Colors.white),
                   ),
                 )),
           ]),
-        )
+        ),
+        SizedBox(
+          width: width * .1 * displace,
+        ),
       ]),
     );
   }

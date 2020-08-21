@@ -16,6 +16,7 @@ class AdventureScreen extends StatefulWidget {
   @override
   _AdventureScreenState createState() => _AdventureScreenState();
 }
+
 class _AdventureScreenState extends State<AdventureScreen>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   Animation animation;
@@ -78,26 +79,38 @@ class _AdventureScreenState extends State<AdventureScreen>
             height: height,
             width: width,
             decoration: theme.background,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                blurBox,
-                Expanded(
-                  child: ListView.builder(
-                      reverse: true,
-                      itemCount: levelMap['displace'].length,
-                      itemBuilder: (context, index) {
-                        // int colorCode=Random().nextInt(8);
-                        return LevelCircle(
-                            height: height,
-                            width: width,
-                            index:index,
-                            displace: levelMap['displace'][index],
-                            color: Colors.green.shade800,
-                            label: 'Level ${index+1}');
-                      }),
-                ),
-              ],
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  blurBox,
+                  Expanded(
+                    child: Container(
+                      height: height * .8,
+                        width: width * .85,
+                        color: Colors.green.withOpacity(.2),
+                      child: Container(
+                        height: height * .8,
+                        width: width * .8,
+                        color: Colors.black38,
+                        child: ListView.builder(
+                            reverse: true,
+                            itemCount: levelMap['displace'].length,
+                            itemBuilder: (context, index) {
+                              return LevelCircle(
+                                  height: height,
+                                  width: width,
+                                  index: index,
+                                  active: index < 1,
+                                  displace: levelMap['displace'][index],
+                                  color: Colors.green.shade800,
+                                  label: 'Level ${index + 1}');
+                            }),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },

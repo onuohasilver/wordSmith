@@ -12,28 +12,34 @@ generateWidgets(
     @required EntryHandler entryHandler}) {
   for (var alphabet in gamePlay.letterMap.map1.keys) {
     AlphabetDetail alphabetDetail = AlphabetDetail(
-        alphabet: alphabet, active: gamePlay.letterMap.map1[alphabet]);
-    alphabetWidget.add(Padding(
-      padding: const EdgeInsets.symmetric(horizontal:2.0),
-      child: DraggableAlphabet(
         alphabet: alphabet,
         active: gamePlay.letterMap.map1[alphabet],
+        mapNumber: 1);
+    alphabetWidget.add(Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2.0),
+      child: DraggableAlphabet(
+        alphabetDetail: alphabetDetail,
         onPressed: () {
-          gamePlay.updateLetterState(alphabetDetail, entryHandler);
+          gamePlay.letterMap.map1[alphabet]
+              ? gamePlay.updateLetterState(alphabetDetail, entryHandler)
+              : gamePlay.removeLetter(alphabetDetail, entryHandler);
         },
       ),
     ));
   }
   for (var alphabet in gamePlay.letterMap.map2.keys) {
     AlphabetDetail alphabetDetail = AlphabetDetail(
-        alphabet: alphabet, active: gamePlay.letterMap.map2[alphabet]);
-    alphabetWidget.add(Padding(
-      padding: const EdgeInsets.symmetric(horizontal:2.0),
-      child: DraggableAlphabet(
         alphabet: alphabet,
         active: gamePlay.letterMap.map2[alphabet],
+        mapNumber: 2);
+    alphabetWidget.add(Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2.0),
+      child: DraggableAlphabet(
+        alphabetDetail: alphabetDetail,
         onPressed: () {
-          gamePlay.updateLetterState(alphabetDetail, entryHandler);
+          gamePlay.letterMap.map2[alphabet]
+              ? gamePlay.updateLetterState(alphabetDetail, entryHandler)
+              : gamePlay.removeLetter(alphabetDetail, entryHandler);
         },
       ),
     ));
@@ -54,10 +60,7 @@ class _AlphabetWidgetDisplayState extends State<AlphabetWidgetDisplay> {
   void initState() {
     GamePlayData gamePlay = Provider.of<GamePlayData>(context, listen: false);
     gamePlay.setupLetterMap(widget.entryHandler);
-    // generateWidgets(
-    //     alphabetWidget: alphabetWidget,
-    //     gamePlay: gamePlay,
-    //     entryHandler: widget.entryHandler);
+
     super.initState();
   }
 
@@ -66,7 +69,7 @@ class _AlphabetWidgetDisplayState extends State<AlphabetWidgetDisplay> {
   Widget build(BuildContext context) {
     GamePlayData gamePlay = Provider.of<GamePlayData>(context);
     List<Widget> alphabetWidget = [];
-    
+
     double width = MediaQuery.of(context).size.width;
     generateWidgets(
         alphabetWidget: alphabetWidget,
