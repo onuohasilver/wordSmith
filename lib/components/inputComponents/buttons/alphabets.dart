@@ -48,8 +48,8 @@ class AlphabetButton extends StatelessWidget {
           padding: const EdgeInsets.all(1.0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(6),
-            child: AnimatedOpacity(
-              duration: Duration(milliseconds: 200),
+            child: Opacity(
+              
               opacity: alphabetDetail.active ? 1 : .5,
               child: Container(
                 decoration: BoxDecoration(

@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:wordsmith/core/utilities/dictionaryActivity.dart';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
+
 class SwipeButton extends StatelessWidget {
-  const SwipeButton({
+  SwipeButton({
     Key key,
     @required this.entryHandler,
     @required this.gamePlay,
@@ -13,6 +17,7 @@ class SwipeButton extends StatelessWidget {
     @required this.animationController,
     @required this.height,
     @required this.width,
+    this.allowUpload = false,
   }) : super(key: key);
 
   final EntryHandler entryHandler;
@@ -22,11 +27,13 @@ class SwipeButton extends StatelessWidget {
   final AnimationController animationController;
   final double height;
   final double width;
-
+  final bool allowUpload;
+  final Firestore firestore = Firestore.instance;
   @override
   Widget build(BuildContext context) {
+    Data userData = Provider.of<Data>(context);
     return GestureDetector(
-      onVerticalDragEnd: (vertical) {
+      onVerticalDragEnd: (vertical) async {
         String allAlphabets = entryHandler.alphabetHandler.allAlphabets();
         entryHandler.alphabetHandler.reset();
         gamePlay.letterMap.reset();
@@ -44,6 +51,39 @@ class SwipeButton extends StatelessWidget {
             ? animationController.repeat()
             : animationController.reset();
         gamePlay.updateDeck(entryHandler);
+
+        upload(bool upload) async {
+          if (upload) {
+            Map activeGamesMap;
+            await firestore
+                .collection('users')
+                .document(userData.currentUserID)
+                .get()
+                .then((value) => activeGamesMap = value['activeGames ']);
+
+            List currentUserWords = [allAlphabets];
+            List currentUserValidList = [
+              verifyWord(entryHandler.getGameWord(), allAlphabets)
+            ];
+            currentUserWords.addAll(activeGamesMap['currentUserWords']);
+            currentUserValidList.addAll(activeGamesMap['currentUserValidList']);
+            activeGamesMap['currentUserWords'] = currentUserWords;
+            activeGamesMap['currentUserScore'] =
+                entryHandler.scoreKeeper.scoreValue().toString();
+            activeGamesMap['currentUserValidList'] = currentUserValidList;
+
+            criteria
+                ? firestore
+                    .collection('users')
+                    .document(userData.currentUserID)
+                    .setData({
+                    'activeGames ': activeGamesMap,
+                  }, merge: true)
+                : print('');
+          }
+        }
+
+        upload(allowUpload);
       },
       child: AnimatedContainer(
         duration: Duration(milliseconds: 800),
@@ -75,4 +115,3 @@ class SwipeButton extends StatelessWidget {
     );
   }
 }
-

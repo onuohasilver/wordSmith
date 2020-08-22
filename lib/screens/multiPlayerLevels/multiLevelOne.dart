@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wordsmith/components/cardComponents/cards.dart';
@@ -87,26 +88,36 @@ class _MultiLevelOneState extends State<MultiLevelOne>
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   blurBoxLower,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Stack(
                     children: <Widget>[
-                      Text('${widget.opponentName.toUpperCase()} 😎',
-                          style: TextStyle(color: Colors.white)),
-                      StreamBuilder<DocumentSnapshot>(
-                          stream: firestore
-                              .collection('users')
-                              .document(widget.opponentID)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            String score;
-                            if (snapshot.hasData)
-                              score = snapshot.data['activeGames']
-                                  ['currentUserScore'];
-                            else {
-                              score = '0';
-                            }
-                            return LittleCard(child: Text(score));
-                          }),
+                      ProgressBar(
+                          height: height,
+                          width: width,
+                          color: Colors.blue,
+                          progress: gamePlay.progress),
+                      Row(
+                        children: <Widget>[
+                          Text('${widget.opponentName.toUpperCase()} ',
+                              style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold)),
+                          StreamBuilder<DocumentSnapshot>(
+                              stream: firestore
+                                  .collection('users')
+                                  .document(widget.opponentID)
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                String score;
+                                if (snapshot.hasData)
+                                  score = snapshot.data['activeGames']
+                                      ['currentUserScore'];
+                                else {
+                                  score = '0';
+                                }
+                                return LittleCard(child: Text(score));
+                              }),
+                        ],
+                      ),
                     ],
                   ),
                   Expanded(
@@ -114,7 +125,7 @@ class _MultiLevelOneState extends State<MultiLevelOne>
                       children: <Widget>[
                         Expanded(
                           child: Card(
-                            color: Colors.red.withOpacity(.1),
+                            color: Colors.blue.withOpacity(.2),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
@@ -130,15 +141,24 @@ class _MultiLevelOneState extends State<MultiLevelOne>
                         ),
                         Stack(children: [
                           ProgressBar(
-                              height: height, width: width, progress: progress),
+                              height: height,
+                              width: width,
+                              progress: gamePlay.progress),
                           Row(
                             children: <Widget>[
-                              Text('${userData.userName.toUpperCase()} 😎',
-                                  style: TextStyle(color: Colors.white)),
+                              Text('${userData.userName.toUpperCase()} ',
+                                  style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold)),
                               LittleCard(
-                                  child: Text(entryHandler.scoreKeeper
-                                      .scoreValue()
-                                      .toString())),
+                                color:Colors.green,
+                                  child: Text(
+                                      entryHandler.scoreKeeper
+                                          .scoreValue()
+                                          .toString(),
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold))),
                             ],
                           ),
                         ]),
@@ -163,112 +183,6 @@ class _MultiLevelOneState extends State<MultiLevelOne>
                       ],
                     ),
                   ),
-                  Card(
-                      color: Colors.lightGreen.withOpacity(.4),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Material(
-                            color: Colors.transparent,
-                            child: IconButton(
-                              icon: Icon(Icons.delete_forever,
-                                  color: Colors.red, size: width * .07),
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    entryHandler.alphabetHandler.reset();
-                                    letterMap.reset();
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Center(
-                              child: Text(
-                                  entryHandler.alphabetHandler.newAlpha
-                                      .toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white)),
-                            ),
-                          ),
-                          Material(
-                            color: Colors.transparent,
-                            child: IconButton(
-                              icon: Icon(Icons.send,
-                                  color: Colors.green, size: width * .07),
-                              onPressed: () async {
-                                ///retrieve all the previously entered words from firestore
-                                /// so that it can be merged with the current entry and re-uploaded
-                                Map activeGamesMap;
-                                await _firestore
-                                    .collection('users')
-                                    .document(userData.currentUserID)
-                                    .get()
-                                    .then((value) =>
-                                        activeGamesMap = value['activeGames ']);
-                                print(activeGamesMap);
-                                String allAlphabets =
-                                    entryHandler.alphabetHandler.allAlphabets();
-                                entryHandler.alphabetHandler.reset();
-                                gamePlay.letterMap.reset();
-                                verifyWord(gameWord, allAlphabets)
-                                    ? gamePlay.updateProgress()
-                                    : gamePlay.updateProgress(increment: 0);
-                                bool criteria = allAlphabets.length >= 3;
-
-                                criteria
-                                    ? entryHandler
-                                        .insert(allAlphabets.trimLeft())
-                                    : Container();
-                                criteria
-                                    ? listKey.currentState.insertItem(0,
-                                        duration: Duration(seconds: 2))
-                                    : Container();
-                                gamePlay.straightWins(entryHandler);
-                                gamePlay.straightThree
-                                    ? animationController.repeat()
-                                    : animationController.reset();
-                                gamePlay.updateDeck(entryHandler);
-                                if (!streamEntriesCurrentUser
-                                    .contains(allAlphabets)) {
-                                  bool criteria = allAlphabets.length > 3;
-
-                                  List currentUserWords = [allAlphabets];
-                                  List currentUserValidList = [
-                                    verifyWord(entryHandler.getGameWord(),
-                                        allAlphabets)
-                                  ];
-                                  print(activeGamesMap['currentUserWords']);
-                                  currentUserWords.addAll(
-                                      activeGamesMap['currentUserWords']);
-                                  currentUserValidList.addAll(
-                                      activeGamesMap['currentUserValidList']);
-                                  activeGamesMap['currentUserWords'] =
-                                      currentUserWords;
-                                  activeGamesMap['currentUserScore'] =
-                                      entryHandler.scoreKeeper
-                                          .scoreValue()
-                                          .toString();
-                                  activeGamesMap['currentUserValidList'] =
-                                      currentUserValidList;
-
-                                  criteria
-                                      ? _firestore
-                                          .collection('users')
-                                          .document(userData.currentUserID)
-                                          .setData({
-                                          'activeGames ': activeGamesMap,
-                                        }, merge: true)
-                                      : print('');
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      )),
                   PlaceHolder(
                     entryHandler: entryHandler,
                     letterMap: gamePlay.letterMap,
@@ -294,6 +208,7 @@ class _MultiLevelOneState extends State<MultiLevelOne>
                   entryHandler: entryHandler,
                   gamePlay: gamePlay,
                   gameWord: gameWord,
+                  allowUpload: true,
                   listKey: listKey,
                   animationController: animationController,
                   height: height,
@@ -307,6 +222,7 @@ class _MultiLevelOneState extends State<MultiLevelOne>
                   entryHandler: entryHandler,
                   gamePlay: gamePlay,
                   gameWord: gameWord,
+                  allowUpload: true,
                   listKey: listKey,
                   animationController: animationController,
                   height: height,

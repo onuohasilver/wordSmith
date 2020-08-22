@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
-
 class LittleCard extends StatelessWidget {
+  ///it is an implementation of the Material [Card]
   ///A widget that wraps its child in a background with white opacity and a padding of 5px
-  ///The LittleCard despite its name can expand to the size of its child.
+  ///The LittleCard can expand to the size of its child.
   ///```dart
   ///LittleCard(child:Text('ScareCrow'));
   ///````
-  LittleCard({@required this.child});
+  LittleCard({@required this.child, this.color = Colors.white54});
 
   ///Widget displayed in the body of the LittleCard
   final Widget child;
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white.withOpacity(.4),
+      elevation: 5,
+      color: color,
       child: Padding(padding: const EdgeInsets.all(5.0), child: child),
     );
   }
@@ -67,4 +69,3 @@ class UserCard extends StatelessWidget {
     );
   }
 }
-
