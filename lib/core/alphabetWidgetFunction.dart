@@ -6,6 +6,9 @@ import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
 import 'package:meta/meta.dart';
 
+/// Use the [entryHandler] data to generate [DraggableAlphabet] widgets
+/// and also provide interactive function to manage the letterState in the
+/// [GamePlayData] provider letterMap.
 generateWidgets(
     {@required List<Widget> alphabetWidget,
     @required GamePlayData gamePlay,

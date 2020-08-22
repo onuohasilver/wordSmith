@@ -110,7 +110,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                           width: width),
                       SlimButton(
                         label: 'Register Now',
-                        useWidget: false,
                         color: Colors.white.withOpacity(.1),
                         onTap: () async {
                           userData.updateProgress();
@@ -133,10 +132,10 @@ class _RegisterScreenState extends State<RegisterScreen>
                                 'friends': ['computer'],
                                 'challenges': [''],
                                 'activeGames': [''],
-                                'activeChallenges':[],
+                                'activeChallenges': [],
                                 'email': userData.email,
                                 'password': userData.password,
-                                'online':true
+                                'online': true
                               });
                               Navigator.pushReplacementNamed(
                                   context, 'PlayerScreen');

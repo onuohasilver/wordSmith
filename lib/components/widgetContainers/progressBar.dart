@@ -6,7 +6,7 @@ class ProgressBar extends StatelessWidget {
       @required this.height,
       @required this.width,
       @required this.progress,
-      this.color})
+      this.color = Colors.green})
       : super(key: key);
   final Color color;
   final double height;
@@ -35,8 +35,7 @@ class ProgressBar extends StatelessWidget {
           child: AnimatedContainer(
             duration: Duration(seconds: 1),
             decoration: BoxDecoration(
-                color: color ?? Colors.green,
-                borderRadius: BorderRadius.circular(10)),
+                color: color, borderRadius: BorderRadius.circular(10)),
             height: height * .014,
             width: width * progress,
           ),

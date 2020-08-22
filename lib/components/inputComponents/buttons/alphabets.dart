@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 
-///[AlphabetButton] creates a [Card] that is wrapped with
-///a [GestureDetector] it is usually used in conjunction with a [LetterMap]
-///and an [Alphabet] state handler
+///Create and Maintain an alphabet button UI
 class AlphabetButton extends StatelessWidget {
+  ///[AlphabetButton] creates a [Card] that is wrapped with
+  ///a [GestureDetector] it is usually used in conjunction with a [LetterMap]
+  ///and an [Alphabet] handler which is used to reflect the state changes
   AlphabetButton(
       {this.onPressed,
       this.sizeRatio,
@@ -49,7 +50,6 @@ class AlphabetButton extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(6),
             child: Opacity(
-              
               opacity: alphabetDetail.active ? 1 : .5,
               child: Container(
                 decoration: BoxDecoration(

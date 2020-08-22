@@ -32,9 +32,8 @@ class PlaceHolder extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return DragTarget(
       onWillAccept: (AlphabetDetail alphabetDetail) {
-        print('Entering the chamber');
         return alphabetDetail.active == true;
-        // return true;
+      
       },
       onAccept: dragTargetTrigger,
       builder: (context, x, y) => ClipRRect(

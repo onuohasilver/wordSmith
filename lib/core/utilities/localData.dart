@@ -12,5 +12,15 @@ class LocalData {
     return highScore;
   }
 
-  
+  Future<void> saveLoginCredentials(String email, String password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setStringList('Email', [email, password]);
+  }
+
+  Future<List<String>> get loginCredentials async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    List<String> loginCredential = sharedPreferences.getStringList('Email');
+    return loginCredential;
+  }
+
 }

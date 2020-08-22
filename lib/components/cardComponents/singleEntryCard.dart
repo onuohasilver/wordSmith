@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataSources/networkRequest.dart';
 import 'package:wordsmith/screens/popUps/dialogs/wordDefinition.dart';
 
 class SinglePlayerEntryCard extends StatelessWidget {
+  ///Displays a card cantaining [AlphabetButton] widgets
+  ///generated with the text entered by the user
+  ///during a singleplayer game session
+  ///contains both the [entry] and also the validation result [correct
   const SinglePlayerEntryCard({
     Key key,
     @required this.correct,
