@@ -125,7 +125,6 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                           enforceLength: 8),
                       SlimButton(
                         label: 'Login',
-                        useWidget: false,
                         onTap: () async {
                           userData.updateProgress();
 

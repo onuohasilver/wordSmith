@@ -14,8 +14,6 @@ class PlaceHolder extends StatelessWidget {
     @required this.listKey,
     @required this.gamePlay,
     @required this.animationController,
-    @required this.leftButtonTap,
-    @required this.rightButtonTap,
     this.dragTargetTrigger,
   }) : super(key: key);
 
@@ -25,8 +23,6 @@ class PlaceHolder extends StatelessWidget {
   final GlobalKey<AnimatedListState> listKey;
   final GamePlayData gamePlay;
   final AnimationController animationController;
-  final Function leftButtonTap;
-  final Function rightButtonTap;
 
   final Function(AlphabetDetail) dragTargetTrigger;
 
@@ -36,9 +32,8 @@ class PlaceHolder extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return DragTarget(
       onWillAccept: (AlphabetDetail alphabetDetail) {
-        print('Entering the chamber');
         return alphabetDetail.active == true;
-        // return true;
+      
       },
       onAccept: dragTargetTrigger,
       builder: (context, x, y) => ClipRRect(
@@ -56,7 +51,7 @@ class PlaceHolder extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: ListView.builder(
-                        shrinkWrap: true,
+                          shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount:
                               entryHandler.alphabetHandler.newAlpha.length,
@@ -77,7 +72,6 @@ class PlaceHolder extends StatelessWidget {
                     ),
                   ),
                 ),
-              
               ],
             )),
       ),

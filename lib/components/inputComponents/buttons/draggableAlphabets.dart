@@ -3,6 +3,7 @@ import 'package:wordsmith/components/inputComponents/buttons/alphabets.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 
 class DraggableAlphabet extends StatefulWidget {
+  ///A draggable implementation of the [AlphabetButton]
   DraggableAlphabet({
     this.onPressed,
     this.sizeRatio,

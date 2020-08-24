@@ -17,11 +17,15 @@ class CurrentUserStream extends StatelessWidget {
     @required this.userData,
     @required this.streamEntriesCurrentUser,
     @required this.entryHandler,
+    @required this.listKey,
   })  : _firestore = firestore,
         super(key: key);
 
   /// firestore instance
   final Firestore _firestore;
+
+  ///listKey
+  final listKey;
 
   ///User Provider data
   final Data userData;
@@ -53,20 +57,38 @@ class CurrentUserStream extends StatelessWidget {
             for (int index = 0; index < activeGamesWord.length; index++) {
               entryWidgets.add(Center(
                 child: MultiEntryCard(
+                  key: ValueKey(activeValidList[index]),
                   correct: activeValidList[index],
                   entry: activeGamesWord[index],
-                  
-                  
                 ),
               ));
             }
           }
           return Expanded(
-              child: ListView.builder(
-                  itemCount: entryWidgets.length,
-                  itemBuilder: (context, index) {
-                    return entryWidgets[index];
-                  }));
+            child: AnimatedList(
+              key: listKey,
+              physics: BouncingScrollPhysics(),
+              initialItemCount: entryHandler.entryList.length,
+              itemBuilder:
+                  (BuildContext context, int index, Animation animation) {
+                List listItems = entryHandler.entryList;
+                return SizeTransition(
+                  sizeFactor: CurvedAnimation(
+                      parent: animation, curve: Curves.bounceInOut),
+                  child: ScaleTransition(
+                    scale: CurvedAnimation(
+                        parent: animation, curve: Interval(0.2, 1.0)),
+                    child: SinglePlayerEntryCard(
+                        key: ValueKey(listItems[index][1]),
+                        correct: listItems[index][0],
+                        entry: listItems[index][1]),
+                  ),
+                );
+              },
+              reverse: true,
+              shrinkWrap: true,
+            ),
+          );
         });
   }
 }

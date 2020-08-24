@@ -13,13 +13,7 @@ class SlimButton extends StatelessWidget {
   ///pre-specified condition has been met
   ///of course a setState is called outside the [SlimButton]
   ///scope to enable it rebuild it appearance
-  SlimButton(
-      {this.onTap,
-      this.label,
-      this.color,
-      this.textColor,
-      @required this.useWidget,
-      this.widget});
+  SlimButton({this.onTap, this.label, this.color, this.textColor, this.widget});
 
   ///label text of the custom [Material] button
   final String label;
@@ -33,31 +27,25 @@ class SlimButton extends StatelessWidget {
   ///Color of the text defaults to material [Colors.black]
   final Color textColor;
 
-  /// [bool] indicates whether the material button should accept
-  /// any widget other than a Text widget as a child
-  final bool useWidget;
-
   /// Secondary widget that is only displayed when the useWiget
   ///  Value is set to true
   final Widget widget;
 
   @override
   Widget build(BuildContext context) {
-   
     return Material(
         child: InkWell(
           borderRadius: BorderRadius.circular(20),
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(34, 10, 34, 10),
-            child: useWidget
-                ? widget
-                : Text(
-                    label,
-                    style: TextStyle(
-                        color: textColor ?? Colors.black,
-                        fontWeight: FontWeight.w600),
-                  ),
+            child: widget ??
+                Text(
+                  label,
+                  style: TextStyle(
+                      color: textColor ?? Colors.black,
+                      fontWeight: FontWeight.w600),
+                ),
           ),
         ),
         elevation: 10,

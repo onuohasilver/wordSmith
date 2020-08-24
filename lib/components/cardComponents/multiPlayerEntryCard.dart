@@ -6,13 +6,21 @@ import 'package:wordsmith/handlers/dataHandlers/dataSources/networkRequest.dart'
 import 'package:wordsmith/screens/popUps/dialogs/wordDefinition.dart';
 
 class MultiEntryCard extends StatelessWidget {
+  ///Displays a card cantaining [AlphabetButton] widgets
+  ///generated with the text entered by the user
+  ///during a multiPlayer game session
+  ///contains both the [entry] and also the validation result [correct]
+
   const MultiEntryCard({
     Key key,
     @required this.correct,
     @required this.entry,
   }) : super(key: key);
 
+  ///EntryHandler validation results of the word validity check
   final bool correct;
+
+  ///the game text entry made by the user
   final String entry;
 
   @override
@@ -35,7 +43,7 @@ class MultiEntryCard extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Align(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(4.0),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
@@ -56,7 +64,6 @@ class MultiEntryCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                 
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Row(

@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/singleEntryCard.dart';
 import 'package:wordsmith/components/inputComponents/buttons/swipeButton.dart';
@@ -9,12 +6,10 @@ import 'package:wordsmith/components/widgetContainers/placeholder.dart';
 import 'package:wordsmith/components/widgetContainers/progressBar.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/alphabetWidgetFunction.dart';
-
 import 'package:wordsmith/core/utilities/constants.dart';
-
 import 'package:wordsmith/core/utilities/entryHandler.dart';
-import 'package:wordsmith/core/utilities/localData.dart';
 import 'package:wordsmith/core/utilities/words.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataSources/sqldbHandler.dart';
 
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
@@ -40,28 +35,13 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     entryHandler = EntryHandler(wordGenerator: Words(index: widget.wordIndex));
     gameWord = entryHandler.wordGenerator.allAlphabets();
     animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 2));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   final GlobalKey<AnimatedListState> listKey = GlobalKey();
   Animation animation;
   AnimationController animationController;
-  int counter = 10;
-  Timer timer;
-  LocalData localData = LocalData();
-  int highScore = 0;
-  void getHighScore() async {
-    final _highScore = await localData.highScore;
-    setState(() {
-      highScore = _highScore;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +49,15 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     double width = MediaQuery.of(context).size.width;
     AppThemeData theme = Provider.of<AppThemeData>(context);
     GamePlayData gamePlay = Provider.of<GamePlayData>(context);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        // DatabaseHelper.instance.insert(row: {
+        //   DatabaseHelper.score: entryHandler.scoreKeeper.scoreValue(),
+        //   DatabaseHelper.levelID: widget.wordIndex,
+        //   DatabaseHelper.stars: gamePlay.progress
+        // }, tableName: DatabaseHelper.levelTable);
+      },
+    );
 
     return Scaffold(
       body: Stack(
@@ -86,13 +75,26 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                       height: height,
                       width: width,
                       progress: gamePlay.progress),
-                 
                   SizedBox(
                     height: height * .01,
                   ),
                   SizedBox(
                     height: 12,
                   ),
+                  FlatButton(
+                      color: Colors.blue,
+                      child: Text('Check'),
+                      onPressed: () async {
+                        DatabaseHelper.instance.update(row: {
+                          DatabaseHelper.score:
+                              entryHandler.scoreKeeper.scoreValue(),
+                          DatabaseHelper.levelID: widget.wordIndex,
+                          DatabaseHelper.stars: gamePlay.progress
+                        }, tableName: DatabaseHelper.levelTable);
+                        await DatabaseHelper.instance
+                            .queryAll(DatabaseHelper.levelTable)
+                            .then((value) => print(value.length));
+                      }),
                   Expanded(
                     child: Card(
                       color: Colors.white.withOpacity(.1),
@@ -110,23 +112,18 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                               itemBuilder: (BuildContext context, int index,
                                   Animation animation) {
                                 List listItems = entryHandler.entryList;
-                                return FadeTransition(
-                                  opacity: CurvedAnimation(
+                                return SizeTransition(
+                                  sizeFactor: CurvedAnimation(
                                       parent: animation,
-                                      curve: Interval(0.5, 1.0)),
-                                  child: SizeTransition(
-                                    sizeFactor: CurvedAnimation(
+                                      curve: Curves.bounceInOut),
+                                  child: ScaleTransition(
+                                    scale: CurvedAnimation(
                                         parent: animation,
-                                        curve: Curves.bounceInOut),
-                                    child: ScaleTransition(
-                                      scale: CurvedAnimation(
-                                          parent: animation,
-                                          curve: Interval(0.2, 1.0)),
-                                      child: SinglePlayerEntryCard(
-                                          key: ValueKey(listItems[index][1]),
-                                          correct: listItems[index][0],
-                                          entry: listItems[index][1]),
-                                    ),
+                                        curve: Interval(0.2, 1.0)),
+                                    child: SinglePlayerEntryCard(
+                                        key: ValueKey(listItems[index][1]),
+                                        correct: listItems[index][0],
+                                        entry: listItems[index][1]),
                                   ),
                                 );
                               },
@@ -148,13 +145,6 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                     dragTargetTrigger: (alphabetDetail) {
                       gamePlay.updateLetterState(alphabetDetail, entryHandler);
                     },
-                    leftButtonTap: () {
-                      setState(() {
-                        entryHandler.alphabetHandler.reset();
-                        gamePlay.letterMap.reset();
-                      });
-                    },
-                    rightButtonTap: () {},
                   ),
                   AlphabetWidgetDisplay(
                     entryHandler: entryHandler,

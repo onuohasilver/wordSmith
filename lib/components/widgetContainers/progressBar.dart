@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ProgressBar extends StatelessWidget {
-  const ProgressBar({
-    Key key,
-    @required this.height,
-    @required this.width,
-    @required this.progress,
-  }) : super(key: key);
-
+  const ProgressBar(
+      {Key key,
+      @required this.height,
+      @required this.width,
+      @required this.progress,
+      this.color = Colors.green})
+      : super(key: key);
+  final Color color;
   final double height;
   final double width;
   final double progress;
@@ -34,7 +35,7 @@ class ProgressBar extends StatelessWidget {
           child: AnimatedContainer(
             duration: Duration(seconds: 1),
             decoration: BoxDecoration(
-                color: Colors.green, borderRadius: BorderRadius.circular(10)),
+                color: color, borderRadius: BorderRadius.circular(10)),
             height: height * .014,
             width: width * progress,
           ),
@@ -47,40 +48,51 @@ class ProgressBar extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      Material(
-                        type: MaterialType.circle,
-                        color: Colors.white54,
-                        child: Icon(
-                          Icons.star,
-                          size: width * .09,
-                          color:
-                              progress > .66 ? Colors.orange[800] : Colors.grey,
-                        ),
+                      ProgressStar(
+                        width: width,
+                        progress: progress,
+                        guage: .66,
                       ),
-                      Material(
-                        type: MaterialType.circle,
-                        color: Colors.white54,
-                        child: Icon(
-                          Icons.star,
-                          size: width * .09,
-                          color:
-                              progress > .76 ? Colors.orange[800] : Colors.grey,
-                        ),
+                      ProgressStar(
+                        width: width,
+                        progress: progress,
+                        guage: .76,
                       ),
-                      Material(
-                        type: MaterialType.circle,
-                        color: Colors.white54,
-                        child: Icon(
-                          Icons.star,
-                          size: width * .09,
-                          color:
-                              progress > .9 ? Colors.orange[800] : Colors.grey,
-                        ),
+                      ProgressStar(
+                        width: width,
+                        progress: progress,
+                        guage: .9,
                       ),
                     ],
                   ),
                 )))
       ]),
+    );
+  }
+}
+
+class ProgressStar extends StatelessWidget {
+  const ProgressStar({
+    Key key,
+    @required this.width,
+    @required this.progress,
+    @required this.guage,
+  }) : super(key: key);
+
+  final double width;
+  final double progress;
+  final double guage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      elevation: 10,
+      child: Icon(
+        Icons.star,
+        size: width * .09,
+        color: progress > guage ? Colors.yellow[800] : Colors.grey,
+      ),
     );
   }
 }
