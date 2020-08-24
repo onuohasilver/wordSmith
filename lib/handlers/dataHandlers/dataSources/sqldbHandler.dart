@@ -5,11 +5,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  static final _dbName = 'dbName';
+  static final _dbName = 'db';
   static final _dbVersion = 1;
-  final levelsTable = 'Levels';
-  final userTable = 'Tables';
+  static final levelTable = 'LevelProgressTable';
+  static final userTable = 'UserTable';
   static final score = 'Score';
+  static final levelID = 'LevelID';
+
   static final stars = 'Stars';
   static final columnID = 'id';
 
@@ -32,14 +34,13 @@ class DatabaseHelper {
   _onCreate(Database db, int version) async {
     await db.execute(
       '''
-CREATE TABLE $levelsTable (
-  $columnID INTEGER PRIMARY KEY,
-  $stars TEXT NOT NULL,
-  $score INTEGER NOT NULL
-
-
-)
-''',
+      CREATE TABLE $levelTable (
+        $columnID INTEGER PRIMARY KEY,
+        $stars TEXT NOT NULL,
+        $score INTEGER NOT NULL,
+        $levelID INTEGER NOT NULL
+      )
+      ''',
     );
   }
 
@@ -57,9 +58,11 @@ CREATE TABLE $levelsTable (
   Future<int> update(
       {@required Map<String, dynamic> row, @required String tableName}) async {
     Database db = await instance.database;
-    int id = row[columnID];
+    assert(row.containsKey('LevelID'));
+    int id = row['LevelID'];
+
     return await db
-        .update(tableName, row, where: '$columnID = ?', whereArgs: [id]);
+        .update(tableName, row, where: '$levelID = ?', whereArgs: [id]);
   }
 
   Future<int> delete({@required int id, @required String tableName}) async {

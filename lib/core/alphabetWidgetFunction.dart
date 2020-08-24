@@ -62,7 +62,11 @@ class _AlphabetWidgetDisplayState extends State<AlphabetWidgetDisplay> {
   @override
   void initState() {
     GamePlayData gamePlay = Provider.of<GamePlayData>(context, listen: false);
-    gamePlay.setupLetterMap(widget.entryHandler);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        gamePlay.setupLetterMap(widget.entryHandler);
+      },
+    );
 
     super.initState();
   }
@@ -77,6 +81,7 @@ class _AlphabetWidgetDisplayState extends State<AlphabetWidgetDisplay> {
         alphabetWidget: alphabetWidget,
         gamePlay: gamePlay,
         entryHandler: widget.entryHandler);
+
     return Padding(
       padding: const EdgeInsets.all(18.0),
       child: Wrap(

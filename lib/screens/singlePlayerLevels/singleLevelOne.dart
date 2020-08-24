@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/singleEntryCard.dart';
 import 'package:wordsmith/components/inputComponents/buttons/swipeButton.dart';
@@ -9,12 +6,10 @@ import 'package:wordsmith/components/widgetContainers/placeholder.dart';
 import 'package:wordsmith/components/widgetContainers/progressBar.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/alphabetWidgetFunction.dart';
-
 import 'package:wordsmith/core/utilities/constants.dart';
-
 import 'package:wordsmith/core/utilities/entryHandler.dart';
-import 'package:wordsmith/core/utilities/localData.dart';
 import 'package:wordsmith/core/utilities/words.dart';
+import 'package:wordsmith/handlers/dataHandlers/dataSources/sqldbHandler.dart';
 
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
@@ -44,24 +39,9 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
   final GlobalKey<AnimatedListState> listKey = GlobalKey();
   Animation animation;
   AnimationController animationController;
-  int counter = 10;
-  Timer timer;
-  LocalData localData = LocalData();
-  int highScore = 0;
-  void getHighScore() async {
-    final _highScore = await localData.highScore;
-    setState(() {
-      highScore = _highScore;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +49,15 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     double width = MediaQuery.of(context).size.width;
     AppThemeData theme = Provider.of<AppThemeData>(context);
     GamePlayData gamePlay = Provider.of<GamePlayData>(context);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        // DatabaseHelper.instance.insert(row: {
+        //   DatabaseHelper.score: entryHandler.scoreKeeper.scoreValue(),
+        //   DatabaseHelper.levelID: widget.wordIndex,
+        //   DatabaseHelper.stars: gamePlay.progress
+        // }, tableName: DatabaseHelper.levelTable);
+      },
+    );
 
     return Scaffold(
       body: Stack(
@@ -92,6 +81,20 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                   SizedBox(
                     height: 12,
                   ),
+                  FlatButton(
+                      color: Colors.blue,
+                      child: Text('Check'),
+                      onPressed: () async {
+                        DatabaseHelper.instance.update(row: {
+                          DatabaseHelper.score:
+                              entryHandler.scoreKeeper.scoreValue(),
+                          DatabaseHelper.levelID: widget.wordIndex,
+                          DatabaseHelper.stars: gamePlay.progress
+                        }, tableName: DatabaseHelper.levelTable);
+                        await DatabaseHelper.instance
+                            .queryAll(DatabaseHelper.levelTable)
+                            .then((value) => print(value.length));
+                      }),
                   Expanded(
                     child: Card(
                       color: Colors.white.withOpacity(.1),
