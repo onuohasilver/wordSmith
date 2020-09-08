@@ -42,7 +42,7 @@ class LevelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GameSound gameSound = GameSound();
-    SqlCache dbCache = Provider.of<SqlCache>(context);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(80.0, 13.0, 88.0, 3.0),
       child: Stack(
@@ -76,7 +76,6 @@ class LevelCard extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        dbCache.cacheDBresponse();
                         Navigator.pushNamed((context), routeName);
                       },
                     ),

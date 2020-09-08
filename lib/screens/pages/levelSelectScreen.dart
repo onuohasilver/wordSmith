@@ -10,6 +10,7 @@ import 'package:wordsmith/core/logo.dart';
 import 'package:wordsmith/core/sound.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataSources/networkRequest.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/soundHandler.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/sqlCache.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 
 class SelectScreen extends StatefulWidget {
@@ -65,6 +66,7 @@ class _SelectScreenState extends State<SelectScreen>
     gameSound = GameSound();
     AppThemeData theme = Provider.of<AppThemeData>(context);
     SoundData sound = Provider.of<SoundData>(context);
+    SqlCache sqlCache = Provider.of<SqlCache>(context);
     // AudioPlayer player = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
     // AudioCache cache = AudioCache();
     animationController.repeat(reverse: true);
@@ -122,7 +124,7 @@ class _SelectScreenState extends State<SelectScreen>
                       ),
                     ),
                     SizedBox(height: height * .1),
-                    Text(sound.playingBase.toString()),
+                    Text(sqlCache.dbCache.toString()),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Align(
@@ -135,7 +137,7 @@ class _SelectScreenState extends State<SelectScreen>
                             child: IconButton(
                                 icon: Icon(Icons.mic, color: Colors.white),
                                 onPressed: () {
-                                GetDefinition('Contain').getData();
+                                  GetDefinition('Contain').getData();
                                 }),
                           )),
                     )

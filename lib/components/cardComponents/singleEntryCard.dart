@@ -5,7 +5,7 @@ import 'package:wordsmith/handlers/dataHandlers/dataSources/networkRequest.dart'
 import 'package:wordsmith/screens/popUps/dialogs/wordDefinition.dart';
 
 class SinglePlayerEntryCard extends StatelessWidget {
-  ///Displays a card cantaining [AlphabetButton] widgets
+  ///Displays a card containing [AlphabetButton] widgets
   ///generated with the text entered by the user
   ///during a singleplayer game session
   ///contains both the [entry] and also the validation result [correct

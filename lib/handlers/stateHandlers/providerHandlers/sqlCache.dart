@@ -8,25 +8,23 @@ class SqlCache extends ChangeNotifier {
   List dbCache = [];
 
   /// load data into  the [dbCache]
-  void cacheDBresponse() {
-    DatabaseHelper.instance
-        .queryAll(DatabaseHelper.levelTable)
-        .then((value) => () {
-              dbCache = value;
-            });
+  void cacheDBresponse(value) async {
+    dbCache = value;
     notifyListeners();
   }
 
-  void updateDb(EntryHandler entryHandler, widget, GamePlayData gamePlay) {
-    DatabaseHelper.instance.update(row: {
+  void updateDb(
+      EntryHandler entryHandler, widget, GamePlayData gamePlay) async {
+    await DatabaseHelper.instance.update(row: {
       DatabaseHelper.score: entryHandler.scoreKeeper.scoreValue(),
       DatabaseHelper.levelID: widget.wordIndex,
       DatabaseHelper.stars: gamePlay.progress
     }, tableName: DatabaseHelper.levelTable);
   }
 
-  void insertNew(EntryHandler entryHandler, widget, GamePlayData gamePlay) {
-    DatabaseHelper.instance.insert(row: {
+  void insertNew(
+      EntryHandler entryHandler, widget, GamePlayData gamePlay) async {
+    await DatabaseHelper.instance.insert(row: {
       DatabaseHelper.score: entryHandler.scoreKeeper.scoreValue(),
       DatabaseHelper.levelID: widget.wordIndex,
       DatabaseHelper.stars: gamePlay.progress
