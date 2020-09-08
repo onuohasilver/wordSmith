@@ -15,19 +15,32 @@ import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.d
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 
 class SingleLevelOne extends StatefulWidget {
+  const SingleLevelOne({Key key, @required this.wordIndex}) : super(key: key);
+
   final int wordIndex;
 
-  const SingleLevelOne({Key key, @required this.wordIndex}) : super(key: key);
   @override
   _SingleLevelOneState createState() => _SingleLevelOneState();
 }
 
 class _SingleLevelOneState extends State<SingleLevelOne>
     with SingleTickerProviderStateMixin {
+  final alphabetHandler = Alphabet().createState();
+  List<Widget> alphabetWidget = [];
+  Animation animation;
+  AnimationController animationController;
+  String dbViews = 'null';
   EntryHandler entryHandler;
   String gameWord;
-  List<Widget> alphabetWidget = [];
-  final alphabetHandler = Alphabet().createState();
+  final GlobalKey<AnimatedListState> listKey = GlobalKey();
+
+  @override
+  void dispose() {
+    entryHandler = EntryHandler();
+    animationController.dispose();
+
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -38,10 +51,6 @@ class _SingleLevelOneState extends State<SingleLevelOne>
         AnimationController(vsync: this, duration: Duration(milliseconds: 800));
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
   }
-
-  final GlobalKey<AnimatedListState> listKey = GlobalKey();
-  Animation animation;
-  AnimationController animationController;
 
   @override
   Widget build(BuildContext context) {
@@ -81,20 +90,11 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                   SizedBox(
                     height: 12,
                   ),
+                  Text(dbViews),
                   FlatButton(
                       color: Colors.blue,
                       child: Text('Check'),
-                      onPressed: () async {
-                        DatabaseHelper.instance.update(row: {
-                          DatabaseHelper.score:
-                              entryHandler.scoreKeeper.scoreValue(),
-                          DatabaseHelper.levelID: widget.wordIndex,
-                          DatabaseHelper.stars: gamePlay.progress
-                        }, tableName: DatabaseHelper.levelTable);
-                        await DatabaseHelper.instance
-                            .queryAll(DatabaseHelper.levelTable)
-                            .then((value) => print(value.length));
-                      }),
+                      onPressed: () async {}),
                   Expanded(
                     child: Card(
                       color: Colors.white.withOpacity(.1),
@@ -205,13 +205,5 @@ class _SingleLevelOneState extends State<SingleLevelOne>
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    entryHandler = EntryHandler();
-    animationController.dispose();
-
-    super.dispose();
   }
 }

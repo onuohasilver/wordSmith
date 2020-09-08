@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/sqlCache.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/userData.dart';
 import 'package:wordsmith/screens/pages/adventureScreen.dart';
@@ -21,6 +22,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => GamePlayData()),
       ChangeNotifierProvider(create: (context) => AppThemeData()),
       ChangeNotifierProvider(create: (context) => SoundData()),
+      ChangeNotifierProvider(create: (context) => SqlCache()),
     ],
 
     ///TODO: Use resoCoders routeGenerator pattern

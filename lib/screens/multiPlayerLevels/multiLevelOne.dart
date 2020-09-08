@@ -22,42 +22,49 @@ import 'package:wordsmith/handlers/stateHandlers/streamLogic/currentUserStream.d
 import 'package:wordsmith/handlers/stateHandlers/streamLogic/opponentUserStream.dart';
 
 class MultiLevelOne extends StatefulWidget {
-  final String opponentName;
-  final String opponentID;
-  final int randomIndex;
-
   MultiLevelOne({
     this.randomIndex,
     this.opponentName,
     this.opponentID,
   });
+
+  final String opponentID;
+  final String opponentName;
+  final int randomIndex;
+
   @override
   _MultiLevelOneState createState() => _MultiLevelOneState();
 }
 
 class _MultiLevelOneState extends State<MultiLevelOne>
     with SingleTickerProviderStateMixin {
-  final _firestore = Firestore.instance;
-
-  final Set<String> streamEntriesCurrentUser = Set();
-  final Set<String> streamEntriesOpponent = Set();
-  int opponentScore = 0;
-  String currentUserScore = '0';
   final alphabetHandler = Alphabet().createState();
-  List<String> entryList = [];
-  List<bool> validateList = [];
-  EntryHandler entryHandler;
-  Firestore firestore = Firestore.instance;
-  FirebaseUser loggedInUser;
-  String gameWord;
-  double progress = 0;
   Animation animation;
   AnimationController animationController;
-
   int counter = 100;
-  Timer timer;
+  String currentUserScore = '0';
+  EntryHandler entryHandler;
+  List<String> entryList = [];
+  Firestore firestore = Firestore.instance;
+  String gameWord;
   MappedLetters letterMap;
   final GlobalKey<AnimatedListState> listKey = GlobalKey();
+  FirebaseUser loggedInUser;
+  int opponentScore = 0;
+  double progress = 0;
+  final Set<String> streamEntriesCurrentUser = Set();
+  final Set<String> streamEntriesOpponent = Set();
+  Timer timer;
+  List<bool> validateList = [];
+
+  final _firestore = Firestore.instance;
+
+  @override
+  void dispose() {
+    entryHandler = EntryHandler();
+    super.dispose();
+  }
+
   void initState() {
     super.initState();
     entryHandler =
@@ -151,7 +158,7 @@ class _MultiLevelOneState extends State<MultiLevelOne>
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold)),
                               LittleCard(
-                                color:Colors.green,
+                                  color: Colors.green,
                                   child: Text(
                                       entryHandler.scoreKeeper
                                           .scoreValue()
@@ -232,11 +239,5 @@ class _MultiLevelOneState extends State<MultiLevelOne>
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    entryHandler = EntryHandler();
-    super.dispose();
   }
 }

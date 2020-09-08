@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 ///Stateful Alphabet handler that is initialised for use by
@@ -37,7 +36,7 @@ class _AlphabetState extends State<Alphabet> {
   ///into one concantenated String
   ///
   ///A [newAlpha] of ['a','c','u','t','e'] returns a value of
-  /// 'acute'
+  /// ['acute']
   String allAlphabets() {
     String alpha = '';
 

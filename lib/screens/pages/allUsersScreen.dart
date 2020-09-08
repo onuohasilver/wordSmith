@@ -12,11 +12,12 @@ class AllUsersScreen extends StatefulWidget {
 }
 
 class _AllUsersScreenState extends State<AllUsersScreen> {
-  final _firestore = Firestore.instance;
   List<String> friendList = [];
   List<dynamic> friends = [];
-  List<String> userNames;
   List<String> userIDs;
+  List<String> userNames;
+
+  final _firestore = Firestore.instance;
 
   @override
   void initState() {
@@ -68,7 +69,6 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                           gridDelegate:
                               SliverGridDelegateWithMaxCrossAxisExtent(
                                   maxCrossAxisExtent: width * .3,
-                                  
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 10),
                           itemBuilder: (context, index) {

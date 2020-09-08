@@ -33,7 +33,7 @@ class DatabaseHelper {
 
   _onCreate(Database db, int version) async {
     await db.execute(
-      '''
+      '''()
       CREATE TABLE $levelTable (
         $columnID INTEGER PRIMARY KEY,
         $stars TEXT NOT NULL,

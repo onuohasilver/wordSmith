@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:wordsmith/core/sound.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/sqlCache.dart';
 
 class LevelCard extends StatelessWidget {
   ///Text displayed on Card Body [label] must be a non-null value
@@ -40,6 +42,7 @@ class LevelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GameSound gameSound = GameSound();
+    SqlCache dbCache = Provider.of<SqlCache>(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(80.0, 13.0, 88.0, 3.0),
       child: Stack(
@@ -72,7 +75,10 @@ class LevelCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      onTap: () => Navigator.pushNamed((context), routeName),
+                      onTap: () {
+                        dbCache.cacheDBresponse();
+                        Navigator.pushNamed((context), routeName);
+                      },
                     ),
                   ),
                 ),

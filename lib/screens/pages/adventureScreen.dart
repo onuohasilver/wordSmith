@@ -22,16 +22,6 @@ class _AdventureScreenState extends State<AdventureScreen>
   Animation animation;
   AnimationController animationController;
   GameSound gameSound;
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    animationController = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2),
-    );
-    animation = Tween(begin: 1.0, end: 0.0).animate(animationController);
-  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -57,6 +47,17 @@ class _AdventureScreenState extends State<AdventureScreen>
     animationController.dispose();
     // gameSound.quit();
     // gameSound.stopFile();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+    animation = Tween(begin: 1.0, end: 0.0).animate(animationController);
   }
 
   @override
@@ -87,8 +88,8 @@ class _AdventureScreenState extends State<AdventureScreen>
                   Expanded(
                     child: Container(
                       height: height * .8,
-                        width: width * .85,
-                        color: Colors.green.withOpacity(.2),
+                      width: width * .85,
+                      color: Colors.green.withOpacity(.2),
                       child: Container(
                         height: height * .8,
                         width: width * .8,
