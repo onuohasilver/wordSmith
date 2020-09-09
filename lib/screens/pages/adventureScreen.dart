@@ -24,6 +24,7 @@ class _AdventureScreenState extends State<AdventureScreen>
   AnimationController animationController;
   GameSound gameSound;
   List<String> activeGames = [];
+  List<String> starRatings = [];
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
@@ -62,8 +63,9 @@ class _AdventureScreenState extends State<AdventureScreen>
     animation = Tween(begin: 1.0, end: 0.0).animate(animationController);
   }
 
-  loadData() async {
-    return activeGames = await LocalData().activeLevels;
+  void loadData() async {
+    activeGames = await LocalData().activeLevels;
+    starRatings = await LocalData().starRatings;
   }
 
   @override
@@ -105,13 +107,17 @@ class _AdventureScreenState extends State<AdventureScreen>
                             itemCount: levelMap['displace'].length,
                             itemBuilder: (context, index) {
                               return LevelCircle(
-                                  height: height,
-                                  width: width,
-                                  index: index,
-                                  active: index < activeGames.length,
-                                  displace: levelMap['displace'][index],
-                                  color: Colors.green.shade800,
-                                  label: 'Level ${index + 1}');
+                                height: height,
+                                width: width,
+                                index: index,
+                                active: index < activeGames.length,
+                                displace: levelMap['displace'][index],
+                                color: Colors.green.shade800,
+                                label: 'Level ${index + 1}',
+                                starRating: index < starRatings.length
+                                    ? starRatings[index]
+                                    : '0',
+                              );
                             }),
                       ),
                     ),

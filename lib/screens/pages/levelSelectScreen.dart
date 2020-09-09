@@ -138,6 +138,7 @@ class _SelectScreenState extends State<SelectScreen>
                                 icon: Icon(Icons.mic, color: Colors.white),
                                 onPressed: () async {
                                   await LocalData().saveActiveLevels('Level 1');
+                                  await LocalData().saveStarRating('2');
                                   await LocalData()
                                       .activeLevels
                                       .then((value) => setState(() {

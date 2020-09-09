@@ -13,6 +13,7 @@ class LevelCircle extends StatelessWidget {
     @required this.label,
     @required this.index,
     @required this.active,
+    @required this.starRating,
   }) : super(key: key);
 
   final double height;
@@ -22,15 +23,13 @@ class LevelCircle extends StatelessWidget {
   final int index;
   final String label;
   final bool active;
+  final String starRating;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        // SizedBox(
-        //   width: width * .7* displace,
-        // ),
         Container(
           height: height * .12,
           width: width * .16,
@@ -67,15 +66,9 @@ class LevelCircle extends StatelessWidget {
           padding: const EdgeInsets.only(left: 18.0),
           child: Column(children: [
             Row(children: <Widget>[
-              Icon(
-                Icons.star,
-                color: active ? Colors.yellow[800] : Colors.grey,
-              ),
-              Icon(Icons.star, color: Colors.grey[600]),
-              Icon(
-                Icons.star,
-                color: Colors.grey[600],
-              )
+              StarIcon(active: active, starRating: starRating, value: 1),
+              StarIcon(active: active, starRating: starRating, value: 2),
+              StarIcon(active: active, starRating: starRating, value: 3)
             ]),
             Material(
                 color: active ? color : Colors.grey,
@@ -97,3 +90,24 @@ class LevelCircle extends StatelessWidget {
     );
   }
 }
+
+class StarIcon extends StatelessWidget {
+  const StarIcon({
+    Key key,
+    @required this.active,
+    @required this.starRating,
+    @required this.value,
+  }) : super(key: key);
+
+  final bool active;
+  final String starRating;
+  final int value;
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.star,
+      color: ((int.parse(starRating)) >= value) ? Colors.yellow[800] : Colors.grey,
+    );
+  }
+}
+//TODO: Check the 

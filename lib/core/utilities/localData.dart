@@ -35,9 +35,26 @@ class LocalData {
     }
   }
 
+  Future<void> saveStarRating(String starRatingX) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    try {
+      List<String> starRating = sharedPreferences.getStringList('starRating');
+      starRating.add(starRatingX);
+      sharedPreferences.setStringList('starRating', starRating);
+    } catch (e) {
+      sharedPreferences.setStringList('starRating', [starRatingX]);
+    }
+  }
+
   Future<List<String>> get activeLevels async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     List<String> activeLevel = sharedPreferences.getStringList('activeLevels');
+    return activeLevel;
+  }
+
+  Future<List<String>> get starRatings async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    List<String> activeLevel = sharedPreferences.getStringList('starRating');
     return activeLevel;
   }
 }
