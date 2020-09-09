@@ -9,8 +9,6 @@ import 'package:wordsmith/core/alphabetWidgetFunction.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 import 'package:wordsmith/core/utilities/words.dart';
-import 'package:wordsmith/handlers/dataHandlers/dataSources/sqldbHandler.dart';
-
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/sqlCache.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
@@ -59,16 +57,6 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     double width = MediaQuery.of(context).size.width;
     AppThemeData theme = Provider.of<AppThemeData>(context);
     GamePlayData gamePlay = Provider.of<GamePlayData>(context);
-    SqlCache sqlCache = Provider.of<SqlCache>(context);
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        // DatabaseHelper.instance.insert(row: {
-        //   DatabaseHelper.score: entryHandler.scoreKeeper.scoreValue(),
-        //   DatabaseHelper.levelID: widget.wordIndex,
-        //   DatabaseHelper.stars: gamePlay.progress
-        // }, tableName: DatabaseHelper.levelTable);
-      },
-    );
 
     return Scaffold(
       body: Stack(
@@ -92,27 +80,6 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                   SizedBox(
                     height: 12,
                   ),
-                  Text(sqlCache.dbCache.toString()),
-                  Text(viewDB),
-                  FlatButton(
-                      color: Colors.blue,
-                      child: Text('Check'),
-                      onPressed: () async {
-                        DatabaseHelper.instance.update(row: {
-                          DatabaseHelper.score:
-                              entryHandler.scoreKeeper.scoreValue(),
-                          DatabaseHelper.levelID: widget.wordIndex,
-                          DatabaseHelper.stars: gamePlay.progress
-                        }, tableName: DatabaseHelper.levelTable);
-                        await DatabaseHelper.instance
-                            .queryAll(DatabaseHelper.levelTable)
-                            .then((value) {
-                          setState(() {
-                            viewDB = value.toString();
-                          });
-                          sqlCache.cacheDBresponse(value);
-                        });
-                      }),
                   Expanded(
                     child: Card(
                       color: Colors.white.withOpacity(.1),

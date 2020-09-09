@@ -7,7 +7,7 @@ import 'package:sqflite/sqflite.dart';
 class DatabaseHelper {
   static final _dbName = 'db';
   static final _dbVersion = 1;
-  static final levelTable = 'LevelProgressTable';
+  static final levelTable = 'WordLevelTable';
   static final userTable = 'UserTable';
   static final score = 'Score';
   static final levelID = 'LevelID';
@@ -42,12 +42,21 @@ class DatabaseHelper {
       )
       ''',
     );
+    await insertAllLevels();
   }
 
   Future<int> insert(
       {@required Map<String, dynamic> row, @required tableName}) async {
     Database db = await instance.database;
     return await db.insert(tableName, row);
+  }
+
+  Future<void> insertAllLevels() async {
+    Database db = await instance.database;
+    for (int index = 0; index <= 100; index++) {
+      db.insert(
+          levelTable, {columnID: index, stars: 0, score: 0, levelID: index});
+    }
   }
 
   Future<List<Map<String, dynamic>>> queryAll(String tableName) async {

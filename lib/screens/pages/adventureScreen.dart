@@ -8,6 +8,7 @@ import 'package:wordsmith/components/widgetContainers/levelCircle.dart';
 import 'package:wordsmith/core/logo.dart';
 import 'package:wordsmith/core/sound.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
+import 'package:wordsmith/core/utilities/localData.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataModels/levelModel.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/soundHandler.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
@@ -22,7 +23,7 @@ class _AdventureScreenState extends State<AdventureScreen>
   Animation animation;
   AnimationController animationController;
   GameSound gameSound;
-
+  List<String> activeGames = [];
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
@@ -52,12 +53,17 @@ class _AdventureScreenState extends State<AdventureScreen>
   @override
   void initState() {
     super.initState();
+    loadData();
     WidgetsBinding.instance.addObserver(this);
     animationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
     );
     animation = Tween(begin: 1.0, end: 0.0).animate(animationController);
+  }
+
+  loadData() async {
+    return activeGames = await LocalData().activeLevels;
   }
 
   @override
@@ -102,7 +108,7 @@ class _AdventureScreenState extends State<AdventureScreen>
                                   height: height,
                                   width: width,
                                   index: index,
-                                  active: index < 1,
+                                  active: index < activeGames.length,
                                   displace: levelMap['displace'][index],
                                   color: Colors.green.shade800,
                                   label: 'Level ${index + 1}');

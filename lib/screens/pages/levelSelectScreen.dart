@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/levelSelectCard.dart';
 import 'package:wordsmith/core/logo.dart';
 import 'package:wordsmith/core/sound.dart';
+import 'package:wordsmith/core/utilities/localData.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataSources/networkRequest.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/soundHandler.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/sqlCache.dart';
@@ -23,6 +24,7 @@ class _SelectScreenState extends State<SelectScreen>
   Animation animation;
   AnimationController animationController;
   GameSound gameSound;
+  String lo = 'hhhh';
   @override
   void initState() {
     super.initState();
@@ -65,7 +67,7 @@ class _SelectScreenState extends State<SelectScreen>
     double width = MediaQuery.of(context).size.width;
     gameSound = GameSound();
     AppThemeData theme = Provider.of<AppThemeData>(context);
-    SoundData sound = Provider.of<SoundData>(context);
+    // SoundData sound = Provider.of<SoundData>(context);
     SqlCache sqlCache = Provider.of<SqlCache>(context);
     // AudioPlayer player = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
     // AudioCache cache = AudioCache();
@@ -124,20 +126,23 @@ class _SelectScreenState extends State<SelectScreen>
                       ),
                     ),
                     SizedBox(height: height * .1),
-                    Text(sqlCache.dbCache.toString()),
+                    Text(lo),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Align(
                           alignment: Alignment.bottomRight,
                           child: Material(
                             type: MaterialType.circle,
-                            color: sound.playingBase
-                                ? Colors.green[700]
-                                : Colors.red,
+                            color: Colors.red,
                             child: IconButton(
                                 icon: Icon(Icons.mic, color: Colors.white),
-                                onPressed: () {
-                                  GetDefinition('Contain').getData();
+                                onPressed: () async {
+                                  await LocalData().saveActiveLevels('Level 1');
+                                  await LocalData()
+                                      .activeLevels
+                                      .then((value) => setState(() {
+                                            lo = value.toString();
+                                          }));
                                 }),
                           )),
                     )
