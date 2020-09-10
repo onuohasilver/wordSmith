@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class ProgressBar extends StatelessWidget {
   const ProgressBar(
       {Key key,
-      @required this.height,
-      @required this.width,
       @required this.progress,
-      this.color = Colors.green})
+      this.color = Colors.green,
+      this.height,
+      this.width})
       : super(key: key);
   final Color color;
   final double height;
@@ -15,6 +15,8 @@ class ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Container(
       height: height * .044,
       width: width,
@@ -88,10 +90,21 @@ class ProgressStar extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       elevation: 10,
-      child: Icon(
-        Icons.star,
-        size: width * .09,
-        color: progress > guage ? Colors.yellow[800] : Colors.grey,
+      child: Stack(
+        children: <Widget>[
+          Icon(
+            Icons.star,
+            size: width * .10,
+            color: progress > guage ? Colors.red[800] : Colors.black,
+          ),
+          Center(
+            child: Icon(
+              Icons.star,
+              size: width * .09,
+              color: progress > guage ? Colors.yellow[800] : Colors.grey,
+            ),
+          ),
+        ],
       ),
     );
   }
