@@ -13,6 +13,7 @@ import 'package:wordsmith/handlers/dataHandlers/dataSources/networkRequest.dart'
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/soundHandler.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/sqlCache.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
+import 'package:wordsmith/screens/popUps/dialogs/levelComplete.dart';
 
 class SelectScreen extends StatefulWidget {
   @override
@@ -136,14 +137,12 @@ class _SelectScreenState extends State<SelectScreen>
                             color: Colors.red,
                             child: IconButton(
                                 icon: Icon(Icons.mic, color: Colors.white),
-                                onPressed: () async {
-                                  await LocalData().saveActiveLevels('Level 1');
-                                  await LocalData().saveStarRating('2');
-                                  await LocalData()
-                                      .activeLevels
-                                      .then((value) => setState(() {
-                                            lo = value.toString();
-                                          }));
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return LevelComplete();
+                                      });
                                 }),
                           )),
                     )

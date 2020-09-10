@@ -74,7 +74,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 800));
     timerAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 125));
+        AnimationController(vsync: this, duration: Duration(seconds: 122));
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
     timerAnimation =
         Tween(begin: 1.0, end: 0.0).animate(timerAnimationController);
@@ -108,7 +108,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                             ClipRRect(
                               borderRadius: BorderRadius.circular(5),
                               child: Container(
-                                  width: width * .8 * timerAnimation.value,
+                                  width: width * .86 * timerAnimation.value,
                                   height: height * .01,
                                   color: Colors.red),
                             ),
@@ -182,8 +182,10 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                                 alphabetDetail, entryHandler);
                           },
                         ),
-                        AlphabetWidgetDisplay(
-                          entryHandler: entryHandler,
+                        Center(
+                          child: AlphabetWidgetDisplay(
+                            entryHandler: entryHandler,
+                          ),
                         )
                       ],
                     ),

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
 import 'package:wordsmith/screens/singlePlayerLevels/singleLevelOne.dart';
 
 class LevelCircle extends StatelessWidget {
@@ -27,6 +29,7 @@ class LevelCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GamePlayData gamePlay = Provider.of<GamePlayData>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -49,13 +52,16 @@ class LevelCircle extends StatelessWidget {
                       ? Icon(Icons.lock_open, color: Colors.yellow)
                       : Icon(Icons.lock),
                   onTap: active
-                      ? () => Navigator.push(
+                      ? () {
+                          gamePlay.resetProgress();
+                          Navigator.push(
                             context,
                             CupertinoPageRoute(
                               builder: (context) =>
                                   SingleLevelOne(wordIndex: index),
                             ),
-                          )
+                          );
+                        }
                       : () {},
                 ),
               ),
@@ -106,8 +112,9 @@ class StarIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Icon(
       Icons.star,
-      color: ((int.parse(starRating)) >= value) ? Colors.yellow[800] : Colors.grey,
+      color:
+          ((int.parse(starRating)) >= value) ? Colors.yellow[800] : Colors.grey,
     );
   }
 }
-//TODO: Check the 
+//TODO: Check the

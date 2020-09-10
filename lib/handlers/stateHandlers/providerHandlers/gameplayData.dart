@@ -102,6 +102,13 @@ class GamePlayData extends ChangeNotifier {
   /// update game progress bar
   void updateProgress({double increment = 0.05}) {
     progress = progress + increment;
+    notifyListeners();
+  }
+
+  /// reset game progress bar to zero
+  void resetProgress() {
+    progress = 0.0;
+    notifyListeners();
   }
 
   void setupLetterMap(EntryHandler entryHandler) {
