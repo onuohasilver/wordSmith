@@ -14,6 +14,7 @@ import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart
 import 'dart:async';
 
 import 'package:wordsmith/screens/pages/adventureScreen.dart';
+import 'package:wordsmith/screens/popUps/dialogs/levelComplete.dart';
 
 class SingleLevelOne extends StatefulWidget {
   const SingleLevelOne({Key key, @required this.wordIndex}) : super(key: key);
@@ -49,9 +50,12 @@ class _SingleLevelOneState extends State<SingleLevelOne>
           counter--;
         } else {
           timer.cancel();
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => AdventureScreen(),
-          ));
+          showDialog(
+            barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return LevelComplete();
+              });
         }
       });
     });

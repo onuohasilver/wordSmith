@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wordsmith/core/utilities/constants.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataModels/alphabetModel.dart';
 
 ///Create and Maintain an alphabet button UI
@@ -52,23 +53,53 @@ class AlphabetButton extends StatelessWidget {
             child: Opacity(
               opacity: alphabetDetail.active ? 1 : .5,
               child: Container(
+                width: width * .18 * (sizeRatio ?? 1),
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(bgTile ?? 'assets/pngwave(1).png'),
                         fit: BoxFit.cover)),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: noPadding ?? width * .03 * (sizeRatio ?? 1),
-                      horizontal: noPadding ?? width * .05 * (sizeRatio ?? 1)),
-                  child: Text(alphabetDetail.alphabet,
-                      style: GoogleFonts.poppins(
-                        color: textColor ??
-                            (alphabetDetail.active
-                                ? Colors.brown[800]
-                                : Colors.black26),
-                        fontWeight: FontWeight.w800,
-                        fontSize: width * .085 * (sizeRatio ?? 1),
-                      )),
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            alphabetValues[alphabetDetail.alphabet].toString(),
+                            style: GoogleFonts.poppins(
+                              color: textColor ??
+                                  (alphabetDetail.active
+                                      ? Colors.brown[800]
+                                      : Colors.black26),
+                              fontWeight: FontWeight.w800,
+                              fontSize: width * .035 * (sizeRatio ?? 1),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical:
+                                noPadding ?? width * .03 * (sizeRatio ?? 1),
+                            horizontal:
+                                noPadding ?? width * .05 * (sizeRatio ?? 1)),
+                        child: Text(
+                          alphabetDetail.alphabet,
+                          style: GoogleFonts.poppins(
+                            color: textColor ??
+                                (alphabetDetail.active
+                                    ? Colors.brown[800]
+                                    : Colors.black26),
+                            fontWeight: FontWeight.w800,
+                            fontSize: width * .085 * (sizeRatio ?? 1),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

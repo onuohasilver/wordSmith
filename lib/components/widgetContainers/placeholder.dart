@@ -33,7 +33,6 @@ class PlaceHolder extends StatelessWidget {
     return DragTarget(
       onWillAccept: (AlphabetDetail alphabetDetail) {
         return alphabetDetail.active == true;
-      
       },
       onAccept: dragTargetTrigger,
       builder: (context, x, y) => ClipRRect(
