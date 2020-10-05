@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/abstract.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/sqlCache.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
@@ -21,6 +22,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => Data()),
       ChangeNotifierProvider(create: (context) => GamePlayData()),
       ChangeNotifierProvider(create: (context) => AppThemeData()),
+      ChangeNotifierProvider(create: (context) => AbstractData()),
       ChangeNotifierProvider(create: (context) => SoundData()),
       ChangeNotifierProvider(create: (context) => SqlCache()),
     ],

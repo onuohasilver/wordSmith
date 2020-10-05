@@ -17,7 +17,7 @@ class GamePlayData extends ChangeNotifier {
   ///identifier that the user has made five straight entries
   bool straightFive = false;
 
-  ///identifier that the user hase made three straight entries
+  ///identifier that the user has made three straight entries
   bool straightThree = false;
 
   ///identifier that the user has made seven straight entries

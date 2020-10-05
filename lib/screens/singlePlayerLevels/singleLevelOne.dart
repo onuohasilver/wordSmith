@@ -6,9 +6,11 @@ import 'package:wordsmith/components/widgetContainers/placeholder.dart';
 import 'package:wordsmith/components/widgetContainers/progressBar.dart';
 import 'package:wordsmith/core/alphabetState.dart';
 import 'package:wordsmith/core/alphabetWidgetFunction.dart';
+import 'package:wordsmith/core/timer.dart';
 import 'package:wordsmith/core/utilities/constants.dart';
 import 'package:wordsmith/core/utilities/entryHandler.dart';
 import 'package:wordsmith/core/utilities/words.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/abstract.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/gameplayData.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
 import 'dart:async';
@@ -51,7 +53,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
         } else {
           timer.cancel();
           showDialog(
-            barrierDismissible: false,
+              barrierDismissible: false,
               context: context,
               builder: (context) {
                 return LevelComplete();
@@ -90,6 +92,7 @@ class _SingleLevelOneState extends State<SingleLevelOne>
     double width = MediaQuery.of(context).size.width;
     AppThemeData theme = Provider.of<AppThemeData>(context);
     GamePlayData gamePlay = Provider.of<GamePlayData>(context);
+    AbstractData abstract = Provider.of<AbstractData>(context);
     timerAnimationController.forward();
     return Scaffold(
       body: AnimatedBuilder(
@@ -200,21 +203,21 @@ class _SingleLevelOneState extends State<SingleLevelOne>
                   child: AnimatedBuilder(
                       animation: animation,
                       builder: (context, widget) {
-                        return Stack(
-                          children: <Widget>[
-                            Container(
-                              height: height * .3 * animation.value,
-                              width: width * .3 * animation.value,
-                              child: Image.asset('assets/stars.gif'),
-                            ),
-                            Container(
-                              height: height * .3 * animation.value,
-                              width: width * .3 * animation.value,
-                              child: Image.asset(gamePlay.straightFive
-                                  ? 'assets/magnificient.gif'
-                                  : 'assets/magnificient.gif'),
-                            ),
-                          ],
+                        return TimedWidget(
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                height: height * .3 * animation.value,
+                                width: width * .3 * animation.value,
+                                child: Image.asset('assets/stars.gif'),
+                              ),
+                              Container(
+                                height: height * .3 * animation.value,
+                                width: width * .3 * animation.value,
+                                child: Image.asset('assets/magnificient.gif'),
+                              ),
+                            ],
+                          ),
                         );
                       }),
                 ),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' show pi;
 
 import 'package:audioplayers/audio_cache.dart';
@@ -8,8 +9,10 @@ import 'package:provider/provider.dart';
 import 'package:wordsmith/components/cardComponents/levelSelectCard.dart';
 import 'package:wordsmith/core/logo.dart';
 import 'package:wordsmith/core/sound.dart';
+import 'package:wordsmith/core/timer.dart';
 import 'package:wordsmith/core/utilities/localData.dart';
 import 'package:wordsmith/handlers/dataHandlers/dataSources/networkRequest.dart';
+import 'package:wordsmith/handlers/stateHandlers/providerHandlers/abstract.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/soundHandler.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/sqlCache.dart';
 import 'package:wordsmith/handlers/stateHandlers/providerHandlers/themeData.dart';
@@ -24,18 +27,11 @@ class _SelectScreenState extends State<SelectScreen>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   Animation animation;
   AnimationController animationController;
+  int counter = 5;
   GameSound gameSound;
   String lo = 'hhhh';
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    animationController = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2),
-    );
-    animation = Tween(begin: 1.0, end: 0.0).animate(animationController);
-  }
+  bool show = false;
+  Timer timer;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -62,12 +58,24 @@ class _SelectScreenState extends State<SelectScreen>
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+    animation = Tween(begin: 1.0, end: 0.0).animate(animationController);
+  }
+
+  @override
   Widget build(BuildContext context) {
     // gameSound.playFile();
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     gameSound = GameSound();
     AppThemeData theme = Provider.of<AppThemeData>(context);
+    AbstractData abstract = Provider.of<AbstractData>(context);
     // SoundData sound = Provider.of<SoundData>(context);
     SqlCache sqlCache = Provider.of<SqlCache>(context);
     // AudioPlayer player = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
@@ -127,7 +135,7 @@ class _SelectScreenState extends State<SelectScreen>
                       ),
                     ),
                     SizedBox(height: height * .1),
-                    Text(lo),
+                    Text(abstract.display.toString()),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Align(
@@ -138,11 +146,7 @@ class _SelectScreenState extends State<SelectScreen>
                             child: IconButton(
                                 icon: Icon(Icons.mic, color: Colors.white),
                                 onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return LevelComplete();
-                                      });
+                                  // widgetTimer(abstract);
                                 }),
                           )),
                     )
